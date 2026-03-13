@@ -1,4 +1,4 @@
-import { Button } from "@/app/Components/button";
+import { Button } from "@/app/components/button";
 
 const PROJECT_NAME = "Internship FE";
 
