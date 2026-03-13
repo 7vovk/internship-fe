@@ -1,0 +1,20 @@
+# Exclude node_modules directory
+node_modules
+
+# Exclude environment files
+.env*
+
+# Exclude all log files
+*.log
+
+# Ignore build directories
+/build
+/dist
+
+pnpm
+
+.dockerignore
+npm-debug.log
+README.md
+.next
+.git
