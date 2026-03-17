@@ -30,7 +30,7 @@ docker build -t internship_fe .
 docker build -t internship_fe --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_key_here .
 ```
 
-### To run the project after
+### To run the project after that
 ```bash
 docker run -d internship_fe
 ```
