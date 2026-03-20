@@ -10,6 +10,7 @@ import {
   TypographyMuted,
 } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
+import { _Translator } from "next-intl";
 
 type PageTemplateProps = {
   title: string;
@@ -19,6 +20,7 @@ type PageTemplateProps = {
   children?: React.ReactNode;
   footerText?: string;
   className?: string;
+  translator?: _Translator<Record<string, string>>;
 };
 
 export function PageTemplate({
@@ -29,6 +31,7 @@ export function PageTemplate({
   children,
   footerText,
   className,
+  translator,
 }: PageTemplateProps) {
   return (
     <div className={cn("min-h-screen bg-background py-16", className)}>
@@ -48,7 +51,7 @@ export function PageTemplate({
                   })}
                   href={action.href}
                 >
-                  {action.label}
+                  {translator ? translator(action.label) : action.label}
                 </Link>
               ))}
               {extraActions}

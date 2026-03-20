@@ -1,0 +1,50 @@
+{
+  "Layout": {
+    "title": "Meduzzen Internship",
+    "description": "Internship frontend project start page",
+    "home": "Home",
+    "about": "About",
+    "companies": "Companies",
+    "profile": "Profile",
+    "users": "Users"
+  },
+  "HomePage": {
+    "title": "Home Page!",
+    "description": "Welcome! Some welcome text for users.",
+    "greeting": "Greeting: Welcome!",
+    "about": "About the project.",
+    "view_users": "View users."
+  },
+  "About": {
+    "title": "About",
+    "description": "The about page with all related information about the project."
+  },
+  "Companies": {
+    "title": "Companies",
+    "description": "The page with the information related to all companies."
+  },
+  "Company": {
+    "title": "Company ID:",
+    "description": "The page with the detailed information related to a specific company."
+  },
+  "Profile": {
+    "title": "Profile",
+    "description": "The page with the detailed information related to the current user profile."
+  },
+  "Users": {
+    "title": "Users",
+    "description": "The page with the information related to all users."
+  },
+  "User": {
+    "title": "User ID:",
+    "description": "The page with the detailed information related to a specific user.",
+    "modal_description": "Some detailed information about the current user - "
+  },
+  "Buttons": {
+    "show_dialog": "Show Dialog",
+    "open_modal": "Open modal",
+    "confirm_action": "Confirm action?",
+    "cancel": "Cancel",
+    "ok": "OK"
+  }
+}

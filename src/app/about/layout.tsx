@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Information about the project",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await getTranslations("About");
+  return {
+    title: about("title"),
+    description: about("description"),
+  };
+}
 
 export default function Layout({
   children,
