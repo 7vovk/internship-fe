@@ -10,25 +10,30 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+import { siteConfig } from "@/config/site";
 
-export function ConfirmationModal(props: {
+type ConfirmationModalProps = {
   buttonName?: string;
   title?: string;
   description?: string;
   cancelBtn?: string;
   okBtn?: string;
-}) {
-  const {
-    buttonName = "Show Dialog",
-    title,
-    description,
-    cancelBtn = "Cancel",
-    okBtn = "OK",
-  } = props;
+};
+
+export function ConfirmationModal({
+  buttonName = "show_dialog",
+  title,
+  description,
+  cancelBtn = "cancel",
+  okBtn = "ok",
+}: ConfirmationModalProps) {
+  const button = useTranslations(siteConfig.buttons.translation);
+
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        render={<Button variant="outline">{buttonName}</Button>}
+        render={<Button variant="outline">{button(buttonName)}</Button>}
       />
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -36,8 +41,8 @@ export function ConfirmationModal(props: {
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{cancelBtn}</AlertDialogCancel>
-          <AlertDialogAction>{okBtn}</AlertDialogAction>
+          <AlertDialogCancel>{button(cancelBtn)}</AlertDialogCancel>
+          <AlertDialogAction>{button(okBtn)}</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

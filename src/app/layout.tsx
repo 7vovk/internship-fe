@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/app/components";
 import { siteConfig } from "@/config/site";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,23 +16,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: siteConfig.name,
-  description: "Internship frontend project start page",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const layout = await getTranslations("Layout");
+  return {
+    title: layout(siteConfig.title),
+    description: layout("description"),
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <NextIntlClientProvider locale={locale}>
+          <Header />
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -2,10 +2,11 @@ import type { VariantProps } from "class-variance-authority";
 import type { buttonVariants } from "@/components/ui/button-variants";
 
 export interface SiteConfig {
-  name: string;
+  title: string;
   greeting: string;
   navigation: CfgNavigation[];
   pages: Pages;
+  buttons: Translation;
 }
 
 export interface CfgNavigation {
@@ -15,16 +16,12 @@ export interface CfgNavigation {
 
 export interface Pages {
   home: Home;
-  about: About;
-  companies: Companies;
-  profile: Profile;
-  users: Users;
-}
-
-export interface Home {
-  title: string;
-  description: string;
-  actions: TemplateAction[];
+  about: Translation;
+  companies: Translation;
+  company: Translation;
+  profile: Translation;
+  users: Translation;
+  user: Translation;
 }
 
 type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];
@@ -35,22 +32,10 @@ export type TemplateAction = {
   variant?: ButtonVariant;
 };
 
-export interface About {
-  title: string;
-  description: string;
+export interface Translation {
+  translation: string;
 }
 
-export interface Companies {
-  title: string;
-  description: string;
-}
-
-export interface Profile {
-  title: string;
-  description: string;
-}
-
-export interface Users {
-  title: string;
-  description: string;
+export interface Home extends Translation {
+  actions: TemplateAction[];
 }

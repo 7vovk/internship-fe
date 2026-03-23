@@ -1,5 +1,7 @@
 import { ConfirmationModal } from "@/app/components/modal/confirmation-modal";
 import { PageTemplate } from "@/components/shared/page-template";
+import { siteConfig } from "@/config/site";
+import { getTranslations } from "next-intl/server";
 
 export default async function User({
   params,
@@ -7,15 +9,16 @@ export default async function User({
   params?: Promise<{ userId: string }>;
 }) {
   const userId = (await params)!.userId;
+  const user = await getTranslations(siteConfig.pages.user.translation);
 
   return (
     <PageTemplate
-      title={`User ID: ${userId}`}
-      description="Dynamic user pages now share the same layout and can still inject custom actions."
+      title={`${user("title")} ${userId}`}
+      description={user("description")}
       extraActions={
         <ConfirmationModal
-          buttonName="Open modal"
-          description={`Some detailed information about the current user - ${userId}`}
+          buttonName={"modal_btn"}
+          description={`${user("modal_description")} ${userId}`}
         />
       }
     />
