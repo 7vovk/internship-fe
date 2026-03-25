@@ -6,7 +6,8 @@
     "about": "About",
     "companies": "Companies",
     "profile": "Profile",
-    "users": "Users"
+    "users": "Users",
+    "health": "Health"
   },
   "HomePage": {
     "title": "Home Page!",
@@ -39,6 +40,10 @@
     "title": "User ID:",
     "description": "The page with the detailed information related to a specific user.",
     "modal_description": "Some detailed information about the current user - "
+  },
+  "Health": {
+    "title": "Health check",
+    "description": "The page containing health check information about backend."
   },
   "Buttons": {
     "show_dialog": "Show Dialog",

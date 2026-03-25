@@ -1,5 +1,6 @@
 import type { VariantProps } from "class-variance-authority";
 import type { buttonVariants } from "@/components/ui/button-variants";
+import { standardPageKeys } from "./site.constants";
 
 export interface SiteConfig {
   title: string;
@@ -14,14 +15,13 @@ export interface CfgNavigation {
   label: string;
 }
 
-export interface Pages {
+type StandardPageKeys = (typeof standardPageKeys)[number];
+type PageData = {
+  [K in StandardPageKeys]: Translation;
+};
+
+export interface Pages extends PageData {
   home: Home;
-  about: Translation;
-  companies: Translation;
-  company: Translation;
-  profile: Translation;
-  users: Translation;
-  user: Translation;
 }
 
 type ButtonVariant = VariantProps<typeof buttonVariants>["variant"];

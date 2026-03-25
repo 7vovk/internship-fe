@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.config";
 import { Container } from "@/components/ui/container";
 import { ClientLink } from "@/app/components/client/client-link";
 import { CfgNavigation } from "@/config/site.interface";
