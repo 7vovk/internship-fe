@@ -10,32 +10,30 @@ type FetchOptions = RequestInit & {
   timeout?: number;
 };
 
-// Centralized fetch instance
 async function apiClient<T>(
   endpoint: string,
   options: FetchOptions = {},
 ): Promise<T> {
   const { timeout = DEFAULT_TIMEOUT_MS, ...fetchOptions } = options;
 
-  // Global headers
   const headers: HeadersInit = {
     "Content-Type": "application/json",
     Accept: "application/json",
     ...fetchOptions.headers,
   };
 
-  // Request cancellation via AbortController
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
+  const timeoutSignal: AbortSignal = AbortSignal.timeout(timeout);
+  const signal = fetchOptions.signal
+    ? AbortSignal.any([fetchOptions.signal, timeoutSignal])
+    : timeoutSignal;
 
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       ...fetchOptions,
       headers,
-      signal: controller.signal,
+      signal,
     });
 
-    // Global response interceptor — handle non-2xx uniformly
     if (!response.ok) {
       throw {
         status: response.status,
@@ -43,7 +41,6 @@ async function apiClient<T>(
       };
     }
 
-    // Handle empty responses (e.g. 204 No Content)
     if (response.status === 204) {
       return undefined as T;
     }
@@ -54,12 +51,9 @@ async function apiClient<T>(
       throw { status: 408, message: "Request timed out" } satisfies ApiError;
     }
     throw error;
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 
-// Convenience methods
 export const api = {
   get: <T>(endpoint: string, options?: FetchOptions) =>
     apiClient<T>(endpoint, { ...options, method: "GET" }),

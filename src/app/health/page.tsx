@@ -7,7 +7,7 @@ export default async function Health() {
   const health = await getTranslations(siteConfig.pages.health.translation);
   const healthCheck = await checkHealth();
   const response = JSON.stringify(healthCheck);
-  const isSuccess = response.includes("200");
+  const isSuccess = healthCheck.statusCode === 200;
 
   return (
     <PageTemplate
