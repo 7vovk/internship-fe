@@ -19,6 +19,8 @@ type ConfirmationModalProps = {
   description?: string;
   cancelBtn?: string;
   okBtn?: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 };
 
 export function ConfirmationModal({
@@ -27,6 +29,8 @@ export function ConfirmationModal({
   description,
   cancelBtn = "cancel",
   okBtn = "ok",
+  onConfirm,
+  onCancel,
 }: ConfirmationModalProps) {
   const button = useTranslations(siteConfig.buttons.translation);
 
@@ -41,8 +45,12 @@ export function ConfirmationModal({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{button(cancelBtn)}</AlertDialogCancel>
-          <AlertDialogAction>{button(okBtn)}</AlertDialogAction>
+          <AlertDialogCancel onClick={onCancel}>
+            {button(cancelBtn)}
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>
+            {button(okBtn)}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
