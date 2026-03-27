@@ -13,8 +13,8 @@ export default async function User({
 
   return (
     <PageTemplate
+      translator={user}
       title={`${user("title")} ${userId}`}
-      description={user("description")}
       extraActions={
         <ConfirmationModal
           buttonName={"modal_btn"}

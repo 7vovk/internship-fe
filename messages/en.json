@@ -45,10 +45,25 @@
     "title": "Health check",
     "description": "The page containing health check information about backend."
   },
+  "Login": {
+    "title": "Login & Signup",
+    "description": "Log in or create account.",
+    "email": "Email",
+    "email_placeholder": "Type your email here",
+    "password": "Password",
+    "sign_in": "Sign in",
+    "or_with": "or with",
+    "with_google": "Sign in with Google",
+    "you_agree": "By signing in, you agree to our",
+    "terms": "terms of service",
+    "and": "and",
+    "privacy": "privacy policy"
+  },
   "Buttons": {
     "show_dialog": "Show Dialog",
     "open_modal": "Open modal",
     "confirm_action": "Confirm action?",
+    "confirm": "Confirm",
     "cancel": "Cancel",
     "ok": "OK"
   }

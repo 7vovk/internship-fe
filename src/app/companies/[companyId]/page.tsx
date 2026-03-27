@@ -12,8 +12,8 @@ export default async function Company({
 
   return (
     <PageTemplate
+      translator={company}
       title={`${company("title")} ${companyId}`}
-      description={company("description")}
     />
   );
 }

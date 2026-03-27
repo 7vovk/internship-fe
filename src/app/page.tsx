@@ -9,7 +9,6 @@ export default async function Home() {
   return (
     <PageTemplate
       title={homePage("title")}
-      description={homePage("description")}
       actions={siteConfig.pages.home.actions}
       extraActions={<HomeConfirm />}
       translator={homePage}

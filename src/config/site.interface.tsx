@@ -13,6 +13,7 @@ export interface SiteConfig {
 export interface CfgNavigation {
   href: string;
   label: string;
+  public: boolean;
 }
 
 type StandardPageKeys = (typeof standardPageKeys)[number];

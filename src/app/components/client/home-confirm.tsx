@@ -19,10 +19,10 @@ export function HomeConfirm() {
   return (
     <ConfirmationModal
       buttonName="open_modal"
-      title="Confirm action?"
+      title="confirm_action"
       description={testText}
       cancelBtn="cancel"
-      okBtn="confirm_action"
+      okBtn="confirm"
       onConfirm={handleConfirm}
       onCancel={handleCancel}
     />

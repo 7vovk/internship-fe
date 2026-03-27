@@ -4,7 +4,5 @@ import { useTranslations } from "next-intl";
 
 export default function About() {
   const about = useTranslations(siteConfig.pages.about.translation);
-  return (
-    <PageTemplate title={about("title")} description={about("description")} />
-  );
+  return <PageTemplate translator={about} />;
 }
