@@ -3,10 +3,10 @@ import { getTranslations } from "next-intl/server";
 import React from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const about = await getTranslations("About");
+  const health = await getTranslations("Health");
   return {
-    title: about("title"),
-    description: about("description"),
+    title: health("title"),
+    description: health("description"),
   };
 }
 

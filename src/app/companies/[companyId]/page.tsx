@@ -1,5 +1,5 @@
 import { PageTemplate } from "@/components/shared/page-template";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.config";
 import { getTranslations } from "next-intl/server";
 
 export default async function Company({

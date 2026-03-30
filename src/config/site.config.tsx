@@ -1,10 +1,11 @@
-import { SiteConfig } from "@/config/site.interface";
+import { SiteConfig } from "./site.interface";
 
 export const siteConfig: SiteConfig = {
   title: "title",
   greeting: "greeting",
   navigation: [
     { href: "/", label: "home" },
+    { href: "/health", label: "health" },
     { href: "/about", label: "about" },
     { href: "/companies", label: "companies" },
     { href: "/profile", label: "profile" },
@@ -24,6 +25,7 @@ export const siteConfig: SiteConfig = {
     profile: { translation: "Profile" },
     users: { translation: "Users" },
     user: { translation: "User" },
+    health: { translation: "Health" },
   },
   buttons: {
     translation: "Buttons",

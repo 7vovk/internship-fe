@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.config";
 
 type ConfirmationModalProps = {
   buttonName?: string;

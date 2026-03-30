@@ -1,10 +1,10 @@
 import { PageTemplate } from "@/components/shared/page-template";
-import { siteConfig } from "@/config/site";
-import { useTranslations } from "next-intl";
+import { siteConfig } from "@/config/site.config";
+import { getTranslations } from "next-intl/server";
 import { HomeConfirm } from "@/app/components/client";
 
-export default function Home() {
-  const homePage = useTranslations(siteConfig.pages.home.translation);
+export default async function Home() {
+  const homePage = await getTranslations(siteConfig.pages.home.translation);
 
   return (
     <PageTemplate
