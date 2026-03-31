@@ -48,6 +48,7 @@
   "Login": {
     "title": "Login & Signup",
     "description": "Log in or create account.",
+    "authorized_description": "You're already logged in.",
     "email": "Email",
     "email_placeholder": "Type your email here",
     "password": "Password",

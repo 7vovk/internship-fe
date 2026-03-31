@@ -48,6 +48,7 @@
   "Login": {
     "title": "Увійти / зареєструватися",
     "description": "Увійдіть або створіть обліковий запис.",
+    "authorized_description": "You're already logged in.",
     "email": "Поштова скринька",
     "email_placeholder": "Введіть вашу поштову скриньку тут",
     "password": "Пароль",

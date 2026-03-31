@@ -31,6 +31,7 @@ async function apiClient<T>(
     const response = await fetch(`${BASE_URL}${endpoint}`, {
       ...fetchOptions,
       headers,
+      credentials: "include",
       signal,
     });
 

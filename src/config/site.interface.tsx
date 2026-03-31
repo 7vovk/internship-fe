@@ -40,3 +40,8 @@ export interface Translation {
 export interface Home extends Translation {
   actions: TemplateAction[];
 }
+
+export interface Routes {
+  public: string[];
+  protected: string[];
+}

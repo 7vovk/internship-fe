@@ -1,28 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "@/lib/store/store";
 
 export interface AuthState {
-  token: string;
+  isAuthenticated: boolean;
+  userId: string | null;
+  userRoles: string | null;
 }
 
-const initialState: AuthState = {
-  token: "",
+export const initialAuthState: AuthState = {
+  isAuthenticated: false,
+  userId: null,
+  userRoles: null,
 };
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: initialAuthState,
   reducers: {
-    update: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
+    update: (state, action: PayloadAction<Partial<AuthState>>) => {
+      Object.assign(state, action.payload);
     },
     reset: (state) => {
-      state.token = initialState.token;
+      Object.assign(state, initialAuthState);
     },
   },
 });
 
 export const { update, reset } = authSlice.actions;
 
-export const getToken = (state: { auth: AuthState }) => state.auth.token;
+export const selectAuth = (state: RootState) => state.auth;
+export const selectIsAuthenticated = (state: RootState) =>
+  state.auth.isAuthenticated;
+export const selectUserId = (state: RootState) => state.auth.userId;
+export const selectUserRoles = (state: RootState) => state.auth.userRoles;
 
 export default authSlice.reducer;
