@@ -14,9 +14,11 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { TextLink } from "@/components/ui/text-link";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store/hooks";
-import { handleAccountCreate, handleLogin } from "@/lib/api/auth";
+import { handleLogin } from "@/lib/api/auth";
 import { update } from "@/lib/features/auth/auth-slice";
 import { toast } from "sonner";
+import { createAccountAction } from "@/components/login-05.server-action";
+import { parseErrorMessage } from "@/lib/errors";
 
 export default function Login05() {
   const router = useRouter();
@@ -64,39 +66,44 @@ export default function Login05() {
     try {
       const formData = formSchema.parse(form.getValues());
       const payload = registerPayloadSchema.parse(formData);
-      const created = await handleAccountCreate(payload);
 
-      if (created) {
-        const result = await handleLogin({
-          email: payload.email,
-          password: payload.password,
-        });
-        if (result.statusCode === 200) {
-          const user = result.result?.user;
+      const created = await createAccountAction(payload);
+      if (!created.ok) {
+        toast.error(created.message, { position: "top-right" });
+        return;
+      }
 
-          if (user) {
-            dispatch(
-              update({
-                isAuthenticated: true,
-                userId: user.id,
-                userRoles: user.roles?.length ? user.roles.join(", ") : null,
-              }),
-            );
-          }
-          toast.success("Account has been created successfully.", {
-            position: "top-center",
-            onDismiss: navigateToHome,
-            onAutoClose: navigateToHome,
-            action: {
-              label: "Ok",
-              onClick: navigateToHome,
-            },
-          });
+      const result = await handleLogin({
+        email: payload.email,
+        password: payload.password,
+      });
+
+      if (result.statusCode === 200) {
+        const user = result.result?.user;
+
+        if (user) {
+          dispatch(
+            update({
+              isAuthenticated: true,
+              userId: user.id,
+              userRoles: user.roles?.length ? user.roles.join(", ") : null,
+            }),
+          );
         }
+
+        toast.success("Account has been created successfully.", {
+          position: "top-center",
+          onDismiss: navigateToHome,
+          onAutoClose: navigateToHome,
+          action: {
+            label: "Ok",
+            onClick: navigateToHome,
+          },
+        });
       }
     } catch (error) {
-      const err = JSON.parse((error as Error).message);
-      toast.error(err.message, { position: "top-right" });
+      const message = parseErrorMessage(error);
+      toast.error(message, { position: "top-right" });
     }
   }
 
