@@ -9,6 +9,7 @@ import StoreProvider from "@/lib/store/store-provider";
 import React from "react";
 import { headers } from "next/headers";
 import { AuthHeader } from "@/lib/enums/auth.enums";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,6 +60,7 @@ export default async function RootLayout({
             {children}
           </NextIntlClientProvider>
         </StoreProvider>
+        <Toaster />
       </body>
     </html>
   );

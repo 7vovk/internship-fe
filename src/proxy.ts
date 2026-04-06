@@ -65,7 +65,8 @@ export async function proxy(req: NextRequest) {
 
   if (
     (isPublicRoute && isLoggedIn && req.nextUrl.pathname === "/login") ||
-    (isLoggedIn && req.nextUrl.pathname === "/login")
+    (isLoggedIn && req.nextUrl.pathname === "/login") ||
+    (isLoggedIn && req.nextUrl.pathname === "/create")
   ) {
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }

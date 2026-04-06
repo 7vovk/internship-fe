@@ -20,3 +20,16 @@ export async function handleLogout(): Promise<void> {
     throw error as ApiError;
   }
 }
+
+export async function handleAccountCreate(body: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}): Promise<ApiResult<{ user: User }>> {
+  try {
+    return await api.post<ApiResult<{ user: User }>>("/user", body);
+  } catch (error) {
+    throw error as ApiError;
+  }
+}

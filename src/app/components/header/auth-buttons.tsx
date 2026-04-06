@@ -3,6 +3,7 @@ import { AuthHeader } from "@/lib/enums/auth.enums";
 import { auth0 } from "@/lib/auth0";
 import { getTranslations } from "next-intl/server";
 import { LoggedIn } from "./logged-in";
+import { translate } from "@/lib/utils";
 
 export async function AuthButtons() {
   const auth = await getTranslations("Auth");
@@ -19,14 +20,14 @@ export async function AuthButtons() {
         <LoggedIn
           authType={auth0User ? "auth0" : "jwt"}
           auth0User={auth0User}
-          logoutLabel={auth("logout")}
+          logoutLabel={translate(auth, "logout")}
         />
       ) : (
         <a
           href={"/login"}
           className="inline-flex items-center rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground shadow-xs transition-colors hover:bg-primary/90"
         >
-          {auth("sign_in")}
+          {translate(auth, "sign_in")}
         </a>
       )}
     </div>
