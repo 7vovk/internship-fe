@@ -45,7 +45,7 @@
     "title": "Health check",
     "description": "The page containing health check information about backend."
   },
-  "Login": {
+  "Auth": {
     "title": "Login & Signup",
     "description": "Log in or create account.",
     "authorized_description": "You're already logged in.",
@@ -58,7 +58,8 @@
     "you_agree": "By signing in, you agree to our",
     "terms": "terms of service",
     "and": "and",
-    "privacy": "privacy policy"
+    "privacy": "privacy policy",
+    "logout": "Logout"
   },
   "Buttons": {
     "show_dialog": "Show Dialog",

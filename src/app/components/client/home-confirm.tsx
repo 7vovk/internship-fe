@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfirmationModal } from "@/app/components";
+import { ConfirmationModal } from "@/app/components/modal/confirmation-modal";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { reset, selectValue, update } from "@/lib/features/test/test-slice";
 

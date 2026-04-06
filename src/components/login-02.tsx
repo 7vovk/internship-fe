@@ -10,8 +10,10 @@ import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { redirect, RedirectType } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { GoogleIcon } from "./shared/google.icon";
+import { useAppDispatch } from "@/lib/store/hooks";
+import { update } from "@/lib/features/auth/auth-slice";
 
 const formSchema = z.object({
   email: z.string().email("Enter a valid email address."),
@@ -19,6 +21,8 @@ const formSchema = z.object({
 });
 
 export default function Login02() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const login = useTranslations(siteConfig.pages.login.translation);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,15 +36,33 @@ export default function Login02() {
     try {
       const result = await handleLogin(form.getValues());
       if (result.statusCode === 200) {
-        redirect("/", RedirectType.replace);
+        const user = result.result?.user;
+
+        if (user) {
+          dispatch(
+            update({
+              isAuthenticated: true,
+              userId: user.id,
+              userRoles: user.roles?.length ? user.roles.join(", ") : null,
+            }),
+          );
+        }
+        router.replace("/");
+        router.refresh();
       }
     } catch (error) {
       throw error;
     }
   }
 
-  function handleSignIn() {
-    // TODO add google sign in for next.js app
+  function handleSignInWithGoogle() {
+    const returnTo = `${window.location.origin}/`;
+    const url = new URL("/auth/login", window.location.origin);
+    url.searchParams.set("connection", "google-oauth2");
+    url.searchParams.set("prompt", "login");
+    url.searchParams.set("screen_hint", "login");
+    url.searchParams.set("returnTo", returnTo);
+    window.location.href = url.toString();
   }
 
   return (
@@ -118,9 +140,10 @@ export default function Login02() {
           </div>
 
           <Button
+            type="button"
             variant="outline"
             className="flex w-full items-center justify-center space-x-2 py-2"
-            onClick={handleSignIn}
+            onClick={handleSignInWithGoogle}
           >
             <GoogleIcon className="size-5" aria-hidden={true} />
             <span className="text-sm font-medium">

@@ -12,3 +12,11 @@ export async function handleLogin(body: {
     throw error as ApiError;
   }
 }
+
+export async function handleLogout(): Promise<void> {
+  try {
+    await api.post<void>("/auth/logout", {});
+  } catch (error) {
+    throw error as ApiError;
+  }
+}

@@ -2,11 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { siteConfig } from "./config/site.config";
 import { CfgNavigation, Routes } from "./config/site.interface";
 import { AuthHeader } from "@/lib/enums/auth.enums";
+import { auth0 } from "@/lib/auth0";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
-const AUTH_CHECK_PATH = "/me";
-
-// 1. Specify protected and public routes
 const routes: Routes = siteConfig.navigation.reduce(
   (acc: Routes, curr: CfgNavigation) => {
     if (curr.public) {
@@ -17,74 +14,95 @@ const routes: Routes = siteConfig.navigation.reduce(
   { public: [], protected: [] },
 );
 
-export default async function proxy(req: NextRequest) {
-  // 2. Check if the current route is protected or public
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+
+function forwardSetCookies(from: Response, to: NextResponse): void {
+  const headers = from.headers;
+  if (typeof headers.getSetCookie === "function") {
+    for (const cookie of headers.getSetCookie()) {
+      to.headers.append("set-cookie", cookie);
+    }
+    return;
+  }
+  const single = headers.get("set-cookie");
+  if (single) {
+    to.headers.append("set-cookie", single);
+  }
+}
+
+export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
-  const isProtectedRoute = routes.protected.includes(path);
-  const isPublicRoute = routes.public.includes(path);
 
-  // 3. Verify auth against backend by forwarding incoming cookies
-  const cookieHeader = req.headers.get("cookie") ?? "";
-  let isAuthenticated = false;
-  let userId: string | null = null;
-  let userRoles: string[] = [];
-
-  if (cookieHeader) {
-    try {
-      const authResponse = await fetch(`${API_URL}${AUTH_CHECK_PATH}`, {
-        method: "GET",
-        headers: {
-          cookie: cookieHeader,
-          accept: "application/json",
-        },
-      });
-      isAuthenticated = authResponse.ok;
-      if (authResponse.ok) {
-        const authData = await authResponse.json();
-        userId = authData?.result?.id ?? "";
-        userRoles = authData?.result?.roles ?? [];
-      }
-    } catch {
-      isAuthenticated = false;
+  let auth0Response: NextResponse | null = null;
+  if (path.startsWith("/auth")) {
+    auth0Response = await auth0.middleware(req);
+    const isRedirect =
+      auth0Response.status >= 300 && auth0Response.status < 400;
+    if (isRedirect) {
+      return auth0Response;
     }
   }
 
-  // 4. Redirect to /login if the user is not authenticated
-  if (isProtectedRoute && !isAuthenticated) {
+  let isAuth0Authenticated: boolean;
+  try {
+    const auth0Session = await auth0.getSession(req);
+    isAuth0Authenticated = Boolean(auth0Session?.user);
+  } catch {
+    isAuth0Authenticated = false;
+  }
+
+  const isProtectedRoute = routes.protected.includes(path);
+  const isPublicRoute = routes.public.includes(path);
+
+  const cookieHeader = req.headers.get("cookie") ?? "";
+  const isJwtAuthenticated = /(?:^|;\s*)Authentication=/.test(cookieHeader);
+
+  const isLoggedIn = isJwtAuthenticated || isAuth0Authenticated;
+
+  if (isProtectedRoute && !isLoggedIn) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  // 5. Redirect authenticated users away from public auth pages
   if (
-    (isPublicRoute && isAuthenticated && req.nextUrl.pathname === "/login") ||
-    (isAuthenticated && req.nextUrl.pathname === "/login")
+    (isPublicRoute && isLoggedIn && req.nextUrl.pathname === "/login") ||
+    (isLoggedIn && req.nextUrl.pathname === "/login")
   ) {
     return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 
   const requestHeaders = new Headers(req.headers);
-  requestHeaders.set(AuthHeader.AUTHENTICATED, String(isAuthenticated));
+  requestHeaders.set(AuthHeader.AUTHENTICATED, String(isJwtAuthenticated));
 
-  if (userId) {
-    requestHeaders.set(AuthHeader.USER_ID, userId);
-  } else {
-    requestHeaders.delete(AuthHeader.USER_ID);
-  }
-
-  if (userRoles) {
-    requestHeaders.set(AuthHeader.USER_ROLES, userRoles.join(", "));
-  } else {
-    requestHeaders.delete(AuthHeader.USER_ROLES);
-  }
-
-  return NextResponse.next({
+  const response = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
   });
+
+  if (isAuth0Authenticated && !isJwtAuthenticated) {
+    const auth = await auth0.getAccessToken(req, response, {
+      audience: process.env.AUTH0_AUDIENCE,
+    });
+    if (auth.token) {
+      const meRes = await fetch(`${API_BASE}/me`, {
+        headers: { Authorization: `Bearer ${auth.token}` },
+      });
+      if (meRes.ok) {
+        forwardSetCookies(meRes, response);
+      }
+    }
+  }
+
+  const auth0SetCookie = auth0Response?.headers.get("set-cookie");
+  if (auth0SetCookie) {
+    response.headers.append("set-cookie", auth0SetCookie);
+  }
+
+  return response;
 }
 
-// Routes Proxy should not run on
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.png$).*)",
+  ],
 };
