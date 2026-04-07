@@ -11,8 +11,7 @@ export default async function Health() {
 
   return (
     <PageTemplate
-      title={health("title")}
-      description={health("description")}
+      translator={health}
       extraActions={
         <h3 className={isSuccess ? "text-success" : "text-destructive"}>
           {response}

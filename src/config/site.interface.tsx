@@ -13,6 +13,7 @@ export interface SiteConfig {
 export interface CfgNavigation {
   href: string;
   label: string;
+  public: boolean;
 }
 
 type StandardPageKeys = (typeof standardPageKeys)[number];
@@ -38,4 +39,9 @@ export interface Translation {
 
 export interface Home extends Translation {
   actions: TemplateAction[];
+}
+
+export interface Routes {
+  public: string[];
+  protected: string[];
 }

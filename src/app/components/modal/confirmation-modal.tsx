@@ -25,7 +25,7 @@ type ConfirmationModalProps = {
 
 export function ConfirmationModal({
   buttonName = "show_dialog",
-  title,
+  title = "confirm_action",
   description,
   cancelBtn = "cancel",
   okBtn = "ok",
@@ -41,7 +41,7 @@ export function ConfirmationModal({
       />
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogTitle>{button(title)}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

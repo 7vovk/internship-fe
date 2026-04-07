@@ -1,6 +1,6 @@
 "use client";
 
-import { ConfirmationModal } from "@/app/components";
+import { ConfirmationModal } from "@/app/components/modal/confirmation-modal";
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { reset, selectValue, update } from "@/lib/features/test/test-slice";
 
@@ -19,10 +19,10 @@ export function HomeConfirm() {
   return (
     <ConfirmationModal
       buttonName="open_modal"
-      title="Confirm action?"
+      title="confirm_action"
       description={testText}
       cancelBtn="cancel"
-      okBtn="confirm_action"
+      okBtn="confirm"
       onConfirm={handleConfirm}
       onCancel={handleCancel}
     />
