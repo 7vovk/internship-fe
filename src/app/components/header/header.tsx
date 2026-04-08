@@ -12,7 +12,7 @@ export async function Header() {
   const layout = await getTranslations("Layout");
 
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-background/70 shadow-sm backdrop-blur-md supports-backdrop-filter:bg-background/60">
       <Container className="flex items-center justify-between py-4">
         <Link className="text-lg font-semibold" href="/">
           <div className="flex items-center justify-between">

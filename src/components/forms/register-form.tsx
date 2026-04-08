@@ -6,45 +6,26 @@ import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
 import { Logo } from "@/components/ui/logo";
-import { translate } from "@/lib/utils";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { TextLink } from "@/components/ui/text-link";
-import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/lib/store/hooks";
-import { handleLogin } from "@/lib/api/auth";
-import { update } from "@/lib/features/auth/auth-slice";
 import { toast } from "sonner";
-import { createAccountAction } from "@/components/login-05.server-action";
+import { createAccountAction } from "@/components/forms/register.server-action";
+import { useAuth } from "@/hooks/useAuth.hook";
 import { parseErrorMessage } from "@/lib/errors";
+import {
+  getRegisterPayloadSchema,
+  getRegisterSchema,
+} from "@/components/forms/auth.schema";
 
-export default function Login05() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const auth = useTranslations(siteConfig.pages.login.translation);
+export default function RegisterForm() {
+  const { submitLogin } = useAuth();
+  const tAuth = useTranslations(siteConfig.pages.login.translation);
 
-  const registerPayloadSchema = z.object({
-    firstName: z.string().min(1, translate(auth, "required")).max(100).trim(),
-    lastName: z.string().min(1, translate(auth, "required")).max(100).trim(),
-    email: z.string().email(translate(auth, "email_error")),
-    password: z.string().min(6, translate(auth, "password_error")),
-  });
-
-  const formSchema = registerPayloadSchema
-    .extend({
-      confirmPassword: z.string().min(6, translate(auth, "password_error")),
-    })
-    .superRefine(({ confirmPassword, password }, ctx) => {
-      if (confirmPassword !== password) {
-        ctx.addIssue({
-          code: "custom",
-          message: translate(auth, "confirm_password_error"),
-          path: ["confirmPassword"],
-        });
-      }
-    });
+  const registerPayloadSchema = getRegisterPayloadSchema(tAuth);
+  const formSchema = getRegisterSchema(tAuth);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,11 +38,6 @@ export default function Login05() {
     },
   });
 
-  function navigateToHome(): void {
-    router.replace("/");
-    router.refresh();
-  }
-
   async function handleSubmit(): Promise<void> {
     try {
       const formData = formSchema.parse(form.getValues());
@@ -73,34 +49,11 @@ export default function Login05() {
         return;
       }
 
-      const result = await handleLogin({
+      await submitLogin({
         email: payload.email,
         password: payload.password,
+        showCreateToast: true,
       });
-
-      if (result.statusCode === 200) {
-        const user = result.result?.user;
-
-        if (user) {
-          dispatch(
-            update({
-              isAuthenticated: true,
-              userId: user.id,
-              userRoles: user.roles?.length ? user.roles.join(", ") : null,
-            }),
-          );
-        }
-
-        toast.success("Account has been created successfully.", {
-          position: "top-center",
-          onDismiss: navigateToHome,
-          onAutoClose: navigateToHome,
-          action: {
-            label: "Ok",
-            onClick: navigateToHome,
-          },
-        });
-      }
     } catch (error) {
       const message = parseErrorMessage(error);
       toast.error(message, { position: "top-right" });
@@ -116,7 +69,7 @@ export default function Login05() {
             aria-hidden={true}
           />
           <h3 className="text-balance mt-2 text-center text-lg font-bold text-foreground dark:text-foreground">
-            {translate(auth, "create_title")}
+            {tAuth("create_title")}
           </h3>
         </div>
 
@@ -133,13 +86,13 @@ export default function Login05() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>
-                      {translate(auth, "first_name")}
+                      {tAuth("first_name")}
                     </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      placeholder={translate(auth, "first_name_placeholder")}
+                      placeholder={tAuth("first_name_placeholder")}
                       autoComplete="off"
                     />
                     {fieldState.invalid && (
@@ -155,13 +108,13 @@ export default function Login05() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>
-                      {translate(auth, "last_name")}
+                      {tAuth("last_name")}
                     </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      placeholder={translate(auth, "last_name_placeholder")}
+                      placeholder={tAuth("last_name_placeholder")}
                       autoComplete="off"
                     />
                     {fieldState.invalid && (
@@ -177,13 +130,13 @@ export default function Login05() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>
-                      {translate(auth, "email")}
+                      {tAuth("email")}
                     </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       aria-invalid={fieldState.invalid}
-                      placeholder={translate(auth, "email_placeholder")}
+                      placeholder={tAuth("email_placeholder")}
                       autoComplete="off"
                     />
                     {fieldState.invalid && (
@@ -199,7 +152,7 @@ export default function Login05() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>
-                      {translate(auth, "password")}
+                      {tAuth("password")}
                     </FieldLabel>
                     <Input
                       {...field}
@@ -222,7 +175,7 @@ export default function Login05() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>
-                      {translate(auth, "password_confirm")}
+                      {tAuth("password_confirm")}
                     </FieldLabel>
                     <Input
                       {...field}
@@ -244,16 +197,16 @@ export default function Login05() {
                 form="create-account-form"
                 className="w-full py-2 font-medium"
               >
-                {translate(auth, "create")}
+                {tAuth("create")}
               </Button>
             </form>
           </CardContent>
         </Card>
 
         <TextLink
-          text={translate(auth, "already_have")}
+          text={tAuth("already_have")}
           link={"/login"}
-          linkText={translate(auth, "sign_in")}
+          linkText={tAuth("sign_in")}
         />
       </div>
     </div>

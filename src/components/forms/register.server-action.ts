@@ -1,6 +1,6 @@
 "use server";
 
-import { handleAccountCreate } from "@/lib/api/auth";
+import { handleAccountCreate } from "@/lib/api/users";
 import { parseErrorMessage } from "@/lib/errors";
 
 type CreateAccountPayload = {

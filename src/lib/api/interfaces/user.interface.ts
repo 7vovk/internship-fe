@@ -1,3 +1,5 @@
+import { Company, CompanyAdministration, InvitedTo } from "./company.interface";
+
 export interface User {
   createDate: string;
   description: string;
@@ -9,4 +11,7 @@ export interface User {
   lastName: string;
   roles: string[];
   updateDate: string;
+  companies?: Company[];
+  invitedTo?: InvitedTo[];
+  companyAdministration?: CompanyAdministration[];
 }

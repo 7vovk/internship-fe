@@ -32,24 +32,24 @@ export function ConfirmationModal({
   onConfirm,
   onCancel,
 }: ConfirmationModalProps) {
-  const button = useTranslations(siteConfig.buttons.translation);
+  const tButton = useTranslations(siteConfig.buttons.translation);
 
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        render={<Button variant="outline">{button(buttonName)}</Button>}
+        render={<Button variant="outline">{tButton(buttonName)}</Button>}
       />
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{button(title)}</AlertDialogTitle>
+          <AlertDialogTitle>{tButton(title)}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onCancel}>
-            {button(cancelBtn)}
+            {tButton(cancelBtn)}
           </AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>
-            {button(okBtn)}
+            {tButton(okBtn)}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

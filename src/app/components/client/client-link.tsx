@@ -14,7 +14,7 @@ type ClientLinkProps = {
 
 export function ClientLink({ item }: ClientLinkProps) {
   const pathname = usePathname();
-  const layout = useTranslations("Layout");
+  const tLayout = useTranslations("Layout");
 
   return (
     <Link
@@ -30,7 +30,7 @@ export function ClientLink({ item }: ClientLinkProps) {
       )}
       href={item.href}
     >
-      {layout(item.label)}
+      {tLayout(item.label)}
     </Link>
   );
 }

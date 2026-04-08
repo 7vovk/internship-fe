@@ -5,28 +5,21 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
-import { translate } from "@/lib/utils";
-import { handleLogin } from "@/lib/api/auth";
 import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { useRouter } from "next/navigation";
-import { GoogleIcon } from "./shared/google.icon";
-import { useAppDispatch } from "@/lib/store/hooks";
-import { update } from "@/lib/features/auth/auth-slice";
+import { GoogleIcon } from "../shared/google.icon";
 import { TextLink } from "@/components/ui/text-link";
 import { Card, CardContent } from "@/components/ui/card";
+import { useAuth } from "@/hooks/useAuth.hook";
+import { getLoginSchema } from "@/components/forms/auth.schema";
 
-export default function Login02() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const auth = useTranslations(siteConfig.pages.login.translation);
+export default function LoginForm() {
+  const { submitLogin } = useAuth();
+  const tAuth = useTranslations(siteConfig.pages.login.translation);
 
-  const formSchema = z.object({
-    email: z.string().email(translate(auth, "email_error")),
-    password: z.string().min(6, translate(auth, "password_error")),
-  });
+  const formSchema = getLoginSchema(tAuth);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,29 +28,6 @@ export default function Login02() {
       password: "",
     },
   });
-
-  async function handleSubmit(): Promise<void> {
-    try {
-      const result = await handleLogin(form.getValues());
-      if (result.statusCode === 200) {
-        const user = result.result?.user;
-
-        if (user) {
-          dispatch(
-            update({
-              isAuthenticated: true,
-              userId: user.id,
-              userRoles: user.roles?.length ? user.roles.join(", ") : null,
-            }),
-          );
-        }
-        router.replace("/");
-        router.refresh();
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
 
   function handleSignInWithGoogle() {
     const returnTo = `${window.location.origin}/`;
@@ -74,13 +44,15 @@ export default function Login02() {
       <div className="flex flex-1 flex-col justify-center px-4 py-10 lg:px-6">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="text-balance text-center text-xl font-semibold text-foreground">
-            {translate(auth, "description")}
+            {tAuth("description")}
           </h2>
           <Card className="mt-4 shadow-2xs sm:mx-auto sm:w-full sm:max-w-md">
             <CardContent>
               <form
                 id="login-form"
-                onSubmit={form.handleSubmit(handleSubmit)}
+                onSubmit={form.handleSubmit(() =>
+                  submitLogin(form.getValues()),
+                )}
                 className="mt-6 space-y-4"
               >
                 <Controller
@@ -89,13 +61,13 @@ export default function Login02() {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>
-                        {translate(auth, "email")}
+                        {tAuth("email")}
                       </FieldLabel>
                       <Input
                         {...field}
                         id={field.name}
                         aria-invalid={fieldState.invalid}
-                        placeholder={translate(auth, "email_placeholder")}
+                        placeholder={tAuth("email_placeholder")}
                         autoComplete="off"
                       />
                       {fieldState.invalid && (
@@ -110,7 +82,7 @@ export default function Login02() {
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel htmlFor={field.name}>
-                        {translate(auth, "password")}
+                        {tAuth("password")}
                       </FieldLabel>
                       <Input
                         {...field}
@@ -132,7 +104,7 @@ export default function Login02() {
                   form="login-form"
                   className="w-full py-2 font-medium"
                 >
-                  {translate(auth, "sign_in")}
+                  {tAuth("sign_in")}
                 </Button>
               </form>
             </CardContent>
@@ -144,7 +116,7 @@ export default function Login02() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                {translate(auth, "or_with")}
+                {tAuth("or_with")}
               </span>
             </div>
           </div>
@@ -156,27 +128,25 @@ export default function Login02() {
             onClick={handleSignInWithGoogle}
           >
             <GoogleIcon className="size-5" aria-hidden={true} />
-            <span className="text-sm font-medium">
-              {translate(auth, "with_google")}
-            </span>
+            <span className="text-sm font-medium">{tAuth("with_google")}</span>
           </Button>
 
           <p className="text-pretty mt-4 text-xs text-muted-foreground dark:text-muted-foreground">
-            {translate(auth, "you_agree")}{" "}
+            {tAuth("you_agree")}{" "}
             <a href="#" className="underline underline-offset-4">
-              {translate(auth, "terms")}
+              {tAuth("terms")}
             </a>{" "}
-            {translate(auth, "and")}{" "}
+            {tAuth("and")}{" "}
             <a href="#" className="underline underline-offset-4">
-              {translate(auth, "privacy")}
+              {tAuth("privacy")}
             </a>
             .
           </p>
 
           <TextLink
-            text={translate(auth, "create_new")}
+            text={tAuth("create_new")}
             link={"/create"}
-            linkText={translate(auth, "create_title")}
+            linkText={tAuth("create_title")}
             className={"lowercase"}
           />
         </div>

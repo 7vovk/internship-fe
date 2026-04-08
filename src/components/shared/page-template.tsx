@@ -9,7 +9,7 @@ import {
   TypographyLead,
   TypographyMuted,
 } from "@/components/ui/typography";
-import { cn, translate } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { _Translator } from "next-intl";
 
 type PageTemplateProps = {
@@ -32,16 +32,12 @@ export function PageTemplate({
   className,
 }: PageTemplateProps) {
   return (
-    <div className={cn("min-h-1 bg-background py-16", className)}>
-      <Container className="flex min-h-[calc(90vh-8rem)] flex-col items-center justify-center text-center">
+    <div className={cn("min-h-1 bg-background pb-16 pt-20", className)}>
+      <Container className="flex min-h-[calc(90vh-8rem)] flex-col items-center justify-start text-center">
         <div className="w-full space-y-6">
-          <TypographyH1>
-            {title ? title : translate(translator, "title")}
-          </TypographyH1>
+          <TypographyH1>{title ? title : translator("title")}</TypographyH1>
           {translator.has("description") && (
-            <TypographyLead>
-              {translate(translator, "description")}
-            </TypographyLead>
+            <TypographyLead>{translator("description")}</TypographyLead>
           )}
 
           {(actions.length > 0 || extraActions) && (
