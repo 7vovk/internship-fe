@@ -1,6 +1,9 @@
 "use client";
 
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Button,
   CardContent,
   Sheet,
@@ -26,11 +29,12 @@ import { useTranslations } from "next-intl";
 import { parseErrorMessage } from "@/lib/errors";
 import { errorToaster } from "@/app/utils";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { AuthType, useAuth } from "@/hooks/useAuth.hook";
 import {
   deleteCurrentUserAction,
   updateCurrentUserAction,
+  updateCurrentUserImageAction,
 } from "./profile.server-action";
 import { User, UserActionResult } from "@/lib/interfaces";
 
@@ -45,6 +49,9 @@ export default function ProfileEdit({
 }: ProfileEditProps) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { logout } = useAuth();
   const tUser = useTranslations("User");
   const tAuth = useTranslations("Auth");
@@ -52,10 +59,12 @@ export default function ProfileEdit({
   const editFormSchema = getEditSchema(tAuth);
   const editPasswordSchema = getEditPasswordSchema(tAuth);
   const editPasswordPayloadSchema = getEditPasswordPayloadSchema(tAuth);
+  const currentProfilePicture = currentUser?.profilePictureUrl || "";
 
   const form = useForm<z.infer<typeof editFormSchema>>({
     resolver: zodResolver(editFormSchema),
     defaultValues: {
+      profilePicture: currentProfilePicture,
       firstName: currentUser?.firstName,
       lastName: currentUser?.lastName,
       description: currentUser?.description,
@@ -70,15 +79,37 @@ export default function ProfileEdit({
     },
   });
 
+  useEffect(() => {
+    return () => {
+      if (selectedImage?.startsWith("blob:")) {
+        URL.revokeObjectURL(selectedImage);
+      }
+    };
+  }, [selectedImage]);
+
   async function handleUpdate() {
     try {
-      const updated: UserActionResult = await updateCurrentUserAction(
-        form.getValues(),
-      );
+      const { firstName, lastName, description } = form.getValues();
+      const updated: UserActionResult = await updateCurrentUserAction({
+        firstName,
+        lastName,
+        description,
+      });
       if (!updated.ok) {
         errorToaster(updated.message);
         return;
       }
+
+      if (selectedImageFile) {
+        const imageFormData = new FormData();
+        imageFormData.append("profilePicture", selectedImageFile);
+        const imageUpdated = await updateCurrentUserImageAction(imageFormData);
+        if (!imageUpdated.ok) {
+          errorToaster(imageUpdated.message);
+          return;
+        }
+      }
+
       router.refresh();
       setIsOpen(false);
     } catch (error) {
@@ -86,8 +117,28 @@ export default function ProfileEdit({
     }
   }
 
+  function handleImageSelect(event: ChangeEvent<HTMLInputElement>) {
+    const input = event.target;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      errorToaster(tAuth("chooseImageFile"));
+      return;
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedImage(previewUrl);
+    setSelectedImageFile(file);
+    input.value = "";
+  }
+
   function handleClose() {
     form.clearErrors();
+    setSelectedImage(null);
+    setSelectedImageFile(null);
   }
 
   async function handleDelete() {
@@ -138,6 +189,41 @@ export default function ProfileEdit({
             <SheetDescription>{tUser("editDescription")}</SheetDescription>
           </SheetHeader>
           <CardContent>
+            <div className="space-y-2 mb-2">
+              <p className="text-sm font-medium">{tAuth("profilePicture")}</p>
+              <div className="flex items-center gap-3">
+                <Avatar className="h-14 w-14">
+                  <AvatarImage
+                    alt={currentUser?.firstName ?? "User"}
+                    src={selectedImage || form.watch("profilePicture") || ""}
+                  />
+                  <AvatarFallback
+                    firstName={form.watch("firstName")}
+                    lastName={form.watch("lastName")}
+                  />
+                </Avatar>
+                <div className="flex w-full flex-col gap-2">
+                  <input
+                    ref={imageInputRef}
+                    id="profile-picture-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageSelect}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => imageInputRef.current?.click()}
+                  >
+                    {selectedImageFile
+                      ? tAuth("changeImage")
+                      : tAuth("chooseImage")}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
             <form
               id="edit-account-form"
               onSubmit={form.handleSubmit(handleUpdate)}

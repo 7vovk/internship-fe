@@ -28,7 +28,8 @@ export function parseUserData(
       typeof value === "boolean" ||
       (Array.isArray(value) && value.length === 0) ||
       key === "password" ||
-      key === "tempPass"
+      key === "tempPass" ||
+      key === "profilePictureUrl"
     ) {
       return acc;
     }

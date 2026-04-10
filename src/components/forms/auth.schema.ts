@@ -55,6 +55,10 @@ export function getEditSchema(translator: _Translator<Record<string, string>>) {
       password: true,
     })
     .extend({
+      profilePicture: z.union([
+        z.string().url(translator("urlError")),
+        z.literal(""),
+      ]),
       description: z.string().max(300).trim(),
     });
 }

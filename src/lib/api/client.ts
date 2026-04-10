@@ -85,12 +85,15 @@ async function apiClient<T>(
   const bearerToken = jwtToken ?? auth0Token;
   const serverCookieHeader = await resolveCookieHeader();
   const hasBody = fetchOptions.body !== undefined && fetchOptions.body !== null;
+  const isFormDataBody =
+    typeof FormData !== "undefined" && fetchOptions.body instanceof FormData;
+  const shouldSendJsonContentType = hasBody && !isFormDataBody;
 
   const headers = new Headers({
     Accept: "application/json",
     ...fetchOptions.headers,
     ...(bearerToken ? { Authorization: `Bearer ${bearerToken}` } : {}),
-    ...(hasBody ? { "Content-Type": "application/json" } : {}),
+    ...(shouldSendJsonContentType ? { "Content-Type": "application/json" } : {}),
   });
 
   if (serverCookieHeader && !headers.has("Cookie")) {
@@ -138,14 +141,20 @@ export const api = {
     apiClient<T>(endpoint, {
       ...options,
       method: "POST",
-      body: JSON.stringify(body),
+      body:
+        typeof FormData !== "undefined" && body instanceof FormData
+          ? body
+          : JSON.stringify(body),
     }),
 
   put: <T>(endpoint: string, body: unknown, options?: FetchOptions) =>
     apiClient<T>(endpoint, {
       ...options,
       method: "PUT",
-      body: JSON.stringify(body),
+      body:
+        typeof FormData !== "undefined" && body instanceof FormData
+          ? body
+          : JSON.stringify(body),
     }),
 
   delete: <T>(endpoint: string, options?: FetchOptions) =>

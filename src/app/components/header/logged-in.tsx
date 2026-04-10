@@ -26,7 +26,7 @@ export async function LoggedIn({
 }: LoggedInProps) {
   const firstName = auth0User?.given_name ?? currentUser?.firstName ?? "User";
   const lastName = auth0User?.family_name ?? currentUser?.lastName ?? "Profile";
-  const profileImage = auth0User?.picture;
+  const profileImage = currentUser?.profilePictureUrl || auth0User?.picture;
   const tProfile = await getTranslations("Profile");
 
   return (

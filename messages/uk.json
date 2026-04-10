@@ -85,7 +85,12 @@
     "created": "Профіль успішно створений.",
     "required": "Обов'язкове поле.",
     "userDescription": "Коментарі користувача або опис",
-    "userDescriptionPlaceholder": "Впишіть опис в це поле"
+    "userDescriptionPlaceholder": "Впишіть опис в це поле",
+    "profilePicture": "Зображення профілю",
+    "urlError": "Помилка завантаження зображення",
+    "chooseImage": "Вибрати зображення",
+    "changeImage": "Змінити зображення",
+    "chooseImageFile": "Будь ласка виберіть файл зображення."
   },
   "Buttons": {
     "showDialog": "Показати діалогове вікно",
@@ -119,6 +124,6 @@
     "description": "Опис користувача"
   },
   "General": {
-    "charsLeft": "залишилось символів"
+    "charsLeft": "символів залишилось"
   }
 }

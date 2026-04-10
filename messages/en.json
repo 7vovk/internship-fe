@@ -84,7 +84,12 @@
     "created": "Account has been created successfully.",
     "required": "The field is required.",
     "userDescription": "User notes or description",
-    "userDescriptionPlaceholder": "Type description here"
+    "userDescriptionPlaceholder": "Type description here",
+    "profilePicture": "Profile picture",
+    "urlError": "Image upload error",
+    "chooseImage": "Choose image",
+    "changeImage": "Change image",
+    "chooseImageFile": "Please choose an image file."
   },
   "Buttons": {
     "showDialog": "Show Dialog",

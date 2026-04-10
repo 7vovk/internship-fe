@@ -11,6 +11,8 @@ export interface User {
   lastName: string;
   roles: string[];
   updateDate: string;
+  profilePicture?: string;
+  profilePictureUrl?: string;
   companies?: Company[];
   invitedTo?: InvitedTo[];
   companyAdministration?: CompanyAdministration[];

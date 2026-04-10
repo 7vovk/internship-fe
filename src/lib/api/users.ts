@@ -80,3 +80,16 @@ export async function handleCurrentUserDelete(): Promise<
     throw error as ApiError;
   }
 }
+
+export async function handleUserPictureUpdate(
+  body: FormData,
+): Promise<ApiResult<{ user: User }>> {
+  try {
+    return await api.put<ApiResult<{ user: User }>>(
+      "/user/profile-picture",
+      body,
+    );
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
