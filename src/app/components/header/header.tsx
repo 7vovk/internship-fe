@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site.config";
-import { Container } from "@/components/ui/container";
+import { Container, Logo } from "@/components/shared/ui";
 import { ClientLink } from "@/app/components/client/client-link";
 import { CfgNavigation } from "@/config/site.interface";
 import { getTranslations } from "next-intl/server";
 import { LanguageSelect } from "@/app/components/client/language-select";
 import { AuthButtons } from "@/app/components/header/auth-buttons";
-import { Logo } from "@/components/ui/logo";
 
 export async function Header() {
   const layout = await getTranslations("Layout");

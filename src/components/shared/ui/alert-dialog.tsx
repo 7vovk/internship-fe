@@ -4,7 +4,7 @@ import * as React from "react";
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Button } from "./button";
 
 const AlertDialogActionsContext =
   React.createContext<React.RefObject<AlertDialogPrimitive.Root.Actions | null> | null>(

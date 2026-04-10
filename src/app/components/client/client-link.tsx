@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import type { CfgNavigation } from "@/config/site.interface";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button-variants";
+import { buttonVariants } from "@/components/shared/ui";
 import { useTranslations } from "next-intl";
 
 type ClientLinkProps = {

@@ -1,7 +1,7 @@
 import { PageTemplate } from "@/components/shared/page-template";
 import { siteConfig } from "@/config/site.config";
 import { getTranslations } from "next-intl/server";
-import { HomeConfirm } from "@/app/components/client";
+import { HomeConfirm } from "@/app/components/client/home-confirm";
 
 export default async function HomePage() {
   const tHomePage = await getTranslations(siteConfig.pages.home.translation);

@@ -10,13 +10,10 @@ export default async function HealthPage() {
   const isSuccess = healthCheck.statusCode === 200;
 
   return (
-    <PageTemplate
-      translator={tHealth}
-      extraActions={
-        <h3 className={isSuccess ? "text-success" : "text-destructive"}>
-          {response}
-        </h3>
-      }
-    />
+    <PageTemplate translator={tHealth}>
+      <h3 className={isSuccess ? "text-success" : "text-destructive"}>
+        {response}
+      </h3>
+    </PageTemplate>
   );
 }

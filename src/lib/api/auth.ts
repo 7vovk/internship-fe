@@ -1,5 +1,5 @@
 import { api, ApiError } from "./client";
-import { ApiResult, LoginRequest, User } from "./interfaces";
+import { ApiResult, LoginRequest, User } from "../interfaces";
 
 export async function handleLogin(
   body: LoginRequest,

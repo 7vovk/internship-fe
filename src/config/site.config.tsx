@@ -17,7 +17,7 @@ export const siteConfig: SiteConfig = {
       translation: "HomePage",
       actions: [
         { href: Routes.ABOUT, label: "about" },
-        { href: Routes.USERS, label: "view_users", variant: "outline" },
+        { href: Routes.USERS, label: "viewUsers", variant: "outline" },
       ],
     },
     about: { translation: "About" },

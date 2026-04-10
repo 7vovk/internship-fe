@@ -1,24 +1,17 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
-import { Logo } from "@/components/ui/logo";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { TextLink } from "@/components/ui/text-link";
-import { toast } from "sonner";
-import { createAccountAction } from "@/components/forms/register.server-action";
+import { Button, Card, CardContent, Logo, TextLink } from "../shared/ui";
+import { createAccountAction } from "./register.server-action";
 import { useAuth } from "@/hooks/useAuth.hook";
 import { parseErrorMessage } from "@/lib/errors";
-import {
-  getRegisterPayloadSchema,
-  getRegisterSchema,
-} from "@/components/forms/auth.schema";
+import { getRegisterPayloadSchema, getRegisterSchema } from "./auth.schema";
+import FormController from "./form-controller";
+import { errorToaster } from "@/app/utils";
 
 export default function RegisterForm() {
   const { submitLogin } = useAuth();
@@ -45,7 +38,7 @@ export default function RegisterForm() {
 
       const created = await createAccountAction(payload);
       if (!created.ok) {
-        toast.error(created.message, { position: "top-right" });
+        errorToaster(created.message);
         return;
       }
 
@@ -55,8 +48,7 @@ export default function RegisterForm() {
         showCreateToast: true,
       });
     } catch (error) {
-      const message = parseErrorMessage(error);
-      toast.error(message, { position: "top-right" });
+      errorToaster(parseErrorMessage(error));
     }
   }
 
@@ -69,7 +61,7 @@ export default function RegisterForm() {
             aria-hidden={true}
           />
           <h3 className="text-balance mt-2 text-center text-lg font-bold text-foreground dark:text-foreground">
-            {tAuth("create_title")}
+            {tAuth("createTitle")}
           </h3>
         </div>
 
@@ -80,116 +72,46 @@ export default function RegisterForm() {
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-4"
             >
-              <Controller
+              <FormController
+                control={form.control}
                 name="firstName"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>
-                      {tAuth("first_name")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder={tAuth("first_name_placeholder")}
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
+                label={tAuth("firstName")}
+                placeholder={tAuth("firstNamePlaceholder")}
+                autoComplete="off"
               />
 
-              <Controller
+              <FormController
+                control={form.control}
                 name="lastName"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>
-                      {tAuth("last_name")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder={tAuth("last_name_placeholder")}
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
+                label={tAuth("lastName")}
+                placeholder={tAuth("lastNamePlaceholder")}
+                autoComplete="off"
               />
 
-              <Controller
+              <FormController
+                control={form.control}
                 name="email"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>
-                      {tAuth("email")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      aria-invalid={fieldState.invalid}
-                      placeholder={tAuth("email_placeholder")}
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
+                label={tAuth("email")}
+                placeholder={tAuth("emailPlaceholder")}
+                autoComplete="off"
               />
 
-              <Controller
+              <FormController
+                control={form.control}
                 name="password"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>
-                      {tAuth("password")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      type="password"
-                      aria-invalid={fieldState.invalid}
-                      placeholder="**************"
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
+                type="password"
+                label={tAuth("password")}
+                placeholder={"**************"}
+                autoComplete="off"
               />
 
-              <Controller
-                name="confirmPassword"
+              <FormController
                 control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>
-                      {tAuth("password_confirm")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      type="password"
-                      aria-invalid={fieldState.invalid}
-                      placeholder="**************"
-                      autoComplete="off"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
+                name="confirmPassword"
+                type="password"
+                label={tAuth("passwordConfirm")}
+                placeholder={"**************"}
+                autoComplete="off"
               />
 
               <Button
@@ -204,9 +126,9 @@ export default function RegisterForm() {
         </Card>
 
         <TextLink
-          text={tAuth("already_have")}
+          text={tAuth("alreadyHave")}
           link={"/login"}
-          linkText={tAuth("sign_in")}
+          linkText={tAuth("signIn")}
         />
       </div>
     </div>

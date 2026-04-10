@@ -5,9 +5,10 @@ import { handleLogin, handleLogout } from "@/lib/api/auth";
 import { Routes } from "@/config/site.enums";
 import { update } from "@/lib/features/auth/auth-slice";
 import { useAppDispatch } from "@/lib/store/hooks";
-import { LoginRequest } from "@/lib/api/interfaces";
+import { LoginRequest } from "@/lib/interfaces";
 import { parseErrorMessage } from "@/lib/errors";
 import { toast } from "sonner";
+import { errorToaster } from "@/app/utils";
 
 export type AuthType = "auth0" | "jwt";
 
@@ -67,8 +68,7 @@ export function useAuth() {
         }
       }
     } catch (error) {
-      const message = parseErrorMessage(error);
-      toast.error(message, { position: "top-right" });
+      errorToaster(parseErrorMessage(error));
     }
   }
 

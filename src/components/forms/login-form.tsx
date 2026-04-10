@@ -1,19 +1,15 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
 import * as z from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { GoogleIcon } from "../shared/google.icon";
-import { TextLink } from "@/components/ui/text-link";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button, Card, CardContent, Separator, TextLink } from "../shared/ui";
 import { useAuth } from "@/hooks/useAuth.hook";
-import { getLoginSchema } from "@/components/forms/auth.schema";
+import { getLoginSchema } from "./auth.schema";
+import FormController from "./form-controller";
 
 export default function LoginForm() {
   const { submitLogin } = useAuth();
@@ -55,48 +51,20 @@ export default function LoginForm() {
                 )}
                 className="mt-6 space-y-4"
               >
-                <Controller
+                <FormController
+                  control={form.control}
                   name="email"
-                  control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        {tAuth("email")}
-                      </FieldLabel>
-                      <Input
-                        {...field}
-                        id={field.name}
-                        aria-invalid={fieldState.invalid}
-                        placeholder={tAuth("email_placeholder")}
-                        autoComplete="off"
-                      />
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
+                  label={tAuth("email")}
+                  placeholder={tAuth("emailPlaceholder")}
+                  autoComplete="off"
                 />
-                <Controller
-                  name="password"
+                <FormController
                   control={form.control}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        {tAuth("password")}
-                      </FieldLabel>
-                      <Input
-                        {...field}
-                        id={field.name}
-                        type="password"
-                        aria-invalid={fieldState.invalid}
-                        placeholder="**************"
-                        autoComplete="off"
-                      />
-                      {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
+                  name="password"
+                  type="password"
+                  label={tAuth("password")}
+                  placeholder={"**************"}
+                  autoComplete="off"
                 />
 
                 <Button
@@ -104,7 +72,7 @@ export default function LoginForm() {
                   form="login-form"
                   className="w-full py-2 font-medium"
                 >
-                  {tAuth("sign_in")}
+                  {tAuth("signIn")}
                 </Button>
               </form>
             </CardContent>
@@ -116,7 +84,7 @@ export default function LoginForm() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                {tAuth("or_with")}
+                {tAuth("orWith")}
               </span>
             </div>
           </div>
@@ -128,11 +96,11 @@ export default function LoginForm() {
             onClick={handleSignInWithGoogle}
           >
             <GoogleIcon className="size-5" aria-hidden={true} />
-            <span className="text-sm font-medium">{tAuth("with_google")}</span>
+            <span className="text-sm font-medium">{tAuth("withGoogle")}</span>
           </Button>
 
           <p className="text-pretty mt-4 text-xs text-muted-foreground dark:text-muted-foreground">
-            {tAuth("you_agree")}{" "}
+            {tAuth("youAgree")}{" "}
             <a href="#" className="underline underline-offset-4">
               {tAuth("terms")}
             </a>{" "}
@@ -144,9 +112,9 @@ export default function LoginForm() {
           </p>
 
           <TextLink
-            text={tAuth("create_new")}
+            text={tAuth("createNew")}
             link={"/create"}
-            linkText={tAuth("create_title")}
+            linkText={tAuth("createTitle")}
             className={"lowercase"}
           />
         </div>

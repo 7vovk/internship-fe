@@ -14,7 +14,7 @@
     "description": "Welcome! Some welcome text for users.",
     "greeting": "Greeting: Welcome!",
     "about": "About the project.",
-    "view_users": "View users."
+    "viewUsers": "View users."
   },
   "About": {
     "title": "About",
@@ -30,7 +30,8 @@
   },
   "Profile": {
     "title": "Profile",
-    "description": "The page with the detailed information related to the current user profile."
+    "description": "The page with the detailed information related to the current user profile.",
+    "goTo": "Go to profile"
   },
   "Users": {
     "title": "Users",
@@ -39,7 +40,16 @@
   "User": {
     "title": "User ID:",
     "description": "The page with the detailed information related to a specific user.",
-    "modal_description": "Some detailed information about the current user - "
+    "modalDescription": "Some detailed information about the current user - ",
+    "noRole": "No role",
+    "user": "User",
+    "noUsers": "No users found.",
+    "email": "Email",
+    "roles": "Roles",
+    "removeAccount": "Your account will be permanently removed.",
+    "editProfile": "Edit profile",
+    "editDescription": "Make changes to your profile here. Click save when you're done.",
+    "editPass": "Please enter a new password."
   },
   "Health": {
     "title": "Health check",
@@ -47,39 +57,67 @@
   },
   "Auth": {
     "title": "Login & Signup",
-    "create_title": "Create a new account",
+    "createTitle": "Create a new account",
     "create": "Create",
     "description": "Log in or create account.",
     "email": "Email",
-    "email_error": "Enter a valid email address.",
-    "email_placeholder": "Enter your email here",
-    "first_name": "First name",
-    "first_name_placeholder": "Enter your first name here",
-    "last_name": "Last name",
-    "last_name_placeholder": "Enter your last name here",
+    "emailError": "Enter a valid email address.",
+    "emailPlaceholder": "Enter your email here",
+    "firstName": "First name",
+    "firstNamePlaceholder": "Enter your first name here",
+    "lastName": "Last name",
+    "lastNamePlaceholder": "Enter your last name here",
     "password": "Password",
-    "password_error": "The password must be at least 6 characters.",
-    "password_confirm": "Confirm password",
-    "confirm_password_error": "The passwords did not match.",
-    "sign_in": "Sign in",
-    "or_with": "or with",
-    "with_google": "Sign in with Google",
-    "you_agree": "By signing in, you agree to our",
+    "passwordError": "The password must be at least 6 characters.",
+    "passwordConfirm": "Confirm password",
+    "confirmPasswordError": "The passwords did not match.",
+    "signIn": "Sign in",
+    "orWith": "or with",
+    "withGoogle": "Sign in with Google",
+    "youAgree": "By signing in, you agree to our",
     "terms": "terms of service",
     "and": "and",
     "privacy": "privacy policy",
     "logout": "Logout",
-    "already_have": "Already have an account?",
-    "create_new": "You can",
+    "alreadyHave": "Already have an account?",
+    "createNew": "You can",
     "created": "Account has been created successfully.",
-    "required": "The field is required."
+    "required": "The field is required.",
+    "userDescription": "User notes or description",
+    "userDescriptionPlaceholder": "Type description here"
   },
   "Buttons": {
-    "show_dialog": "Show Dialog",
-    "open_modal": "Open modal",
-    "confirm_action": "Confirm action?",
+    "showDialog": "Show Dialog",
+    "openModal": "Open modal",
+    "confirmAction": "Confirm action?",
     "confirm": "Confirm",
     "cancel": "Cancel",
-    "ok": "OK"
+    "ok": "OK",
+    "sure": "Are you sure?",
+    "deleteAccount": "Delete account",
+    "edit": "Edit",
+    "saveChanges": "Save changes",
+    "close": "Close",
+    "editPassword": "Update password"
+  },
+  "Pagination": {
+    "rowsPerPage": "Rows per page",
+    "showing": "Showing ",
+    "to": "to ",
+    "of": "of ",
+    "users": "users"
+  },
+  "Response": {
+    "id": "Identifier",
+    "createDate": "Created date",
+    "updateDate": "Updated date",
+    "email": "Email",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "roles": "Roles",
+    "description": "User description"
+  },
+  "General": {
+    "charsLeft": "characters left"
   }
 }

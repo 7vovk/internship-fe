@@ -1,5 +1,5 @@
 import { api, ApiError } from "./client";
-import { ApiResult, Pagination, User } from "./interfaces";
+import { ApiResult, Pagination, User, UserUpdatePayload } from "../interfaces";
 
 export async function handleAccountCreate(body: {
   firstName: string;
@@ -23,10 +23,15 @@ export async function getMeInfo(): Promise<User> {
   }
 }
 
-export async function getAllUsers(): Promise<Pagination<User[]>> {
+export async function getAllUsers(params?: {
+  page?: number;
+  limit?: number;
+}): Promise<Pagination<User[]>> {
   try {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 10;
     const apiRes = await api.get<ApiResult<Pagination<User[]>>>(
-      "/users?limit=50&page=1",
+      `/users?limit=${limit}&page=${page}`,
     );
     return apiRes.result;
   } catch (error) {
@@ -56,11 +61,9 @@ export async function getUserInfoById(
   }
 }
 
-export async function handleCurrentUserUpdate(body: {
-  password: string;
-  firstName: string;
-  lastName: string;
-}): Promise<ApiResult<{ user: User }>> {
+export async function handleCurrentUserUpdate(
+  body: UserUpdatePayload,
+): Promise<ApiResult<{ user: User }>> {
   try {
     return await api.put<ApiResult<{ user: User }>>("/user", body);
   } catch (error) {

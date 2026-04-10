@@ -2,9 +2,9 @@ import React from "react";
 import StoreProvider from "@/lib/store/store-provider";
 import { NextIntlClientProvider } from "next-intl";
 import { Header } from "@/app/components";
-import { Toaster } from "@/components/ui/sonner";
 import { headers } from "next/headers";
 import { AuthHeader } from "@/lib/enums/auth.enums";
+import { Toaster, TooltipProvider } from "@/components/shared/ui";
 
 export default async function AppProvider({
   children,
@@ -30,9 +30,11 @@ export default async function AppProvider({
       }}
     >
       <NextIntlClientProvider locale={locale}>
-        <Header />
-        {children}
-        <Toaster />
+        <TooltipProvider>
+          <Header />
+          {children}
+          <Toaster />
+        </TooltipProvider>
       </NextIntlClientProvider>
     </StoreProvider>
   );

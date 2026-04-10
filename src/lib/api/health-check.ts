@@ -1,5 +1,5 @@
 import { api, ApiError } from "./client";
-import { HealthStatus } from "./interfaces";
+import { HealthStatus } from "../interfaces";
 
 export async function checkHealth(): Promise<HealthStatus> {
   try {

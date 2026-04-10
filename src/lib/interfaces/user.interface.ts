@@ -15,3 +15,15 @@ export interface User {
   invitedTo?: InvitedTo[];
   companyAdministration?: CompanyAdministration[];
 }
+
+export type UserUpdatePayload = Partial<{
+  password: string;
+  description: string;
+  firstName: string;
+  lastName: string;
+}>;
+
+export type UserActionResult = {
+  ok: boolean;
+  message: string;
+};

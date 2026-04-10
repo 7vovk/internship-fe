@@ -5,7 +5,7 @@ import React from "react";
 export async function generateMetadata(): Promise<Metadata> {
   const tAuth = await getTranslations("Auth");
   return {
-    title: tAuth("create_title"),
+    title: tAuth("createTitle"),
     description: tAuth("description"),
   };
 }

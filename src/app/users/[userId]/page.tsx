@@ -17,8 +17,8 @@ export default async function UserPage({
       title={`${tUser("title")} ${userId}`}
       extraActions={
         <ConfirmationModal
-          buttonName={"open_modal"}
-          description={`${tUser("modal_description")} ${userId}`}
+          buttonName={"openModal"}
+          description={`${tUser("modalDescription")} ${userId}`}
         />
       }
     />

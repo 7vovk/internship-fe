@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { useAuth, type AuthType } from "@/hooks/useAuth.hook";
+import { Button } from "@/components/shared/ui";
+import { type AuthType, useAuth } from "@/hooks/useAuth.hook";
 
 type SessionLogoutButtonProps = {
   label: string;

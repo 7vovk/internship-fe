@@ -38,8 +38,13 @@ function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
 
 function AvatarFallback({
   className,
+  firstName = "",
+  lastName = "",
   ...props
-}: AvatarPrimitive.Fallback.Props) {
+}: AvatarPrimitive.Fallback.Props & {
+  firstName: string;
+  lastName: string;
+}) {
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
@@ -48,7 +53,10 @@ function AvatarFallback({
         className,
       )}
       {...props}
-    />
+    >
+      {firstName.charAt(0).toUpperCase()}
+      {lastName.charAt(0).toUpperCase()}
+    </AvatarPrimitive.Fallback>
   );
 }
 

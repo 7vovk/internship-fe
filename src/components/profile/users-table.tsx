@@ -1,29 +1,49 @@
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+} from "../shared/ui";
 import { getAllUsers } from "@/lib/api/users";
-import { User, Pagination } from "@/lib/api/interfaces";
+import { Pagination, User } from "@/lib/interfaces";
 import { Routes } from "@/config/site.enums";
+import { getTranslations } from "next-intl/server";
+import { siteConfig } from "@/config/site.config";
+import TablePagination from "../shared/table-pagination";
 
-export default async function UsersTable() {
-  const users: Pagination<User[]> = await getAllUsers();
+type UsersTableProps = {
+  page?: number;
+  limit?: number;
+};
+
+export default async function UsersTable({
+  page = 1,
+  limit = 10,
+}: UsersTableProps) {
+  const users: Pagination<User[]> = await getAllUsers({ page, limit });
+  const tUser = await getTranslations(siteConfig.pages.user.translation);
 
   return (
     <div className="rounded-lg border bg-card w-full">
       <Table>
         <TableHeader>
           <TableRow className="border-b hover:bg-transparent">
-            <TableHead className="h-12 px-4 font-medium">User</TableHead>
-            <TableHead className="h-12 px-4 font-medium">Email</TableHead>
-            <TableHead className="h-12 px-4 font-medium">Roles</TableHead>
+            <TableHead className="h-12 px-4 font-medium">
+              {tUser("user")}
+            </TableHead>
+            <TableHead className="h-12 px-4 font-medium">
+              {tUser("email")}
+            </TableHead>
+            <TableHead className="h-12 px-4 font-medium">
+              {tUser("roles")}
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -33,7 +53,7 @@ export default async function UsersTable() {
                 key={person.email}
                 className="group relative cursor-pointer hover:bg-muted/50"
               >
-                <TableCell className="relative h-14 px-4 font-medium">
+                <TableCell className="h-14 px-4 font-medium">
                   <Link
                     href={`${Routes.USERS}/${person.id}`}
                     className="absolute inset-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -42,16 +62,17 @@ export default async function UsersTable() {
                   <div className="relative z-0 flex items-center gap-3">
                     <Avatar className="h-9 w-9">
                       <AvatarImage alt={person.firstName} />
-                      <AvatarFallback>
-                        {person.firstName.charAt(0)}
-                      </AvatarFallback>
+                      <AvatarFallback
+                        firstName={person.firstName}
+                        lastName={person.lastName}
+                      />
                     </Avatar>
                     <span>
                       {person.firstName} {person.lastName}
                     </span>
                   </div>
                 </TableCell>
-                <TableCell className="h-14 px-4 text-sm text-muted-foreground">
+                <TableCell className="text-left h-14 px-4 text-sm text-muted-foreground">
                   {person.email}
                 </TableCell>
                 <TableCell className="h-14 px-4">
@@ -63,7 +84,7 @@ export default async function UsersTable() {
                         </Badge>
                       ))
                     ) : (
-                      <Badge variant="outline">No role</Badge>
+                      <Badge variant="outline">{tUser("noRole")}</Badge>
                     )}
                   </div>
                 </TableCell>
@@ -75,12 +96,20 @@ export default async function UsersTable() {
                 colSpan={3}
                 className="h-24 text-center text-muted-foreground"
               >
-                No users found.
+                {tUser("noUsers")}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
+      <TablePagination
+        page={users.currentPage}
+        limit={users.itemsPerPage}
+        totalItems={users.totalItems}
+        totalPages={users.totalPages}
+        prevPage={users.prevPage}
+        nextPage={users.nextPage}
+      />
     </div>
   );
 }

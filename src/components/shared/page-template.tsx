@@ -2,13 +2,13 @@ import Link from "next/link";
 import * as React from "react";
 
 import type { TemplateAction } from "@/config/site.interface";
-import { buttonVariants } from "@/components/ui/button-variants";
-import { Container } from "@/components/ui/container";
 import {
+  buttonVariants,
+  Container,
   TypographyH1,
   TypographyLead,
   TypographyMuted,
-} from "@/components/ui/typography";
+} from "@/components/shared/ui";
 import { cn } from "@/lib/utils";
 import { _Translator } from "next-intl";
 

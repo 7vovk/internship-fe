@@ -3,7 +3,7 @@ export interface Pagination<T = []> {
   totalPages: number;
   totalItems: number;
   itemsPerPage: number;
-  nextPage: number;
+  nextPage: null | number;
   prevPage: null | number;
   currentPage: number;
 }
