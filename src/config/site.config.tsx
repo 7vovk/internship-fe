@@ -1,22 +1,23 @@
 import { SiteConfig } from "./site.interface";
+import { Routes } from "@/config/site.enums";
 
 export const siteConfig: SiteConfig = {
   title: "title",
   greeting: "greeting",
   navigation: [
-    { href: "/", label: "home", public: true },
-    { href: "/health", label: "health", public: true },
-    { href: "/about", label: "about", public: true },
-    { href: "/companies", label: "companies", public: false },
-    { href: "/profile", label: "profile", public: false },
-    { href: "/users", label: "users", public: false },
+    { href: Routes.HOME, label: "home", public: true },
+    { href: Routes.HEALTH, label: "health", public: true },
+    { href: Routes.ABOUT, label: "about", public: true },
+    { href: Routes.COMPANIES, label: "companies", public: false },
+    { href: Routes.PROFILE, label: "profile", public: false },
+    { href: Routes.USERS, label: "users", public: false },
   ],
   pages: {
     home: {
       translation: "HomePage",
       actions: [
-        { href: "/about", label: "about" },
-        { href: "/users", label: "view_users", variant: "outline" },
+        { href: Routes.ABOUT, label: "about" },
+        { href: Routes.USERS, label: "viewUsers", variant: "outline" },
       ],
     },
     about: { translation: "About" },

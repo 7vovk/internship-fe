@@ -3,53 +3,54 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
+  Button,
+} from "@/components/shared/ui";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
-
-type ConfirmationModalProps = {
-  buttonName?: string;
-  title?: string;
-  description?: string;
-  cancelBtn?: string;
-  okBtn?: string;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-};
+import { HeaderWithIcon } from "@/app/components/modal/header-with-icon";
+import { ConfirmationModalProps } from "@/lib/interfaces";
 
 export function ConfirmationModal({
-  buttonName = "show_dialog",
-  title = "confirm_action",
+  buttonName = "showDialog",
+  title = "confirmAction",
   description,
   cancelBtn = "cancel",
   okBtn = "ok",
+  btnClasses,
+  btnOkClasses,
   onConfirm,
   onCancel,
+  icon,
+  children,
 }: ConfirmationModalProps) {
-  const button = useTranslations(siteConfig.buttons.translation);
+  const tButton = useTranslations(siteConfig.buttons.translation);
 
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        render={<Button variant="outline">{button(buttonName)}</Button>}
+        render={
+          <Button className={btnClasses} variant="outline">
+            {tButton(buttonName)}
+          </Button>
+        }
       />
       <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{button(title)}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
-        </AlertDialogHeader>
+        <HeaderWithIcon
+          icon={icon}
+          title={tButton(title)}
+          description={description}
+        />
+
+        {children}
+
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onCancel}>
-            {button(cancelBtn)}
+            {tButton(cancelBtn)}
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>
-            {button(okBtn)}
+          <AlertDialogAction className={btnOkClasses} onClick={onConfirm}>
+            {tButton(okBtn)}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -1,5 +1,5 @@
 import type { VariantProps } from "class-variance-authority";
-import type { buttonVariants } from "@/components/ui/button-variants";
+import type { buttonVariants } from "@/components/shared/ui";
 import { standardPageKeys } from "./site.constants";
 
 export interface SiteConfig {

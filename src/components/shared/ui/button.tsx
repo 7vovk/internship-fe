@@ -1,11 +1,6 @@
-"use client";
-
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 
-import {
-  type ButtonVariants,
-  buttonVariants,
-} from "@/components/ui/button-variants";
+import { type ButtonVariants, buttonVariants } from "./button-variants";
 import { cn } from "@/lib/utils";
 
 function Button({

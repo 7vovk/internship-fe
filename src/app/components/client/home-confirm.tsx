@@ -18,8 +18,8 @@ export function HomeConfirm() {
 
   return (
     <ConfirmationModal
-      buttonName="open_modal"
-      title="confirm_action"
+      buttonName="openModal"
+      title="confirmAction"
       description={testText}
       cancelBtn="cancel"
       okBtn="confirm"

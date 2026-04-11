@@ -1,14 +1,17 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { _Translator } from "next-intl";
+import { cache } from "react";
+import type { User } from "@/lib/interfaces";
+import { getMeInfo } from "@/lib/api/users";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function translate(
-  translator: _Translator<Record<string, string>>,
-  text: string,
-): string {
-  return translator(text);
-}
+export const getCurrentUserCached = cache(async (): Promise<User | null> => {
+  try {
+    return await getMeInfo();
+  } catch {
+    return null;
+  }
+});

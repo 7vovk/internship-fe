@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import type { CfgNavigation } from "@/config/site.interface";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button-variants";
+import { buttonVariants } from "@/components/shared/ui";
 import { useTranslations } from "next-intl";
 
 type ClientLinkProps = {
@@ -14,7 +14,7 @@ type ClientLinkProps = {
 
 export function ClientLink({ item }: ClientLinkProps) {
   const pathname = usePathname();
-  const layout = useTranslations("Layout");
+  const tLayout = useTranslations("Layout");
 
   return (
     <Link
@@ -30,7 +30,7 @@ export function ClientLink({ item }: ClientLinkProps) {
       )}
       href={item.href}
     >
-      {layout(item.label)}
+      {tLayout(item.label)}
     </Link>
   );
 }

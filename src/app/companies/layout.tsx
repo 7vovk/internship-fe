@@ -3,10 +3,10 @@ import { getTranslations } from "next-intl/server";
 import React from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const companies = await getTranslations("Companies");
+  const tCompanies = await getTranslations("Companies");
   return {
-    title: companies("title"),
-    description: companies("description"),
+    title: tCompanies("title"),
+    description: tCompanies("description"),
   };
 }
 
@@ -15,5 +15,5 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return children;
 }
