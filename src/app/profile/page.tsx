@@ -23,7 +23,7 @@ export default async function UserProfilePage() {
 
   return (
     <PageTemplate translator={tProfile}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {userDataMap.map((field) => {
           return (
             <ItemTemplate
@@ -36,7 +36,7 @@ export default async function UserProfilePage() {
         <div className="xl:col-start-4">
           <ProfileEdit authType={authType} currentUser={currentUser} />
         </div>
-      </div>
+      </ul>
     </PageTemplate>
   );
 }

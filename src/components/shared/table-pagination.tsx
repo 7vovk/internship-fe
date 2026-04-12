@@ -15,6 +15,7 @@ import {
 } from "@/components/shared/ui/pagination";
 import { Label } from "@/components/shared/ui";
 import { getTranslations } from "next-intl/server";
+import { cn } from "@/lib/utils";
 
 type TablePaginationProps = {
   page: number;
@@ -151,7 +152,10 @@ const TablePagination = async ({
               }
               aria-label="Go to last page"
               size="icon"
-              className={`rounded-md ${isNextDisabled ? "pointer-events-none opacity-50" : ""}`}
+              className={cn(
+                "rounded-md",
+                isNextDisabled && "pointer-events-none opacity-50",
+              )}
               aria-disabled={isNextDisabled}
               tabIndex={isNextDisabled ? -1 : undefined}
             >

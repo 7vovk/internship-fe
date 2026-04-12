@@ -1,7 +1,7 @@
 import React from "react";
 import StoreProvider from "@/lib/store/store-provider";
 import { NextIntlClientProvider } from "next-intl";
-import { Header } from "@/app/components";
+import { Header } from "@/app/components/header/header";
 import { headers } from "next/headers";
 import { AuthHeader } from "@/lib/enums/auth.enums";
 import { Toaster, TooltipProvider } from "@/components/shared/ui";

@@ -36,7 +36,7 @@ export default function RegisterForm() {
       const formData = formSchema.parse(form.getValues());
       const payload = registerPayloadSchema.parse(formData);
 
-      const created = await createAccountAction(payload);
+      const created = await createAccountAction(payload, tAuth);
       if (!created.ok) {
         errorToaster(created.message);
         return;
@@ -101,7 +101,7 @@ export default function RegisterForm() {
                 name="password"
                 type="password"
                 label={tAuth("password")}
-                placeholder={"**************"}
+                placeholder="**************"
                 autoComplete="off"
               />
 
@@ -110,7 +110,7 @@ export default function RegisterForm() {
                 name="confirmPassword"
                 type="password"
                 label={tAuth("passwordConfirm")}
-                placeholder={"**************"}
+                placeholder="**************"
                 autoComplete="off"
               />
 

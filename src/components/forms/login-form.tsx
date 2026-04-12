@@ -63,7 +63,7 @@ export default function LoginForm() {
                   name="password"
                   type="password"
                   label={tAuth("password")}
-                  placeholder={"**************"}
+                  placeholder="**************"
                   autoComplete="off"
                 />
 

@@ -8,13 +8,13 @@ export function ItemTemplate({
   description: string;
 }) {
   return (
-    <div className="flex w-full max-w-md flex-col gap-6">
+    <li className="flex w-full max-w-md flex-col gap-6">
       <Item>
         <ItemContent>
           <ItemTitle>{title}</ItemTitle>
           <ItemDescription>{description}</ItemDescription>
         </ItemContent>
       </Item>
-    </div>
+    </li>
   );
 }
