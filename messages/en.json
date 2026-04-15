@@ -31,7 +31,8 @@
     "open": "Open company «{name}»",
     "company": "Company",
     "isVisibleForAll": "Company visible for everyone",
-    "noCompanies": "No user companies found"
+    "noCompanies": "No user companies found",
+    "userCompanies": "User companies"
   },
   "Company": {
     "title": "Company information - {name}",
@@ -46,7 +47,9 @@
     "cantDelete": "Unable to delete the company.",
     "cantReceiveData": "Unable to retrieve the information about selected company. Please try again later.",
     "invite": "Invite new users to the company.",
-    "successInvitation": "Invitation sent successfully"
+    "successInvitation": "Invitation sent successfully",
+    "invitedUsers": "Invited users",
+    "userRequests": "Requests to join"
   },
   "Profile": {
     "title": "Profile",
@@ -179,6 +182,7 @@
     "websiteError": "Please enter the website in correct format.",
     "phoneError": "Please enter the phone in correct format.",
     "actions": "Actions",
-    "addMore": "Add more"
+    "addMore": "Add more",
+    "noRecords": "No records found"
   }
 }

@@ -1,4 +1,4 @@
-import { Badge, TableBody, TableCell, TableRow } from "@/components/shared/ui";
+import { TableBody, TableCell, TableRow } from "@/components/shared/ui";
 import { getTranslations } from "next-intl/server";
 import { siteConfig } from "@/config/site.config";
 import { Company, User } from "@/lib/interfaces";
@@ -11,7 +11,6 @@ import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 type CompaniesTableBodyProps = {
   rows: Array<Company>;
   currentUser: User | null;
-  showRoleBadges: boolean;
   showActions?: ActionButtons[];
   backHref?: string;
 };
@@ -19,7 +18,6 @@ type CompaniesTableBodyProps = {
 export async function CompaniesTableBody({
   rows,
   currentUser,
-  showRoleBadges,
   showActions,
   backHref,
 }: CompaniesTableBodyProps) {
@@ -79,22 +77,6 @@ export async function CompaniesTableBody({
                   </div>
                 </TableCell>
               ))}
-              {showRoleBadges && (
-                <TableCell className="h-14 px-4 font-medium">
-                  {"roles" in company && company.roles.length > 0 ? (
-                    <div className="relative z-0 flex items-center gap-2">
-                      {company.roles.map((role) => (
-                        <Badge
-                          key={`${company.id}-${role}`}
-                          variant="secondary"
-                        >
-                          {role}
-                        </Badge>
-                      ))}
-                    </div>
-                  ) : null}
-                </TableCell>
-              )}
 
               <TableCell className="h-14 px-4 font-medium">
                 <div className="relative z-20 flex items-center gap-3">

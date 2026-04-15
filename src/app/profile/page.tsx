@@ -13,14 +13,14 @@ import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 
 export default async function UserProfilePage() {
   const tProfile = await getTranslations(siteConfig.pages.profile.translation);
-  const tResponse = await getTranslations("General");
+  const tGeneral = await getTranslations("General");
   const requestHeaders = await headers();
   const isJwtAuthenticated =
     requestHeaders.get(AuthHeader.AUTHENTICATED)?.toLowerCase() === "true";
   const session = await auth0.getSession();
   const authType = session?.user && !isJwtAuthenticated ? "auth0" : "jwt";
   const currentUser = await getCurrentUserCached();
-  const userDataMap = parseUserData(currentUser, tResponse);
+  const userDataMap = parseUserData(currentUser, tGeneral);
 
   return (
     <PageTemplate translator={tProfile}>
@@ -38,11 +38,7 @@ export default async function UserProfilePage() {
           <ProfileEdit authType={authType} currentUser={currentUser} />
         </div>
       </ul>
-      <CompaniesTable
-        showActions={[ActionButtons.INVITE]}
-        showRoleBadges
-        isProfile
-      />
+      <CompaniesTable showActions={[ActionButtons.INVITE]} isProfile />
     </PageTemplate>
   );
 }

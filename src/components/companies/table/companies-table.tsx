@@ -7,12 +7,12 @@ import { getCurrentUserCached } from "@/lib/utils";
 import { CompaniesTableHeader } from "@/components/companies/table/companies-table-header";
 import { CompaniesTableBody } from "@/components/companies/table/companies-table-body";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
+import { getTranslations } from "next-intl/server";
 
 type CompaniesTableProps = Partial<{
   page: number;
   limit: number;
   isProfile: boolean;
-  showRoleBadges: boolean;
   showActions: ActionButtons[];
 }>;
 
@@ -20,10 +20,10 @@ export default async function CompaniesTable({
   page = 1,
   limit = 10,
   isProfile = false,
-  showRoleBadges = false,
   showActions,
 }: CompaniesTableProps) {
   const currentUser = await getCurrentUserCached();
+  const t = await getTranslations("Companies");
 
   const companies = isProfile
     ? await getUserCompanies({ page, limit })
@@ -32,16 +32,15 @@ export default async function CompaniesTable({
 
   return (
     <div className="rounded-lg border bg-card w-full">
+      <div className="border-b px-4 py-3">
+        <h2 className="text-base font-semibold">{t("userCompanies")}</h2>
+      </div>
       <Table>
-        <CompaniesTableHeader
-          showRoleBadges={showRoleBadges}
-          showActions={showActions}
-        />
+        <CompaniesTableHeader showActions={showActions} />
         <CompaniesTableBody
           rows={rows}
           showActions={showActions}
           currentUser={currentUser}
-          showRoleBadges={showRoleBadges}
           backHref={Routes.PROFILE}
         />
       </Table>

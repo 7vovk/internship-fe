@@ -4,12 +4,10 @@ import { siteConfig } from "@/config/site.config";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 
 type CompaniesTableHeaderProps = {
-  showRoleBadges: boolean;
   showActions?: ActionButtons[];
 };
 
 export async function CompaniesTableHeader({
-  showRoleBadges,
   showActions,
 }: CompaniesTableHeaderProps) {
   const tCompanies = await getTranslations(
@@ -23,12 +21,10 @@ export async function CompaniesTableHeader({
     "address",
     "phone",
   ];
-  const badgesData: string[] = showRoleBadges ? ["roles"] : [];
   const actionsData: string[] = !!showActions?.length ? ["actions"] : [];
   const headerGeneralData: string[] = [
     "createDate",
     "updateDate",
-    ...badgesData,
     ...actionsData,
   ];
 

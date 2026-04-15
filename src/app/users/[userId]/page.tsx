@@ -20,10 +20,10 @@ export default async function UserPage({
   const resolvedSearchParams = await searchParams;
   const tUser = await getTranslations(siteConfig.pages.user.translation);
   const selectedUser: User = await getUserById(userId);
-  const tResponse = await getTranslations("General");
+  const tGeneral = await getTranslations("General");
   const backHref = resolveBackHref(Routes.USERS, resolvedSearchParams?.back);
 
-  const userDataMap = parseUserData(selectedUser, tResponse);
+  const userDataMap = parseUserData(selectedUser, tGeneral);
 
   return (
     <PageTemplate

@@ -3,6 +3,7 @@ import { cn, getCurrentUserCached } from "@/lib/utils";
 import { CompanyDataModal } from "./company-data-modal";
 import { CompanyDelete } from "./company-delete";
 import { CompanyLeave } from "./company-leave";
+import { CompanyInvite } from "@/components/companies/action-buttons/company-invite";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 
 type CompanyActionButtonsProps = {
@@ -50,6 +51,9 @@ export async function GetCompanyActions({
           companyId={company.id}
           buttonClassName={triggerClassName}
         />
+      )}
+      {isOwner && isVisible(ActionButtons.INVITE) && (
+        <CompanyInvite companyId={company.id} />
       )}
       {isVisible(ActionButtons.LEAVE) && canLeaveCompany && !isOwner && (
         <CompanyLeave companyId={company.id} isDisabled={isCompanyAdmin} />
