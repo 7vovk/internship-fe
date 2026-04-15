@@ -1,65 +1,46 @@
 import { Badge, TableBody, TableCell, TableRow } from "@/components/shared/ui";
 import { getTranslations } from "next-intl/server";
 import { siteConfig } from "@/config/site.config";
-import {
-  Company,
-  CompanyActions,
-  ProfileCompanyData,
-  User,
-} from "@/lib/interfaces";
+import { Company, User } from "@/lib/interfaces";
 import { cn } from "@/lib/utils";
 import { CompanyRowLink } from "@/app/components/client/company-row-link";
 import { convertDate } from "@/app/utils/date.utils";
-import { GetCompanyActions } from "@/components/companies/company-action-buttons";
+import { GetCompanyActions } from "@/components/companies/action-buttons/company-action-buttons";
+import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 
 type CompaniesTableBodyProps = {
-  rows: Array<Company | ProfileCompanyData>;
+  rows: Array<Company>;
   currentUser: User | null;
-  shouldDisplayLeave: boolean;
   showRoleBadges: boolean;
-  profileCompanies?: ProfileCompanyData[];
-  isLeaveDisplayed?: boolean;
+  showActions?: ActionButtons[];
   backHref?: string;
 };
 
 export async function CompaniesTableBody({
   rows,
   currentUser,
-  shouldDisplayLeave,
-  isLeaveDisplayed,
-  profileCompanies,
   showRoleBadges,
+  showActions,
   backHref,
 }: CompaniesTableBodyProps) {
   const tCompanies = await getTranslations(
     siteConfig.pages.companies.translation,
   );
 
-  const membershipCompanyIds = new Set([
-    ...(currentUser?.invitedTo?.map((company) => company.id) ?? []),
-    ...(currentUser?.companyAdministration?.map((company) => company.id) ?? []),
-  ]);
-
   return (
     <TableBody>
       {rows.length > 0 ? (
         rows.map((company) => {
-          const displayActions: CompanyActions = shouldDisplayLeave
-            ? isLeaveDisplayed
-              ? { leave: true }
-              : "ownerId" in company && company.ownerId === currentUser?.id
-                ? { all: true }
-                : membershipCompanyIds.has(company.id)
-                  ? { leave: true }
-                  : {}
-            : { all: true };
-          const hasAnyActions = Boolean(
-            displayActions.all ||
-            displayActions.update ||
-            displayActions.remove ||
-            displayActions.leave,
+          const isOwner = company.ownerId === currentUser?.id;
+          const companyMember = company.members?.some(
+            (member) => member.id === currentUser?.id,
           );
-          const isRowClickable = profileCompanies ? true : hasAnyActions;
+          const companyAdmin = company.admins?.some(
+            (admin) => admin.id === currentUser?.id,
+          );
+          const canLeaveCompany = companyMember || companyAdmin;
+
+          const isRowClickable = isOwner || companyMember || companyAdmin;
           const repeatedCells = [
             company.description,
             company.website,
@@ -119,7 +100,8 @@ export async function CompaniesTableBody({
                 <div className="relative z-20 flex items-center gap-3">
                   <span>
                     <GetCompanyActions
-                      display={displayActions}
+                      showActions={showActions}
+                      canLeaveCompany={canLeaveCompany}
                       company={company as Company}
                       variant="compact"
                     />

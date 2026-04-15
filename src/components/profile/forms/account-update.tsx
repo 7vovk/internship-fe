@@ -36,7 +36,7 @@ type ProfileEditProps = {
 };
 
 export function AccountUpdate({ currentUser }: ProfileEditProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
   const tButtons = useTranslations("Buttons");
   const tUser = useTranslations("User");

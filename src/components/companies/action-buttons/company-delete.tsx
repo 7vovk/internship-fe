@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { ServerActionResult } from "@/lib/interfaces";
 import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
-import { deleteCurrentCompanyAction } from "./company.server-action";
+import { deleteCurrentCompanyAction } from "../company.server-action";
 import { cn } from "@/lib/utils";
 
 type CompanyDeleteProps = {

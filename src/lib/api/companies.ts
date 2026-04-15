@@ -32,6 +32,22 @@ export async function getAllCompanies(params?: {
   }
 }
 
+export async function getUserCompanies(params?: {
+  page?: number;
+  limit?: number;
+}): Promise<PaginationData<Company[]>> {
+  try {
+    const page = params?.page ?? 1;
+    const limit = params?.limit ?? 10;
+    const apiRes = await api.get<ApiResult<PaginationData<Company[]>>>(
+      `/companies/user?limit=${limit}&page=${page}`,
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
 export async function handleCompanyUpdate(
   companyId: string,
   body: CompanyFormData,

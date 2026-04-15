@@ -9,50 +9,7 @@ import { headers } from "next/headers";
 import { AuthHeader } from "@/lib/enums/auth.enums";
 import { auth0 } from "@/lib/auth0";
 import CompaniesTable from "@/components/companies/table/companies-table";
-import { ProfileCompanyData, User } from "@/lib/interfaces";
-
-function buildProfileCompaniesData(
-  currentUser: User | null,
-): ProfileCompanyData[] {
-  if (!currentUser) {
-    return [];
-  }
-
-  const companyMap = new Map<string, ProfileCompanyData>();
-
-  const upsertCompany = (
-    company: Omit<ProfileCompanyData, "roles">,
-    role: "owner" | "admin" | "user",
-  ) => {
-    const existing = companyMap.get(company.id);
-
-    if (existing) {
-      if (!existing.roles.includes(role)) {
-        existing.roles.push(role);
-      }
-      return;
-    }
-
-    companyMap.set(company.id, {
-      ...company,
-      roles: [role],
-    });
-  };
-
-  for (const company of currentUser.companies ?? []) {
-    upsertCompany(company, "owner");
-  }
-
-  for (const company of currentUser.invitedTo ?? []) {
-    upsertCompany(company, "user");
-  }
-
-  for (const company of currentUser.companyAdministration ?? []) {
-    upsertCompany(company, "admin");
-  }
-
-  return Array.from(companyMap.values());
-}
+import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 
 export default async function UserProfilePage() {
   const tProfile = await getTranslations(siteConfig.pages.profile.translation);
@@ -63,8 +20,6 @@ export default async function UserProfilePage() {
   const session = await auth0.getSession();
   const authType = session?.user && !isJwtAuthenticated ? "auth0" : "jwt";
   const currentUser = await getCurrentUserCached();
-  const profileCompaniesData = buildProfileCompaniesData(currentUser);
-
   const userDataMap = parseUserData(currentUser, tResponse);
 
   return (
@@ -83,13 +38,11 @@ export default async function UserProfilePage() {
           <ProfileEdit authType={authType} currentUser={currentUser} />
         </div>
       </ul>
-      {profileCompaniesData.length > 0 && (
-        <CompaniesTable
-          isLeaveDisplayed
-          showRoleBadges
-          profileCompanies={profileCompaniesData}
-        />
-      )}
+      <CompaniesTable
+        showActions={[ActionButtons.INVITE]}
+        showRoleBadges
+        isProfile
+      />
     </PageTemplate>
   );
 }

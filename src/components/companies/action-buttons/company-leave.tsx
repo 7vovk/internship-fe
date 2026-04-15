@@ -7,7 +7,7 @@ import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
 import { useRouter } from "next/navigation";
 
-type CompanyDeleteProps = {
+type CompanyLeaveProps = {
   companyId: string;
   isDisabled?: boolean;
 };
@@ -15,7 +15,7 @@ type CompanyDeleteProps = {
 export function CompanyLeave({
   companyId,
   isDisabled = false,
-}: CompanyDeleteProps) {
+}: CompanyLeaveProps) {
   const t = useTranslations("Company");
   const router = useRouter();
 

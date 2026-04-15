@@ -1,4 +1,4 @@
-import { Company, CompanyData } from "./company.interface";
+import { Company } from "./company.interface";
 
 export interface User {
   createDate: string;
@@ -14,8 +14,8 @@ export interface User {
   profilePicture?: string;
   profilePictureUrl?: string;
   companies?: Company[];
-  invitedTo?: CompanyData[];
-  companyAdministration?: CompanyData[];
+  invitedTo?: Company[];
+  companyAdministration?: Company[];
 }
 
 export type UserUpdatePayload = Partial<{

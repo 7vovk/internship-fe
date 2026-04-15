@@ -1,5 +1,5 @@
 import { User } from "@/lib/interfaces/user.interface";
-import { actionButtons } from "@/lib/constants/company.constants";
+import { Roles } from "@/lib/enums/profile.enums";
 
 export interface CompanyData {
   id: string;
@@ -13,6 +13,7 @@ export interface CompanyData {
   isActive: boolean;
   isVisibleForAll: boolean;
   ownerId: string;
+  roles: Roles[];
 }
 
 export interface Company extends CompanyData {
@@ -29,22 +30,3 @@ export interface CompanyFormData {
   phone?: string;
   isVisibleForAll?: boolean;
 }
-
-export type ProfileCompanyData = Pick<
-  Company,
-  | "id"
-  | "name"
-  | "description"
-  | "website"
-  | "address"
-  | "phone"
-  | "createDate"
-  | "updateDate"
-> & {
-  roles: Array<"owner" | "admin" | "user">;
-};
-
-type ActionButtons = (typeof actionButtons)[number];
-export type CompanyActions = Partial<{
-  [K in ActionButtons]: boolean;
-}>;

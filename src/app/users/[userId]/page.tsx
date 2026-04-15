@@ -5,7 +5,6 @@ import { getUserById } from "@/lib/api/users";
 import { ItemTemplate } from "@/components/shared/item-template";
 import { parseUserData } from "@/lib/users/parse-user-data";
 import { BackButton } from "@/components/shared/ui/back-button";
-import { cn } from "@/lib/utils";
 import { User } from "@/lib/interfaces";
 import { resolveBackHref } from "@/app/utils/route.utils";
 import { Routes } from "@/config/site.enums";
@@ -31,7 +30,7 @@ export default async function UserPage({
       translator={tUser}
       title={tUser("title", { email: selectedUser.email })}
     >
-      <div className={cn("flex justify-start")}>
+      <div className="flex justify-start">
         <BackButton href={backHref} />
       </div>
       <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

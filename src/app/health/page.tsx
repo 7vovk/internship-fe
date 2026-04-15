@@ -12,7 +12,7 @@ export default async function HealthPage() {
 
   return (
     <PageTemplate translator={tHealth}>
-      <h3 className={cn(isSuccess ? "text-success" : "text-destructive")}>
+      <h3 className={cn("text-destructive", isSuccess && "text-success")}>
         {response}
       </h3>
     </PageTemplate>

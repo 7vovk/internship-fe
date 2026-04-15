@@ -30,7 +30,8 @@
     "phone": "Phone",
     "open": "Open company «{name}»",
     "company": "Company",
-    "isVisibleForAll": "Company visible for everyone"
+    "isVisibleForAll": "Company visible for everyone",
+    "noCompanies": "No user companies found"
   },
   "Company": {
     "title": "Company information - {name}",
@@ -43,7 +44,9 @@
     "cantCreate": "Unable to create the company.",
     "cantUpdate": "Unable to update the company.",
     "cantDelete": "Unable to delete the company.",
-    "cantReceiveData": "Unable to retrieve the information about selected company. Please try again later."
+    "cantReceiveData": "Unable to retrieve the information about selected company. Please try again later.",
+    "invite": "Invite new users to the company.",
+    "successInvitation": "Invitation sent successfully"
   },
   "Profile": {
     "title": "Profile",
@@ -132,7 +135,9 @@
     "create": "Create",
     "update": "Update",
     "back": "Back",
-    "companyLeave": "Leave company"
+    "companyLeave": "Leave company",
+    "invite": "Invite",
+    "userInvite": "Invite user"
   },
   "Pagination": {
     "rowsPerPage": "Rows per page",
@@ -167,11 +172,13 @@
     "required": "Please fill in all required fields.",
     "chars": "Field must contain at least {amount} characters.",
     "emailError": "Enter a valid email address.",
+    "duplicateEmailError": "Each email must be unique.",
     "passwordError": "The password must be at least 6 characters.",
     "confirmPasswordError": "The passwords did not match.",
     "urlError": "Image upload error.",
     "websiteError": "Please enter the website in correct format.",
     "phoneError": "Please enter the phone in correct format.",
-    "actions": "Actions"
+    "actions": "Actions",
+    "addMore": "Add more"
   }
 }

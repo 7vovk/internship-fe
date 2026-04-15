@@ -31,12 +31,12 @@ export function ConfirmationModal({
 }: ConfirmationModalProps) {
   const tButton = useTranslations(siteConfig.buttons.translation);
   const [open, setOpen] = useState(false);
-  const [isConfirming, setIsConfirming] = useState(false);
+  const [isConfirm, setIsConfirm] = useState(false);
 
   const handleConfirm = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (isConfirming) {
+    if (isConfirm) {
       return;
     }
 
@@ -45,14 +45,14 @@ export function ConfirmationModal({
       return;
     }
 
-    setIsConfirming(true);
+    setIsConfirm(true);
     try {
       const shouldClose = await onConfirm();
       if (shouldClose !== false) {
         setOpen(false);
       }
     } finally {
-      setIsConfirming(false);
+      setIsConfirm(false);
     }
   };
 
@@ -90,7 +90,7 @@ export function ConfirmationModal({
           <AlertDialogAction
             className={btnOkClasses}
             onClick={handleConfirm}
-            disabled={isConfirming}
+            disabled={isConfirm}
           >
             {tButton(okBtn)}
           </AlertDialogAction>
