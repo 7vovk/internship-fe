@@ -34,7 +34,7 @@ export function PageTemplate({
   return (
     <div className={cn("min-h-1 bg-background pb-16 pt-20", className)}>
       <Container className="flex min-h-[calc(90vh-8rem)] flex-col items-center justify-start text-center">
-        <div className="w-full space-y-6">
+        <div className="min-w-full space-y-6">
           <TypographyH1>{title ? title : translator("title")}</TypographyH1>
           {translator.has("description") && (
             <TypographyLead>{translator("description")}</TypographyLead>

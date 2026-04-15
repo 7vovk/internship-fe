@@ -22,11 +22,28 @@
   },
   "Companies": {
     "title": "Companies",
-    "description": "The page with the information related to all companies."
+    "description": "The page with the information related to all companies.",
+    "name": "Name",
+    "fieldDescription": "Description",
+    "website": "Website",
+    "address": "Address",
+    "phone": "Phone",
+    "open": "Open company «{name}»",
+    "company": "Company",
+    "isVisibleForAll": "Company visible for everyone"
   },
   "Company": {
-    "title": "Company ID:",
-    "description": "The page with the detailed information related to a specific company."
+    "title": "Company information - {name}",
+    "description": "The page with the detailed information related to a specific company.",
+    "remove": "Remove current company with all data permanently.",
+    "leave": "Leave the current company.",
+    "created": "Company successfully created.",
+    "updated": "Company successfully updated.",
+    "deleted": "Company successfully deleted.",
+    "cantCreate": "Unable to create the company.",
+    "cantUpdate": "Unable to update the company.",
+    "cantDelete": "Unable to delete the company.",
+    "cantReceiveData": "Unable to retrieve the information about selected company. Please try again later."
   },
   "Profile": {
     "title": "Profile",
@@ -39,8 +56,8 @@
     "description": "The page with the information related to all users."
   },
   "User": {
-    "title": "User ID:",
-    "description": "The page with the detailed information related to a specific user.",
+    "title": "User information - {email}",
+    "description": "The page with the detailed information related to a selected user.",
     "modalDescription": "Some detailed information about the current user - ",
     "noRole": "No role",
     "user": "User",
@@ -62,16 +79,13 @@
     "create": "Create",
     "description": "Log in or create account.",
     "email": "Email",
-    "emailError": "Enter a valid email address.",
     "emailPlaceholder": "Enter your email here",
     "firstName": "First name",
     "firstNamePlaceholder": "Enter your first name here",
     "lastName": "Last name",
     "lastNamePlaceholder": "Enter your last name here",
     "password": "Password",
-    "passwordError": "The password must be at least 6 characters.",
     "passwordConfirm": "Confirm password",
-    "confirmPasswordError": "The passwords did not match.",
     "signIn": "Sign in",
     "orWith": "or with",
     "withGoogle": "Sign in with Google",
@@ -87,7 +101,6 @@
     "userDescription": "User notes or description",
     "userDescriptionPlaceholder": "Type description here",
     "profilePicture": "Profile picture",
-    "urlError": "Image upload error",
     "chooseImage": "Choose image",
     "changeImage": "Change image",
     "chooseImageFile": "Please choose an image file.",
@@ -109,29 +122,56 @@
     "ok": "OK",
     "sure": "Are you sure?",
     "deleteAccount": "Delete account",
+    "deleteCompany": "Delete company",
     "edit": "Edit",
     "saveChanges": "Save changes",
     "close": "Close",
-    "editPassword": "Update password"
+    "editPassword": "Update password",
+    "createCompany": "Create a new company",
+    "updateCompany": "Update company",
+    "create": "Create",
+    "update": "Update",
+    "back": "Back",
+    "companyLeave": "Leave company"
   },
   "Pagination": {
     "rowsPerPage": "Rows per page",
     "showing": "Showing ",
     "to": "to ",
     "of": "of ",
-    "users": "users"
+    "users": "users",
+    "pagination": "pagination",
+    "nextPage": "Go to next page",
+    "prevPage": "Go to previous page"
   },
-  "Response": {
+  "General": {
+    "you": "You",
+    "uk": "Українська",
+    "en": "English",
     "id": "Identifier",
     "createDate": "Created date",
     "updateDate": "Updated date",
     "email": "Email",
+    "name": "Name",
     "firstName": "First name",
     "lastName": "Last name",
     "roles": "Roles",
-    "description": "User description"
-  },
-  "General": {
-    "charsLeft": "characters left"
+    "website": "Website",
+    "phone": "Phone",
+    "address": "Address",
+    "owner": "Company owner",
+    "members": "Company members",
+    "admins": "Company administration",
+    "description": "Description",
+    "charsLeft": "characters left",
+    "required": "Please fill in all required fields.",
+    "chars": "Field must contain at least {amount} characters.",
+    "emailError": "Enter a valid email address.",
+    "passwordError": "The password must be at least 6 characters.",
+    "confirmPasswordError": "The passwords did not match.",
+    "urlError": "Image upload error.",
+    "websiteError": "Please enter the website in correct format.",
+    "phoneError": "Please enter the phone in correct format.",
+    "actions": "Actions"
   }
 }

@@ -11,6 +11,18 @@ type FetchOptions = RequestInit & {
   timeout?: number;
 };
 
+function serializeRequestBody(body: unknown): BodyInit | null {
+  if (body === undefined || body === null) {
+    return null;
+  }
+
+  if (typeof FormData !== "undefined" && body instanceof FormData) {
+    return body;
+  }
+
+  return JSON.stringify(body);
+}
+
 function extractAuthToken(cookieHeader: string): string | null {
   const tokenCookie = cookieHeader
     .split(";")
@@ -93,7 +105,9 @@ async function apiClient<T>(
     Accept: "application/json",
     ...fetchOptions.headers,
     ...(bearerToken ? { Authorization: `Bearer ${bearerToken}` } : {}),
-    ...(shouldSendJsonContentType ? { "Content-Type": "application/json" } : {}),
+    ...(shouldSendJsonContentType
+      ? { "Content-Type": "application/json" }
+      : {}),
   });
 
   if (serverCookieHeader && !headers.has("Cookie")) {
@@ -133,30 +147,23 @@ async function apiClient<T>(
   }
 }
 
+type BodyHttpMethod = "POST" | "PUT" | "PATCH";
+
+const withBodyMethod =
+  (method: BodyHttpMethod) =>
+  <T>(endpoint: string, body: unknown, options?: FetchOptions) =>
+    apiClient<T>(endpoint, {
+      ...options,
+      method,
+      body: serializeRequestBody(body),
+    });
+
 export const api = {
   get: <T>(endpoint: string, options?: FetchOptions) =>
     apiClient<T>(endpoint, { ...options, method: "GET" }),
-
-  post: <T>(endpoint: string, body: unknown, options?: FetchOptions) =>
-    apiClient<T>(endpoint, {
-      ...options,
-      method: "POST",
-      body:
-        typeof FormData !== "undefined" && body instanceof FormData
-          ? body
-          : JSON.stringify(body),
-    }),
-
-  put: <T>(endpoint: string, body: unknown, options?: FetchOptions) =>
-    apiClient<T>(endpoint, {
-      ...options,
-      method: "PUT",
-      body:
-        typeof FormData !== "undefined" && body instanceof FormData
-          ? body
-          : JSON.stringify(body),
-    }),
-
+  post: withBodyMethod("POST"),
+  put: withBodyMethod("PUT"),
+  patch: withBodyMethod("PATCH"),
   delete: <T>(endpoint: string, options?: FetchOptions) =>
     apiClient<T>(endpoint, { ...options, method: "DELETE" }),
 };

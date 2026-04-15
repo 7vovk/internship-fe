@@ -3,7 +3,7 @@
 import { ConfirmationModal } from "@/app/components/modal/confirmation-modal";
 import FormController from "@/components/forms/form-controller";
 import { useTranslations } from "next-intl";
-import { UserActionResult } from "@/lib/interfaces";
+import { ServerActionResult } from "@/lib/interfaces";
 import { updateCurrentUserAction } from "@/components/profile/profile.server-action";
 import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
@@ -15,14 +15,16 @@ import {
   getEditPasswordSchema,
 } from "@/components/forms/auth.schema";
 import { useRouter } from "next/navigation";
+import { Placeholder } from "@/lib/enums/placeholder.enums";
 
 export function EditPassword() {
   const router = useRouter();
   const tUser = useTranslations("User");
   const tAuth = useTranslations("Auth");
+  const tGeneral = useTranslations("General");
 
-  const editPasswordSchema = getEditPasswordSchema(tAuth);
-  const editPasswordPayloadSchema = getEditPasswordPayloadSchema(tAuth);
+  const editPasswordSchema = getEditPasswordSchema(tGeneral);
+  const editPasswordPayloadSchema = getEditPasswordPayloadSchema(tGeneral);
 
   const passwordForm = useForm<z.infer<typeof editPasswordSchema>>({
     resolver: zodResolver(editPasswordSchema),
@@ -33,28 +35,42 @@ export function EditPassword() {
   });
 
   async function handlePasswordUpdate() {
+    const isValid = await passwordForm.trigger(undefined, {
+      shouldFocus: true,
+    });
+
+    if (!isValid) {
+      errorToaster(tGeneral("required"));
+      return false;
+    }
+
     try {
       const formData = editPasswordSchema.parse(passwordForm.getValues());
       const payload = editPasswordPayloadSchema.parse(formData);
-      const updated: UserActionResult = await updateCurrentUserAction(payload);
+      const updated: ServerActionResult =
+        await updateCurrentUserAction(payload);
       if (!updated.ok) {
         errorToaster(updated.message);
-        return;
+        return false;
       }
       router.refresh();
+      return true;
     } catch (error) {
       errorToaster(parseErrorMessage(error));
+      return false;
     }
   }
 
   return (
     <ConfirmationModal
+      title="confirmAction"
       buttonName="editPassword"
       btnClasses="hover:bg-yellow-500 hover:text-white"
       btnOkClasses="text-black bg-yellow-300 hover:bg-yellow-500 hover:text-white"
       description={tUser("editPass")}
       icon="warning"
       onConfirm={handlePasswordUpdate}
+      onCancel={() => passwordForm.clearErrors()}
     >
       <form id="edit-password-form" className="space-y-4">
         <FormController
@@ -62,7 +78,7 @@ export function EditPassword() {
           name="password"
           type="password"
           label={tAuth("password")}
-          placeholder="**************"
+          placeholder={Placeholder.PASS}
           autoComplete="off"
         />
 
@@ -71,7 +87,7 @@ export function EditPassword() {
           name="confirmPassword"
           type="password"
           label={tAuth("passwordConfirm")}
-          placeholder="**************"
+          placeholder={Placeholder.PASS}
           autoComplete="off"
         />
       </form>

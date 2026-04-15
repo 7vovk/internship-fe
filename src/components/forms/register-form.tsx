@@ -12,13 +12,16 @@ import { parseErrorMessage } from "@/lib/errors";
 import { getRegisterPayloadSchema, getRegisterSchema } from "./auth.schema";
 import FormController from "./form-controller";
 import { errorToaster } from "@/app/utils";
+import { Placeholder } from "@/lib/enums/placeholder.enums";
+import { Routes } from "@/config/site.enums";
 
 export default function RegisterForm() {
   const { submitLogin } = useAuth();
   const tAuth = useTranslations(siteConfig.pages.login.translation);
+  const tGeneral = useTranslations("General");
 
-  const registerPayloadSchema = getRegisterPayloadSchema(tAuth);
-  const formSchema = getRegisterSchema(tAuth);
+  const registerPayloadSchema = getRegisterPayloadSchema(tGeneral);
+  const formSchema = getRegisterSchema(tGeneral);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -101,7 +104,7 @@ export default function RegisterForm() {
                 name="password"
                 type="password"
                 label={tAuth("password")}
-                placeholder="**************"
+                placeholder={Placeholder.PASS}
                 autoComplete="off"
               />
 
@@ -110,7 +113,7 @@ export default function RegisterForm() {
                 name="confirmPassword"
                 type="password"
                 label={tAuth("passwordConfirm")}
-                placeholder="**************"
+                placeholder={Placeholder.PASS}
                 autoComplete="off"
               />
 
@@ -127,7 +130,7 @@ export default function RegisterForm() {
 
         <TextLink
           text={tAuth("alreadyHave")}
-          link={"/login"}
+          link={Routes.LOGIN}
           linkText={tAuth("signIn")}
         />
       </div>

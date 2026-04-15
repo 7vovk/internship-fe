@@ -1,4 +1,4 @@
-export interface Pagination<T = []> {
+export interface PaginationData<T = []> {
   data: T;
   totalPages: number;
   totalItems: number;

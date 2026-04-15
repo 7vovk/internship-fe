@@ -6,18 +6,19 @@ import {
   handleUserPictureUpdate,
 } from "@/lib/api/users";
 import { parseErrorMessage } from "@/lib/errors";
-import { UserActionResult, UserUpdatePayload } from "@/lib/interfaces";
+import { ServerActionResult, UserUpdatePayload } from "@/lib/interfaces";
 import { revalidatePath } from "next/cache";
 import { getTranslations } from "next-intl/server";
+import { Routes } from "@/config/site.enums";
 
 export async function updateCurrentUserAction(
   payload: UserUpdatePayload,
-): Promise<UserActionResult> {
+): Promise<ServerActionResult> {
   const t = await getTranslations("Auth");
   try {
     await handleCurrentUserUpdate(payload);
-    revalidatePath("/", "layout");
-    revalidatePath("/profile");
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.PROFILE);
     return { ok: true, message: t("accUpdated") };
   } catch (error) {
     return {
@@ -29,12 +30,12 @@ export async function updateCurrentUserAction(
 
 export async function updateCurrentUserImageAction(
   payload: FormData,
-): Promise<UserActionResult> {
+): Promise<ServerActionResult> {
   const t = await getTranslations("Auth");
   try {
     await handleUserPictureUpdate(payload);
-    revalidatePath("/", "layout");
-    revalidatePath("/profile");
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.PROFILE);
     return { ok: true, message: t("imageUpdated") };
   } catch (error) {
     return {
@@ -44,12 +45,12 @@ export async function updateCurrentUserImageAction(
   }
 }
 
-export async function deleteCurrentUserAction(): Promise<UserActionResult> {
+export async function deleteCurrentUserAction(): Promise<ServerActionResult> {
   const t = await getTranslations("Auth");
   try {
     await handleCurrentUserDelete();
-    revalidatePath("/", "layout");
-    revalidatePath("/profile");
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.PROFILE);
     return { ok: true, message: t("accDeleted") };
   } catch (error) {
     return {

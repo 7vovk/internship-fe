@@ -1,9 +1,11 @@
 export enum Routes {
-  HOME = "/",
-  HEALTH = "/health",
   ABOUT = "/about",
+  AUTH0_LOGOUT = "/auth/logout",
   COMPANIES = "/companies",
+  CREATE = "/create",
+  HEALTH = "/health",
+  HOME = "/",
+  LOGIN = "/login",
   PROFILE = "/profile",
   USERS = "/users",
-  AUTH0_LOGOUT = "/auth/logout",
 }

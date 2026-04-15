@@ -1,5 +1,10 @@
 import { api, ApiError } from "./client";
-import { ApiResult, Pagination, User, UserUpdatePayload } from "../interfaces";
+import {
+  ApiResult,
+  PaginationData,
+  User,
+  UserUpdatePayload,
+} from "../interfaces";
 
 export async function handleAccountCreate(body: {
   firstName: string;
@@ -26,11 +31,11 @@ export async function getMeInfo(): Promise<User> {
 export async function getAllUsers(params?: {
   page?: number;
   limit?: number;
-}): Promise<Pagination<User[]>> {
+}): Promise<PaginationData<User[]>> {
   try {
     const page = params?.page ?? 1;
     const limit = params?.limit ?? 10;
-    const apiRes = await api.get<ApiResult<Pagination<User[]>>>(
+    const apiRes = await api.get<ApiResult<PaginationData<User[]>>>(
       `/users?limit=${limit}&page=${page}`,
     );
     return apiRes.result;
@@ -39,23 +44,18 @@ export async function getAllUsers(params?: {
   }
 }
 
-export async function getUserById(
-  id: string,
-): Promise<ApiResult<{ user: User }>> {
+export async function getUserById(id: string): Promise<User> {
   try {
-    return await api.get<ApiResult<{ user: User }>>(`/user/${id}`);
+    const apiRes = await api.get<ApiResult<User>>(`/user/${id}`);
+    return apiRes.result;
   } catch (error) {
     throw error as ApiError;
   }
 }
 
-export async function getUserInfoById(
-  id: string,
-): Promise<ApiResult<{ user: User }>> {
+export async function getUserInfoById(id: string): Promise<ApiResult<User>> {
   try {
-    return await api.get<ApiResult<{ user: User }>>(
-      `/user/personal-info/${id}`,
-    );
+    return await api.get<ApiResult<User>>(`/user/personal-info/${id}`);
   } catch (error) {
     throw error as ApiError;
   }
@@ -63,19 +63,17 @@ export async function getUserInfoById(
 
 export async function handleCurrentUserUpdate(
   body: UserUpdatePayload,
-): Promise<ApiResult<{ user: User }>> {
+): Promise<ApiResult<User>> {
   try {
-    return await api.put<ApiResult<{ user: User }>>("/user", body);
+    return await api.put<ApiResult<User>>("/user", body);
   } catch (error) {
     throw error as ApiError;
   }
 }
 
-export async function handleCurrentUserDelete(): Promise<
-  ApiResult<{ user: User }>
-> {
+export async function handleCurrentUserDelete(): Promise<ApiResult<User>> {
   try {
-    return await api.delete<ApiResult<{ user: User }>>("/user");
+    return await api.delete<ApiResult<User>>("/user");
   } catch (error) {
     throw error as ApiError;
   }
@@ -83,12 +81,9 @@ export async function handleCurrentUserDelete(): Promise<
 
 export async function handleUserPictureUpdate(
   body: FormData,
-): Promise<ApiResult<{ user: User }>> {
+): Promise<ApiResult<User>> {
   try {
-    return await api.put<ApiResult<{ user: User }>>(
-      "/user/profile-picture",
-      body,
-    );
+    return await api.put<ApiResult<User>>("/user/profile-picture", body);
   } catch (error) {
     throw error as ApiError;
   }

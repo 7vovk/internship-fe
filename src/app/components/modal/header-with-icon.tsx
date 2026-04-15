@@ -16,15 +16,17 @@ export function HeaderWithIcon({
   return (
     <AlertDialogHeader>
       <div className="flex flex-wrap gap-2">
-        {icon === "check" ? (
+        {icon && icon === "check" ? (
           <CheckIcon className="text-green-700" />
         ) : (
-          <AlertTriangleIcon
-            className={cn(
-              icon === "warning" && "text-yellow-500",
-              icon === "alert" && "text-red-700",
-            )}
-          />
+          icon && (
+            <AlertTriangleIcon
+              className={cn(
+                icon === "warning" && "text-yellow-500",
+                icon === "alert" && "text-red-700",
+              )}
+            />
+          )
         )}
 
         <AlertDialogTitle>{title}</AlertDialogTitle>

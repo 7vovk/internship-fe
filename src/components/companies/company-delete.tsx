@@ -3,27 +3,30 @@
 import { ConfirmationModal } from "@/app/components/modal/confirmation-modal";
 import { useTranslations } from "next-intl";
 import { ServerActionResult } from "@/lib/interfaces";
-import { deleteCurrentUserAction } from "@/components/profile/profile.server-action";
 import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
-import { AuthType, useAuth } from "@/hooks/useAuth.hook";
+import { deleteCurrentCompanyAction } from "./company.server-action";
+import { cn } from "@/lib/utils";
 
-type ProfileDeleteProps = {
-  authType: AuthType;
+type CompanyDeleteProps = {
+  companyId: string;
+  buttonClassName?: string;
 };
 
-export function AccountDelete({ authType }: ProfileDeleteProps) {
-  const { logout } = useAuth();
-  const tUser = useTranslations("User");
+export function CompanyDelete({
+  companyId,
+  buttonClassName,
+}: CompanyDeleteProps) {
+  const t = useTranslations("Company");
 
   async function handleDelete() {
     try {
-      const deleted: ServerActionResult = await deleteCurrentUserAction();
+      const deleted: ServerActionResult =
+        await deleteCurrentCompanyAction(companyId);
       if (!deleted.ok) {
         errorToaster(deleted.message);
         return;
       }
-      await logout(authType);
     } catch (error) {
       errorToaster(parseErrorMessage(error));
     }
@@ -31,11 +34,11 @@ export function AccountDelete({ authType }: ProfileDeleteProps) {
 
   return (
     <ConfirmationModal
-      buttonName="deleteAccount"
-      btnClasses="hover:bg-red-500 hover:text-white"
+      buttonName="deleteCompany"
+      btnClasses={cn("hover:bg-red-500 hover:text-white", buttonClassName)}
       btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
       title="sure"
-      description={tUser("removeAccount")}
+      description={t("remove")}
       icon="alert"
       onConfirm={handleDelete}
     />

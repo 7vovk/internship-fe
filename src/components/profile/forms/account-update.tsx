@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { User, UserActionResult } from "@/lib/interfaces";
+import { ServerActionResult, User } from "@/lib/interfaces";
 import {
   updateCurrentUserAction,
   updateCurrentUserImageAction,
@@ -41,10 +41,12 @@ export function AccountUpdate({ currentUser }: ProfileEditProps) {
   const tButtons = useTranslations("Buttons");
   const tUser = useTranslations("User");
   const tAuth = useTranslations("Auth");
+  const tGeneral = useTranslations("General");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
-  const editFormSchema = getEditSchema(tAuth);
+
+  const editFormSchema = getEditSchema(tGeneral);
   const currentProfilePicture = currentUser?.profilePictureUrl || "";
 
   const form = useForm<z.infer<typeof editFormSchema>>({
@@ -60,7 +62,7 @@ export function AccountUpdate({ currentUser }: ProfileEditProps) {
   async function handleUpdate() {
     try {
       const { firstName, lastName, description } = form.getValues();
-      const updated: UserActionResult = await updateCurrentUserAction({
+      const updated: ServerActionResult = await updateCurrentUserAction({
         firstName,
         lastName,
         description,

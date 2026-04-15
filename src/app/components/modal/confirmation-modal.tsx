@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -7,6 +9,7 @@ import {
   AlertDialogTrigger,
   Button,
 } from "@/components/shared/ui";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
 import { HeaderWithIcon } from "@/app/components/modal/header-with-icon";
@@ -18,6 +21,7 @@ export function ConfirmationModal({
   description,
   cancelBtn = "cancel",
   okBtn = "ok",
+  isDisabled = false,
   btnClasses,
   btnOkClasses,
   onConfirm,
@@ -26,12 +30,46 @@ export function ConfirmationModal({
   children,
 }: ConfirmationModalProps) {
   const tButton = useTranslations(siteConfig.buttons.translation);
+  const [open, setOpen] = useState(false);
+  const [isConfirming, setIsConfirming] = useState(false);
+
+  const handleConfirm = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+
+    if (isConfirming) {
+      return;
+    }
+
+    if (!onConfirm) {
+      setOpen(false);
+      return;
+    }
+
+    setIsConfirming(true);
+    try {
+      const shouldClose = await onConfirm();
+      if (shouldClose !== false) {
+        setOpen(false);
+      }
+    } finally {
+      setIsConfirming(false);
+    }
+  };
+
+  const handleCancel = () => {
+    onCancel?.();
+    setOpen(false);
+  };
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger
         render={
-          <Button className={btnClasses} variant="outline">
+          <Button
+            className={btnClasses}
+            variant="outline"
+            disabled={isDisabled}
+          >
             {tButton(buttonName)}
           </Button>
         }
@@ -46,10 +84,14 @@ export function ConfirmationModal({
         {children}
 
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>
+          <AlertDialogCancel onClick={handleCancel}>
             {tButton(cancelBtn)}
           </AlertDialogCancel>
-          <AlertDialogAction className={btnOkClasses} onClick={onConfirm}>
+          <AlertDialogAction
+            className={btnOkClasses}
+            onClick={handleConfirm}
+            disabled={isConfirming}
+          >
             {tButton(okBtn)}
           </AlertDialogAction>
         </AlertDialogFooter>
