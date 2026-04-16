@@ -49,7 +49,11 @@
     "invite": "Invite new users to the company.",
     "successInvitation": "Invitation sent successfully",
     "invitedUsers": "Invited users",
-    "userRequests": "Requests to join"
+    "userRequests": "Requests to join",
+    "excludeMember": "Exclude this user from the company?",
+    "acceptRequest": "Accept this request to join the company?",
+    "rejectRequest": "Reject this request to join the company?",
+    "cancelInvite": "Cancel this invitation?"
   },
   "Profile": {
     "title": "Profile",
@@ -140,7 +144,11 @@
     "back": "Back",
     "companyLeave": "Leave company",
     "invite": "Invite",
-    "userInvite": "Invite user"
+    "userInvite": "Invite user",
+    "cancelInvite": "Cancel invite",
+    "acceptRequest": "Accept request",
+    "rejectRequest": "Reject request",
+    "excludeUser": "Exclude user"
   },
   "Pagination": {
     "rowsPerPage": "Rows per page",

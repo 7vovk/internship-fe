@@ -39,7 +39,7 @@ export default function RegisterForm() {
       const formData = formSchema.parse(form.getValues());
       const payload = registerPayloadSchema.parse(formData);
 
-      const created = await createAccountAction(payload, tAuth);
+      const created = await createAccountAction(payload);
       if (!created.ok) {
         errorToaster(created.message);
         return;

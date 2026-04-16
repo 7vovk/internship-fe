@@ -11,7 +11,13 @@ import {
   handleCompanyDelete,
   handleCompanyUpdate,
   leaveSpecificCompany,
+  removeCompanyMember,
 } from "@/lib/api/companies";
+import {
+  acceptInvitation,
+  cancelInvitation,
+  declineInvitation,
+} from "@/lib/api/invitations";
 
 export async function createCompanyAction(
   payload: CompanyFormData,
@@ -109,6 +115,71 @@ export async function leaveCurrentCompanyAction(
     return {
       ok: false,
       message: parseErrorMessage(error, t("cantDelete")),
+    };
+  }
+}
+
+export async function cancelCompanyInvitationAction(
+  inviteId: string,
+): Promise<ServerActionResult> {
+  try {
+    await cancelInvitation(inviteId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function acceptCompanyJoinRequestAction(
+  inviteId: string,
+): Promise<ServerActionResult> {
+  try {
+    await acceptInvitation(inviteId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function rejectCompanyJoinRequestAction(
+  inviteId: string,
+): Promise<ServerActionResult> {
+  try {
+    await declineInvitation(inviteId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function excludeCompanyMemberAction(
+  companyId: string,
+  memberId: string,
+): Promise<ServerActionResult> {
+  try {
+    await removeCompanyMember(companyId, memberId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
     };
   }
 }

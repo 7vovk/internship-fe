@@ -34,3 +34,42 @@ export async function getAllInvitations(
     throw error as ApiError;
   }
 }
+
+export async function cancelInvitation(
+  inviteId: string,
+  reason = "Cancelled by company owner",
+): Promise<Invitation> {
+  try {
+    const apiRes = await api.put<ApiResult<Invitation>>(
+      `/invitation/${inviteId}/cancel`,
+      { reason },
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
+export async function acceptInvitation(inviteId: string): Promise<Invitation> {
+  try {
+    const apiRes = await api.put<ApiResult<Invitation>>(
+      `/invitation/${inviteId}/accept`,
+      {},
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
+export async function declineInvitation(inviteId: string): Promise<Invitation> {
+  try {
+    const apiRes = await api.put<ApiResult<Invitation>>(
+      `/invitation/${inviteId}/decline`,
+      {},
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
