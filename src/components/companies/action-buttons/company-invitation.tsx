@@ -21,7 +21,7 @@ function isPending(status: string) {
   return status.trim().toLowerCase() === "pending";
 }
 
-export function CompanyInvitationActions({
+export function CompanyInvitation({
   inviteId,
   type,
   status,

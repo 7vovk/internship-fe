@@ -3,16 +3,14 @@ import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 import { TableHeaderData } from "@/lib/interfaces";
 
-export async function MembersTableHeader() {
+export async function AdminsTableHeader() {
   const t = await getTranslations("General");
-
   const headerData: TableHeaderData[] = [
     { width: "w-[30%]", title: "name" },
     { width: "w-[34%]", title: "email" },
     { width: "w-[16%]", title: "roles" },
     { width: "w-[20%]", title: "actions" },
   ];
-
   return (
     <TableHeader>
       <TableRow className="border-b hover:bg-transparent">

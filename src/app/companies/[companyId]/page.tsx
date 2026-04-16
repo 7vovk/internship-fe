@@ -15,6 +15,7 @@ import { getAllInvitations } from "@/lib/api/invitations";
 import { InvitationType } from "@/lib/enums/invitation.enums";
 import { InvitationTable } from "@/components/invitations/invitation-table/invitation-table";
 import { MembersTable } from "@/components/invitations/members-table/members-table";
+import { AdminsTable } from "@/components/invitations/admins-table/admins-table";
 
 export default async function CompanyPage({
   params,
@@ -96,6 +97,10 @@ export default async function CompanyPage({
           />
 
           <MembersTable
+            companyId={selectedCompany.id}
+            ownerId={selectedCompany.ownerId}
+          />
+          <AdminsTable
             companyId={selectedCompany.id}
             ownerId={selectedCompany.ownerId}
           />

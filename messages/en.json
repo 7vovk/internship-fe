@@ -53,6 +53,8 @@
     "declineInvite": "Decline this company invitation?",
     "cancelRequest": "Cancel your join request to this company?",
     "joinRequest": "Send request to join this company?",
+    "appointAdmin": "Appoint this member as administrator?",
+    "removeAdmin": "Remove administrator role from this member?",
     "excludeMember": "Exclude this user from the company?",
     "acceptRequest": "Accept this request to join the company?",
     "rejectRequest": "Reject this request to join the company?",
@@ -156,7 +158,9 @@
     "acceptInvite": "Accept invite",
     "declineInvite": "Decline invite",
     "cancelRequest": "Cancel request",
-    "joinCompany": "Join company"
+    "joinCompany": "Join company",
+    "appointAdmin": "Appoint admin",
+    "removeAdmin": "Remove admin"
   },
   "Pagination": {
     "rowsPerPage": "Rows per page",

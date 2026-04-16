@@ -1,9 +1,9 @@
 import { TableBody, TableCell, TableRow } from "@/components/shared/ui";
 import { convertDate } from "@/app/utils/date.utils";
-import { CompanyInvitationActions } from "@/components/companies/action-buttons/company-invitation-actions";
+import { CompanyInvitation } from "@/components/companies/action-buttons/company-invitation";
 import { InvTableRow } from "@/lib/interfaces";
 import { NoRecordsRow } from "@/components/shared/no-records-row";
-import { UserInvitationActions } from "@/components/invitations/user-invitation-actions";
+import { UserInvitation } from "@/components/companies/action-buttons/user-invitation";
 
 interface InvitationTableBodyProps {
   isCompany?: boolean;
@@ -46,13 +46,13 @@ export async function InvitationTableBody({
                 <TableCell className="h-14 px-4 text-muted-foreground">
                   <div className="flex justify-start">
                     {isCompany ? (
-                      <CompanyInvitationActions
+                      <CompanyInvitation
                         inviteId={invite.id}
                         type={invite.type}
                         status={invite.status}
                       />
                     ) : (
-                      <UserInvitationActions
+                      <UserInvitation
                         inviteId={invite.id}
                         type={invite.type}
                         status={invite.status}

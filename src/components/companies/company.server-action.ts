@@ -6,11 +6,14 @@ import { revalidatePath } from "next/cache";
 import { getTranslations } from "next-intl/server";
 import { Routes } from "@/config/site.enums";
 import {
+  addCompanyAdmin,
+  getCompanyAdmins,
   getCompanyById,
   handleCompanyCreate,
   handleCompanyDelete,
   handleCompanyUpdate,
   leaveSpecificCompany,
+  removeCompanyAdmin,
   removeCompanyMember,
 } from "@/lib/api/companies";
 import {
@@ -174,6 +177,52 @@ export async function excludeCompanyMemberAction(
 ): Promise<ServerActionResult> {
   try {
     await removeCompanyMember(companyId, memberId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function addCompanyAdminAction(
+  companyId: string,
+  memberId: string,
+): Promise<ServerActionResult> {
+  try {
+    const admins = await getCompanyAdmins(companyId);
+    const alreadyAdmin = admins.some((admin) => admin.id === memberId);
+    if (alreadyAdmin) {
+      return { ok: false, message: "User is already an administrator." };
+    }
+
+    await addCompanyAdmin(companyId, memberId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function removeCompanyAdminAction(
+  companyId: string,
+  memberId: string,
+): Promise<ServerActionResult> {
+  try {
+    const admins = await getCompanyAdmins(companyId);
+    const isAdmin = admins.some((admin) => admin.id === memberId);
+    if (!isAdmin) {
+      return { ok: false, message: "User is not an administrator." };
+    }
+
+    await removeCompanyAdmin(companyId, memberId);
     revalidatePath(Routes.HOME, "layout");
     revalidatePath(Routes.COMPANIES);
     return { ok: true, message: "" };

@@ -1,8 +1,11 @@
 import { Badge, TableBody, TableCell, TableRow } from "@/components/shared/ui";
 import { CompanyExcludeMember } from "@/components/companies/action-buttons/company-exclude-member";
+import { CompanyAdminRole } from "@/components/companies/action-buttons/company-admin-role";
 import { User } from "@/lib/interfaces";
 import { getCompanyMembers } from "@/lib/api/companies";
 import { NoRecordsRow } from "@/components/shared/no-records-row";
+import { AdminRoleMode } from "@/lib/enums/action-buttons.enums";
+import { Roles } from "@/lib/enums/profile.enums";
 
 interface MembersTableBodyProps {
   companyId: string;
@@ -20,29 +23,40 @@ export async function MembersTableBody({
   return (
     <TableBody>
       {members.length > 0 ? (
-        members.map((member) => (
-          <TableRow key={member.id}>
-            <TableCell className="h-14 text-left px-4">
-              {member.firstName} {member.lastName}
-            </TableCell>
-            <TableCell className="h-14 text-left px-4 text-muted-foreground">
-              {member.email}
-            </TableCell>
-            <TableCell className="h-14 text-left px-4">
-              <Badge variant="secondary">
-                {member.roles.includes("admin") ? "admin" : "member"}
-              </Badge>
-            </TableCell>
-            <TableCell className="h-14 text-left px-4">
-              <div className="flex justify-start">
-                <CompanyExcludeMember
-                  companyId={companyId}
-                  memberId={member.id}
-                />
-              </div>
-            </TableCell>
-          </TableRow>
-        ))
+        members.map((member) => {
+          const isAdmin = member.roles.includes(Roles.ADMIN);
+          return (
+            <TableRow key={member.id}>
+              <TableCell className="h-14 text-left px-4">
+                {member.firstName} {member.lastName}
+              </TableCell>
+              <TableCell className="h-14 text-left px-4 text-muted-foreground">
+                {member.email}
+              </TableCell>
+              <TableCell className="h-14 text-left px-4">
+                <Badge variant="secondary">
+                  {isAdmin ? Roles.ADMIN : Roles.MEMBER}
+                </Badge>
+              </TableCell>
+              <TableCell className="h-14 text-left px-4">
+                <div className="flex justify-start">
+                  <div className="flex items-center gap-2">
+                    <CompanyAdminRole
+                      companyId={companyId}
+                      memberId={member.id}
+                      isAdmin={isAdmin}
+                      mode={AdminRoleMode.APPOINT}
+                    />
+                    <CompanyExcludeMember
+                      companyId={companyId}
+                      memberId={member.id}
+                    />
+                  </div>
+                </div>
+              </TableCell>
+            </TableRow>
+          );
+        })
       ) : (
         <NoRecordsRow colSpan={4} />
       )}
