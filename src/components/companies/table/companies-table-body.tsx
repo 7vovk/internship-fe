@@ -38,8 +38,14 @@ export async function CompaniesTableBody({
             (admin) => admin.id === currentUser?.id,
           );
           const canLeaveCompany = companyMember || companyAdmin;
+          const canRequestCompany = !isOwner && !companyMember && !companyAdmin;
 
-          const isRowClickable = isOwner || companyMember || companyAdmin;
+          const hasRequestAction =
+            canRequestCompany &&
+            (showActions?.includes(ActionButtons.ALL) ||
+              showActions?.includes(ActionButtons.REQUEST));
+          const isRowClickable =
+            isOwner || companyMember || companyAdmin || hasRequestAction;
           const repeatedCells: string[] = [
             company.description,
             company.website,
@@ -85,6 +91,7 @@ export async function CompaniesTableBody({
                     <GetCompanyActions
                       showActions={showActions}
                       canLeaveCompany={canLeaveCompany}
+                      canRequestCompany={canRequestCompany}
                       company={company as Company}
                       variant="compact"
                     />

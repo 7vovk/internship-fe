@@ -45,17 +45,19 @@ export default async function UserProfilePage() {
           <ProfileEdit authType={authType} currentUser={currentUser} />
         </div>
       </ul>
-      <CompaniesTable showActions={[ActionButtons.INVITE]} isProfile />
+      <CompaniesTable showActions={[ActionButtons.LEAVE]} isProfile />
       <div className="grid grid-cols-1 gap-6 mt-6">
         <InvitationTable
           title={tProfile("userRequests")}
           rows={userRequests?.data ?? []}
           isCompany={false}
+          showActions
         />
         <InvitationTable
           title={tProfile("invitedUsers")}
           rows={ownerInvitations?.data ?? []}
           isCompany={false}
+          showActions
         />
       </div>
     </PageTemplate>

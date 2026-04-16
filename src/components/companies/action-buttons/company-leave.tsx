@@ -23,10 +23,8 @@ export function CompanyLeave({
     try {
       await leaveSpecificCompany(companyId);
       router.refresh();
-      return true;
     } catch (error) {
       errorToaster(parseErrorMessage(error));
-      return false;
     }
   }
 

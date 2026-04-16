@@ -84,11 +84,13 @@ export default async function CompanyPage({
         <div className="grid grid-cols-1 gap-6">
           <InvitationTable
             isCompany
+            showActions
             title={tCompany("invitedUsers")}
             rows={companyInvitation?.data || []}
           />
           <InvitationTable
             isCompany
+            showActions
             title={tCompany("userRequests")}
             rows={userRequests?.data || []}
           />

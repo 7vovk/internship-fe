@@ -44,7 +44,7 @@ export default async function CompaniesTable({
           backHref={Routes.PROFILE}
         />
       </Table>
-      {companies && (
+      {rows.length > 0 && (
         <TablePagination route={Routes.COMPANIES} data={companies} />
       )}
     </div>

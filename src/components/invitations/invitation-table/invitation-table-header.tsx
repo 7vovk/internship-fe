@@ -4,14 +4,16 @@ import { cn } from "@/lib/utils";
 
 interface InvitationTableHeaderProps {
   isCompany?: boolean;
+  showActions?: boolean;
 }
 
 export async function InvitationTableHeader({
   isCompany,
+  showActions = false,
 }: InvitationTableHeaderProps) {
   const t = await getTranslations("General");
   const firstHeaderTitle = isCompany ? "email" : "name";
-  const actions = isCompany ? [{ width: "w-[16%]", title: "actions" }] : [];
+  const actions = showActions ? [{ width: "w-[16%]", title: "actions" }] : [];
   const headerData = [
     { width: "w-[22%]", title: firstHeaderTitle },
     { width: "w-[14%]", title: "type" },

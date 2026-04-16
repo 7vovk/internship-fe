@@ -21,6 +21,18 @@ export async function handleUserInvitation(
   }
 }
 
+export async function handleCompanyJoinRequest(
+  companyId: string,
+): Promise<ApiResult<Invitation>> {
+  try {
+    return await api.post<ApiResult<Invitation>>(`/invitation/${companyId}`, {
+      type: InvitationType.USER_REQUEST,
+    });
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
 export async function getAllInvitations(
   companyId: string,
   type: InvitationType,

@@ -7,12 +7,14 @@ interface InvitationTableProps {
   title: string;
   rows: InvTableRow[];
   isCompany?: boolean;
+  showActions?: boolean;
 }
 
 export function InvitationTable({
   title,
   rows,
   isCompany,
+  showActions = false,
 }: InvitationTableProps) {
   return (
     <section className="w-full overflow-hidden rounded-lg border bg-card">
@@ -20,8 +22,12 @@ export function InvitationTable({
         <h2 className="text-center text-base font-semibold">{title}</h2>
       </div>
       <Table className="table-fixed">
-        <InvitationTableHeader isCompany={isCompany} />
-        <InvitationTableBody rows={rows} isCompany={isCompany} />
+        <InvitationTableHeader isCompany={isCompany} showActions={showActions} />
+        <InvitationTableBody
+          rows={rows}
+          isCompany={isCompany}
+          showActions={showActions}
+        />
       </Table>
     </section>
   );

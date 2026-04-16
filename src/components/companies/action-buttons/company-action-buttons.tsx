@@ -5,12 +5,14 @@ import { CompanyDelete } from "./company-delete";
 import { CompanyLeave } from "./company-leave";
 import { CompanyInvite } from "@/components/companies/action-buttons/company-invite";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
+import { CompanyJoinRequest } from "@/components/companies/action-buttons/company-join-request";
 
 type CompanyActionButtonsProps = {
   company: Company;
   showActions?: ActionButtons[];
   wrapperClassName?: string;
   canLeaveCompany?: boolean;
+  canRequestCompany?: boolean;
   variant?: "compact" | "panel";
 };
 
@@ -19,6 +21,7 @@ export async function GetCompanyActions({
   showActions,
   wrapperClassName,
   canLeaveCompany = true,
+  canRequestCompany = false,
   variant = "compact",
 }: CompanyActionButtonsProps) {
   const userData = await getCurrentUserCached();
@@ -29,7 +32,9 @@ export async function GetCompanyActions({
   );
   const triggerClassName = isCompact ? "h-8 px-2 text-xs" : "";
   const isVisible = (action: ActionButtons) =>
-    showActions?.includes(ActionButtons.ALL) || showActions?.includes(action);
+    !showActions ||
+    showActions.includes(ActionButtons.ALL) ||
+    showActions.includes(action);
 
   return (
     <div
@@ -57,6 +62,9 @@ export async function GetCompanyActions({
       )}
       {isVisible(ActionButtons.LEAVE) && canLeaveCompany && !isOwner && (
         <CompanyLeave companyId={company.id} isDisabled={isCompanyAdmin} />
+      )}
+      {isVisible(ActionButtons.REQUEST) && canRequestCompany && !isOwner && (
+        <CompanyJoinRequest companyId={company.id} />
       )}
     </div>
   );

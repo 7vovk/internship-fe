@@ -49,6 +49,10 @@
     "successInvitation": "Invitation sent successfully",
     "invitedUsers": "Invited users",
     "userRequests": "Requests to join",
+    "acceptInvite": "Accept this company invitation?",
+    "declineInvite": "Decline this company invitation?",
+    "cancelRequest": "Cancel your join request to this company?",
+    "joinRequest": "Send request to join this company?",
     "excludeMember": "Exclude this user from the company?",
     "acceptRequest": "Accept this request to join the company?",
     "rejectRequest": "Reject this request to join the company?",
@@ -72,7 +76,6 @@
     "modalDescription": "Some detailed information about the current user - ",
     "noRole": "No role",
     "user": "User",
-    "noUsers": "No users found.",
     "email": "Email",
     "roles": "Roles",
     "removeAccount": "Your account will be permanently removed.",
@@ -149,7 +152,11 @@
     "cancelInvite": "Cancel invite",
     "acceptRequest": "Accept request",
     "rejectRequest": "Reject request",
-    "excludeUser": "Exclude user"
+    "excludeUser": "Exclude user",
+    "acceptInvite": "Accept invite",
+    "declineInvite": "Decline invite",
+    "cancelRequest": "Cancel request",
+    "joinCompany": "Join company"
   },
   "Pagination": {
     "rowsPerPage": "Rows per page",

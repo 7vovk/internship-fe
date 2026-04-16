@@ -68,7 +68,6 @@ export function CompanyDataModal({
         errorToaster(data.message);
         return false;
       }
-      return true;
     } catch (error) {
       errorToaster(parseErrorMessage(error));
       return false;

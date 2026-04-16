@@ -17,6 +17,7 @@ import {
   acceptInvitation,
   cancelInvitation,
   declineInvitation,
+  handleCompanyJoinRequest,
 } from "@/lib/api/invitations";
 
 export async function createCompanyAction(
@@ -175,6 +176,74 @@ export async function excludeCompanyMemberAction(
     await removeCompanyMember(companyId, memberId);
     revalidatePath(Routes.HOME, "layout");
     revalidatePath(Routes.COMPANIES);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function createCompanyJoinRequestAction(
+  companyId: string,
+): Promise<ServerActionResult> {
+  try {
+    await handleCompanyJoinRequest(companyId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    revalidatePath(Routes.PROFILE);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function acceptUserInvitationAction(
+  inviteId: string,
+): Promise<ServerActionResult> {
+  try {
+    await acceptInvitation(inviteId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    revalidatePath(Routes.PROFILE);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function declineUserInvitationAction(
+  inviteId: string,
+): Promise<ServerActionResult> {
+  try {
+    await declineInvitation(inviteId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    revalidatePath(Routes.PROFILE);
+    return { ok: true, message: "" };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error),
+    };
+  }
+}
+
+export async function cancelUserJoinRequestAction(
+  inviteId: string,
+): Promise<ServerActionResult> {
+  try {
+    await cancelInvitation(inviteId);
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.COMPANIES);
+    revalidatePath(Routes.PROFILE);
     return { ok: true, message: "" };
   } catch (error) {
     return {

@@ -3,14 +3,17 @@ import { convertDate } from "@/app/utils/date.utils";
 import { CompanyInvitationActions } from "@/components/companies/action-buttons/company-invitation-actions";
 import { InvTableRow } from "@/lib/interfaces";
 import { NoRecordsRow } from "@/components/shared/no-records-row";
+import { UserInvitationActions } from "@/components/invitations/user-invitation-actions";
 
 interface InvitationTableBodyProps {
   isCompany?: boolean;
+  showActions?: boolean;
   rows: InvTableRow[];
 }
 
 export async function InvitationTableBody({
   isCompany,
+  showActions = false,
   rows,
 }: InvitationTableBodyProps) {
   return (
@@ -39,14 +42,22 @@ export async function InvitationTableBody({
                 </TableCell>
               ))}
 
-              {isCompany && (
+              {showActions && (
                 <TableCell className="h-14 px-4 text-muted-foreground">
-                  <div className="flex justify-end">
-                    <CompanyInvitationActions
-                      inviteId={invite.id}
-                      type={invite.type}
-                      status={invite.status}
-                    />
+                  <div className="flex justify-start">
+                    {isCompany ? (
+                      <CompanyInvitationActions
+                        inviteId={invite.id}
+                        type={invite.type}
+                        status={invite.status}
+                      />
+                    ) : (
+                      <UserInvitationActions
+                        inviteId={invite.id}
+                        type={invite.type}
+                        status={invite.status}
+                      />
+                    )}
                   </div>
                 </TableCell>
               )}
@@ -54,7 +65,7 @@ export async function InvitationTableBody({
           );
         })
       ) : (
-        <NoRecordsRow colSpan={isCompany ? 6 : 5} />
+        <NoRecordsRow colSpan={showActions ? 6 : 5} />
       )}
     </TableBody>
   );

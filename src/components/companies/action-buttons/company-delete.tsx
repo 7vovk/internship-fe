@@ -25,7 +25,6 @@ export function CompanyDelete({
         await deleteCurrentCompanyAction(companyId);
       if (!deleted.ok) {
         errorToaster(deleted.message);
-        return;
       }
     } catch (error) {
       errorToaster(parseErrorMessage(error));
