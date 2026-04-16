@@ -7,6 +7,7 @@ import { CompanyRowLink } from "@/app/components/client/company-row-link";
 import { convertDate } from "@/app/utils/date.utils";
 import { GetCompanyActions } from "@/components/companies/action-buttons/company-action-buttons";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
+import { NoRecordsRow } from "@/components/shared/no-records-row";
 
 type CompaniesTableBodyProps = {
   rows: Array<Company>;
@@ -39,7 +40,7 @@ export async function CompaniesTableBody({
           const canLeaveCompany = companyMember || companyAdmin;
 
           const isRowClickable = isOwner || companyMember || companyAdmin;
-          const repeatedCells = [
+          const repeatedCells: string[] = [
             company.description,
             company.website,
             company.address,
@@ -94,14 +95,7 @@ export async function CompaniesTableBody({
           );
         })
       ) : (
-        <TableRow>
-          <TableCell
-            colSpan={8}
-            className="h-24 text-center text-muted-foreground"
-          >
-            {tCompanies("noCompanies")}
-          </TableCell>
-        </TableRow>
+        <NoRecordsRow colSpan={8} />
       )}
     </TableBody>
   );

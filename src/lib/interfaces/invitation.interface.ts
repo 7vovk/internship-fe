@@ -12,3 +12,13 @@ export interface Invitation {
 export interface OwnerInvitationFormData {
   emails: string[];
 }
+
+export interface InvTableRow {
+  id: string;
+  email: string;
+  companyName?: string;
+  status: string;
+  type: string;
+  createDate: string;
+  updateDate: string;
+}

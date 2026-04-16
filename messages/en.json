@@ -31,7 +31,6 @@
     "open": "Open company «{name}»",
     "company": "Company",
     "isVisibleForAll": "Company visible for everyone",
-    "noCompanies": "No user companies found",
     "userCompanies": "User companies"
   },
   "Company": {
@@ -59,7 +58,9 @@
     "title": "Profile",
     "description": "The page with the detailed information related to the current user profile.",
     "goTo": "Go to profile",
-    "open": "Open {firstName} {lastName}'s profile"
+    "open": "Open {firstName} {lastName}'s profile",
+    "invitedUsers": "Your invitations",
+    "userRequests": "Your company requests"
   },
   "Users": {
     "title": "Users",
@@ -168,6 +169,8 @@
     "createDate": "Created date",
     "updateDate": "Updated date",
     "email": "Email",
+    "type": "Type",
+    "status": "Status",
     "name": "Name",
     "firstName": "First name",
     "lastName": "Last name",

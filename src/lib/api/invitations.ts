@@ -35,6 +35,19 @@ export async function getAllInvitations(
   }
 }
 
+export async function getCurrentUserInvitations(
+  type: InvitationType,
+): Promise<PaginationData<Invitation[]>> {
+  try {
+    const apiRes = await api.get<ApiResult<PaginationData<Invitation[]>>>(
+      `/invitations/user/${type}`,
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
 export async function cancelInvitation(
   inviteId: string,
   reason = "Cancelled by company owner",

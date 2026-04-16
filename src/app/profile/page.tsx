@@ -10,6 +10,9 @@ import { AuthHeader } from "@/lib/enums/auth.enums";
 import { auth0 } from "@/lib/auth0";
 import CompaniesTable from "@/components/companies/table/companies-table";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
+import { InvitationType } from "@/lib/enums/invitation.enums";
+import { getCurrentUserInvitations } from "@/lib/api/invitations";
+import { InvitationTable } from "@/components/invitations/invitation-table/invitation-table";
 
 export default async function UserProfilePage() {
   const tProfile = await getTranslations(siteConfig.pages.profile.translation);
@@ -20,6 +23,10 @@ export default async function UserProfilePage() {
   const session = await auth0.getSession();
   const authType = session?.user && !isJwtAuthenticated ? "auth0" : "jwt";
   const currentUser = await getCurrentUserCached();
+  const [userRequests, ownerInvitations] = await Promise.all([
+    getCurrentUserInvitations(InvitationType.USER_REQUEST),
+    getCurrentUserInvitations(InvitationType.OWNER_INVITE),
+  ]);
   const userDataMap = parseUserData(currentUser, tGeneral);
 
   return (
@@ -39,6 +46,18 @@ export default async function UserProfilePage() {
         </div>
       </ul>
       <CompaniesTable showActions={[ActionButtons.INVITE]} isProfile />
+      <div className="grid grid-cols-1 gap-6 mt-6">
+        <InvitationTable
+          title={tProfile("userRequests")}
+          rows={userRequests?.data ?? []}
+          isCompany={false}
+        />
+        <InvitationTable
+          title={tProfile("invitedUsers")}
+          rows={ownerInvitations?.data ?? []}
+          isCompany={false}
+        />
+      </div>
     </PageTemplate>
   );
 }

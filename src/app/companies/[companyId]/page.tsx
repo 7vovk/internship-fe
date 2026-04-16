@@ -13,8 +13,8 @@ import { GetCompanyActions } from "@/components/companies/action-buttons/company
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 import { getAllInvitations } from "@/lib/api/invitations";
 import { InvitationType } from "@/lib/enums/invitation.enums";
-import { InvitationTable } from "@/components/invitations/invitation-table";
-import { MembersTable } from "@/components/invitations/members-table";
+import { InvitationTable } from "@/components/invitations/invitation-table/invitation-table";
+import { MembersTable } from "@/components/invitations/members-table/members-table";
 
 export default async function CompanyPage({
   params,
@@ -83,10 +83,12 @@ export default async function CompanyPage({
       {isOwner && (
         <div className="grid grid-cols-1 gap-6">
           <InvitationTable
+            isCompany
             title={tCompany("invitedUsers")}
             rows={companyInvitation?.data || []}
           />
           <InvitationTable
+            isCompany
             title={tCompany("userRequests")}
             rows={userRequests?.data || []}
           />

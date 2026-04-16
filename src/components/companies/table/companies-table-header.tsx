@@ -21,12 +21,7 @@ export async function CompaniesTableHeader({
     "address",
     "phone",
   ];
-  const actionsData: string[] = !!showActions?.length ? ["actions"] : [];
-  const headerGeneralData: string[] = [
-    "createDate",
-    "updateDate",
-    ...actionsData,
-  ];
+  const headerGeneralData: string[] = ["createDate", "updateDate"];
 
   return (
     <TableHeader>
@@ -41,6 +36,11 @@ export async function CompaniesTableHeader({
             {tGeneral(name)}
           </TableHead>
         ))}
+        {!!showActions?.length && (
+          <TableHead className="h-12 px-4 text-center font-medium">
+            {tGeneral("actions")}
+          </TableHead>
+        )}
       </TableRow>
     </TableHeader>
   );
