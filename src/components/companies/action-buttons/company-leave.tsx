@@ -6,6 +6,7 @@ import { leaveSpecificCompany } from "@/lib/api/companies";
 import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
 import { useRouter } from "next/navigation";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 type CompanyLeaveProps = {
   companyId: string;
@@ -36,7 +37,7 @@ export function CompanyLeave({
       btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
       title="sure"
       description={t("leave")}
-      icon="alert"
+      icon={IconEnum.ALERT}
       onConfirm={handleLeaveCompany}
     />
   );

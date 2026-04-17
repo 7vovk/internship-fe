@@ -7,6 +7,7 @@ import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
 import { deleteCurrentCompanyAction } from "../company.server-action";
 import { cn } from "@/lib/utils";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 type CompanyDeleteProps = {
   companyId: string;
@@ -38,7 +39,7 @@ export function CompanyDelete({
       btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
       title="sure"
       description={t("remove")}
-      icon="alert"
+      icon={IconEnum.ALERT}
       onConfirm={handleDelete}
     />
   );

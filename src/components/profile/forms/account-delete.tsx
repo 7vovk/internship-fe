@@ -7,6 +7,7 @@ import { deleteCurrentUserAction } from "@/components/profile/profile.server-act
 import { errorToaster } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
 import { AuthType, useAuth } from "@/hooks/useAuth.hook";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 type ProfileDeleteProps = {
   authType: AuthType;
@@ -36,7 +37,7 @@ export function AccountDelete({ authType }: ProfileDeleteProps) {
       btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
       title="sure"
       description={tUser("removeAccount")}
-      icon="alert"
+      icon={IconEnum.ALERT}
       onConfirm={handleDelete}
     />
   );

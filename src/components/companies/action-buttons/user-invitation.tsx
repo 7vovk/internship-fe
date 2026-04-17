@@ -10,6 +10,7 @@ import {
   declineUserInvitationAction,
 } from "@/components/companies/company.server-action";
 import { useTranslations } from "next-intl";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 type UserInvitationActionsProps = {
   inviteId: string;
@@ -71,7 +72,7 @@ export function UserInvitation({
             btnOkClasses="text-black bg-green-300 hover:bg-green-500 hover:text-white"
             title="confirmAction"
             description={t("acceptInvite")}
-            icon="check"
+            icon={IconEnum.CHECK}
             onConfirm={handleAcceptInvite}
           />
           <ConfirmationModal
@@ -81,7 +82,7 @@ export function UserInvitation({
             btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
             title="sure"
             description={t("declineInvite")}
-            icon="alert"
+            icon={IconEnum.ALERT}
             onConfirm={handleDeclineInvite}
           />
         </>
@@ -94,7 +95,7 @@ export function UserInvitation({
           btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
           title="sure"
           description={t("cancelRequest")}
-          icon="alert"
+          icon={IconEnum.ALERT}
           onConfirm={handleCancelRequest}
         />
       )}

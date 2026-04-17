@@ -16,6 +16,7 @@ import {
 } from "@/components/forms/auth.schema";
 import { useRouter } from "next/navigation";
 import { Placeholder } from "@/lib/enums/placeholder.enums";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 export function EditPassword() {
   const router = useRouter();
@@ -68,7 +69,7 @@ export function EditPassword() {
       btnClasses="hover:bg-yellow-500 hover:text-white"
       btnOkClasses="text-black bg-yellow-300 hover:bg-yellow-500 hover:text-white"
       description={tUser("editPass")}
-      icon="warning"
+      icon={IconEnum.WARNING}
       onConfirm={handlePasswordUpdate}
       onCancel={() => passwordForm.clearErrors()}
     >

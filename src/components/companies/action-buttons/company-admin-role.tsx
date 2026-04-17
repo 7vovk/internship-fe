@@ -9,6 +9,7 @@ import {
 } from "@/components/companies/company.server-action";
 import { useTranslations } from "next-intl";
 import { AdminRoleMode } from "@/lib/enums/action-buttons.enums";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 type CompanyAdminRoleActionsProps = {
   companyId: string;
@@ -52,7 +53,7 @@ export function CompanyAdminRole({
           btnOkClasses="text-black bg-blue-300 hover:bg-blue-500 hover:text-white"
           title="confirmAction"
           description={tCompany("appointAdmin")}
-          icon="check"
+          icon={IconEnum.CHECK}
           onConfirm={handleAdminAdd}
         />
       )}
@@ -64,7 +65,7 @@ export function CompanyAdminRole({
           btnOkClasses="text-black bg-yellow-300 hover:bg-yellow-500 hover:text-white"
           title="sure"
           description={tCompany("removeAdmin")}
-          icon="warning"
+          icon={IconEnum.WARNING}
           onConfirm={handleRemoveAdmin}
         />
       )}

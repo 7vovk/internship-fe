@@ -1,8 +1,9 @@
 import * as React from "react";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 export type ConfirmationModalHeaderProps = Partial<{
   title: string;
-  icon?: "alert" | "warning" | "check" | null;
+  icon?: IconEnum | null;
   description: string;
 }>;
 
