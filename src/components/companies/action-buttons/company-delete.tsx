@@ -33,7 +33,7 @@ export function CompanyDelete({
 
   return (
     <ConfirmationModal
-      buttonName="deleteCompany"
+      buttonName="delete"
       btnClasses={cn("hover:bg-red-500 hover:text-white", buttonClassName)}
       btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
       title="sure"

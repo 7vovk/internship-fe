@@ -23,17 +23,17 @@ export async function AdminsTableBody({
       {admins.length > 0 ? (
         admins.map((admin) => (
           <TableRow key={admin.id}>
-            <TableCell className="h-14 px-4 text-start">
+            <TableCell className="h-14 px-4 py-3 text-start whitespace-normal break-words align-top">
               {admin.firstName} {admin.lastName}
             </TableCell>
-            <TableCell className="h-14 px-4 text-start text-muted-foreground">
+            <TableCell className="h-14 px-4 py-3 text-start text-muted-foreground whitespace-normal break-words align-top">
               {admin.email}
             </TableCell>
-            <TableCell className="h-14 px-4 text-start">
+            <TableCell className="h-14 px-4 py-3 text-start align-top">
               <Badge variant="secondary">{Roles.ADMIN}</Badge>
             </TableCell>
-            <TableCell className="h-14 px-4 text-start">
-              <div className="flex justify-start">
+            <TableCell className="h-14 px-4 py-3 text-start align-top">
+              <div className="flex flex-wrap items-start gap-2 justify-start">
                 <CompanyAdminRole
                   isAdmin
                   companyId={companyId}

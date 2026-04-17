@@ -24,7 +24,7 @@ export function CompanyJoinRequest({ companyId }: CompanyJoinRequestProps) {
 
   return (
     <ConfirmationModal
-      buttonName="joinCompany"
+      buttonName="join"
       btnClasses="hover:bg-green-600 hover:text-white"
       btnOkClasses="text-black bg-green-300 hover:bg-green-500 hover:text-white"
       title="confirmAction"

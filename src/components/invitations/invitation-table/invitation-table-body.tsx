@@ -36,15 +36,15 @@ export async function InvitationTableBody({
               {repeatedCells.map((cell, i) => (
                 <TableCell
                   key={i}
-                  className="h-14 px-4 text-start text-muted-foreground"
+                  className="h-14 px-4 py-3 text-start text-muted-foreground whitespace-normal break-words align-top"
                 >
                   {cell}
                 </TableCell>
               ))}
 
               {showActions && (
-                <TableCell className="h-14 px-4 text-muted-foreground">
-                  <div className="flex justify-start">
+                <TableCell className="h-14 px-4 py-3 text-muted-foreground align-top">
+                  <div className="flex flex-wrap items-start gap-2 justify-start">
                     {isCompany ? (
                       <CompanyInvitation
                         inviteId={invite.id}

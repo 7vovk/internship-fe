@@ -16,7 +16,7 @@ export async function AdminsTable({ companyId, ownerId }: AdminsTableProps) {
       <div className="border-b px-4 py-3">
         <h2 className="text-center text-base font-semibold">{t("admins")}</h2>
       </div>
-      <Table className="table-fixed">
+      <Table>
         <AdminsTableHeader />
         <AdminsTableBody companyId={companyId} ownerId={ownerId} />
       </Table>

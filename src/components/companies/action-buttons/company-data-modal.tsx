@@ -31,7 +31,7 @@ export function CompanyDataModal({
   const tCompanies = useTranslations(siteConfig.pages.companies.translation);
   const tGeneral = useTranslations("General");
 
-  const formDescription = company ? "updateCompany" : "createCompany";
+  const formDescription = company ? "update" : "createCompany";
   const icon = company ? "warning" : null;
   const okButtonText = company ? "update" : "create";
   const companyFormSchema = getCompanyDataSchema(tGeneral);

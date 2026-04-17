@@ -7,10 +7,10 @@ export async function MembersTableHeader() {
   const t = await getTranslations("General");
 
   const headerData: TableHeaderData[] = [
-    { width: "w-[30%]", title: "name" },
-    { width: "w-[34%]", title: "email" },
-    { width: "w-[16%]", title: "roles" },
-    { width: "w-[20%]", title: "actions" },
+    { width: "w-[24%]", title: "name" },
+    { width: "w-[26%]", title: "email" },
+    { width: "w-[14%]", title: "roles" },
+    { width: "w-[36%]", title: "actions" },
   ];
 
   return (
@@ -19,7 +19,10 @@ export async function MembersTableHeader() {
         {headerData.map((header) => (
           <TableHead
             key={header.title}
-            className={cn("h-12 px-4 font-medium", header.width)}
+            className={cn(
+              "h-12 px-4 py-3 font-medium whitespace-normal break-words align-top leading-snug",
+              header.width,
+            )}
           >
             {t(header.title)}
           </TableHead>

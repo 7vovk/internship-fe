@@ -13,14 +13,12 @@ type CompaniesTableBodyProps = {
   rows: Array<Company>;
   currentUser: User | null;
   showActions?: ActionButtons[];
-  backHref?: string;
 };
 
 export async function CompaniesTableBody({
   rows,
   currentUser,
   showActions,
-  backHref,
 }: CompaniesTableBodyProps) {
   const tCompanies = await getTranslations(
     siteConfig.pages.companies.translation,
@@ -70,7 +68,6 @@ export async function CompaniesTableBody({
                   <CompanyRowLink
                     companyId={company.id}
                     ariaLabel={tCompanies("open", { name: company.name })}
-                    backHref={backHref}
                   />
                 )}
                 <div className="relative z-0 flex items-center gap-3">

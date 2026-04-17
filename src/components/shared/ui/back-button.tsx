@@ -1,26 +1,26 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { buttonVariants } from "@/components/shared/ui/index";
-import { JSX } from "react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-export async function BackButton({
-  href,
-}: {
-  href: string;
-}): Promise<JSX.Element> {
-  const t = await getTranslations("Buttons");
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/shared/ui/button";
+
+export function BackButton() {
+  const router = useRouter();
+
+  function handleBackButtonClick() {
+    router.back();
+  }
+
   return (
-    <Link
-      href={href}
-      className={buttonVariants({
-        variant: "outline",
-        size: "default",
-        className: "mb-4 inline-flex w-fit",
-      })}
-      aria-label={t("back")}
+    <Button
+      type="button"
+      variant="outline"
+      size="icon"
+      onClick={handleBackButtonClick}
+      className="text-foreground hover:bg-muted hover:cursor-pointer"
+      aria-label="Go back"
     >
       <ArrowLeft className="size-4" />
-    </Link>
+    </Button>
   );
 }

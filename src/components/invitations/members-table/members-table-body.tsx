@@ -27,20 +27,20 @@ export async function MembersTableBody({
           const isAdmin = member.roles.includes(Roles.ADMIN);
           return (
             <TableRow key={member.id}>
-              <TableCell className="h-14 text-left px-4">
+              <TableCell className="h-14 text-left px-4 py-3 whitespace-normal break-words align-top">
                 {member.firstName} {member.lastName}
               </TableCell>
-              <TableCell className="h-14 text-left px-4 text-muted-foreground">
+              <TableCell className="h-14 text-left px-4 py-3 text-muted-foreground whitespace-normal break-words align-top">
                 {member.email}
               </TableCell>
-              <TableCell className="h-14 text-left px-4">
+              <TableCell className="h-14 text-left px-4 py-3 align-top">
                 <Badge variant="secondary">
                   {isAdmin ? Roles.ADMIN : Roles.MEMBER}
                 </Badge>
               </TableCell>
-              <TableCell className="h-14 text-left px-4">
+              <TableCell className="h-14 text-left px-4 py-3 align-top">
                 <div className="flex justify-start">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-start gap-2">
                     <CompanyAdminRole
                       companyId={companyId}
                       memberId={member.id}
