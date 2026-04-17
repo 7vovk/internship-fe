@@ -31,7 +31,7 @@
     "open": "Open company «{name}»",
     "company": "Company",
     "isVisibleForAll": "Company visible for everyone",
-    "noCompanies": "No user companies found"
+    "userCompanies": "User companies"
   },
   "Company": {
     "title": "Company information - {name}",
@@ -46,13 +46,25 @@
     "cantDelete": "Unable to delete the company.",
     "cantReceiveData": "Unable to retrieve the information about selected company. Please try again later.",
     "invite": "Invite new users to the company.",
-    "successInvitation": "Invitation sent successfully"
+    "successInvitation": "Invitation sent successfully",
+    "invitedUsers": "Invited users",
+    "userRequests": "Requests to join",
+    "acceptInvite": "Accept this company invitation?",
+    "declineInvite": "Decline this company invitation?",
+    "cancelRequest": "Cancel your join request to this company?",
+    "joinRequest": "Send request to join this company?",
+    "excludeMember": "Exclude this user from the company?",
+    "acceptRequest": "Accept this request to join the company?",
+    "rejectRequest": "Reject this request to join the company?",
+    "cancelInvite": "Cancel this invitation?"
   },
   "Profile": {
     "title": "Profile",
     "description": "The page with the detailed information related to the current user profile.",
     "goTo": "Go to profile",
-    "open": "Open {firstName} {lastName}'s profile"
+    "open": "Open {firstName} {lastName}'s profile",
+    "invitedUsers": "Your invitations",
+    "userRequests": "Your company requests"
   },
   "Users": {
     "title": "Users",
@@ -64,7 +76,6 @@
     "modalDescription": "Some detailed information about the current user - ",
     "noRole": "No role",
     "user": "User",
-    "noUsers": "No users found.",
     "email": "Email",
     "roles": "Roles",
     "removeAccount": "Your account will be permanently removed.",
@@ -137,7 +148,15 @@
     "back": "Back",
     "companyLeave": "Leave company",
     "invite": "Invite",
-    "userInvite": "Invite user"
+    "userInvite": "Invite user",
+    "cancelInvite": "Cancel invite",
+    "acceptRequest": "Accept request",
+    "rejectRequest": "Reject request",
+    "excludeUser": "Exclude user",
+    "acceptInvite": "Accept invite",
+    "declineInvite": "Decline invite",
+    "cancelRequest": "Cancel request",
+    "joinCompany": "Join company"
   },
   "Pagination": {
     "rowsPerPage": "Rows per page",
@@ -157,6 +176,8 @@
     "createDate": "Created date",
     "updateDate": "Updated date",
     "email": "Email",
+    "type": "Type",
+    "status": "Status",
     "name": "Name",
     "firstName": "First name",
     "lastName": "Last name",
@@ -179,6 +200,7 @@
     "websiteError": "Please enter the website in correct format.",
     "phoneError": "Please enter the phone in correct format.",
     "actions": "Actions",
-    "addMore": "Add more"
+    "addMore": "Add more",
+    "noRecords": "No records found"
   }
 }

@@ -11,6 +11,10 @@ import { Routes } from "@/config/site.enums";
 import { resolveBackHref } from "@/app/utils/route.utils";
 import { GetCompanyActions } from "@/components/companies/action-buttons/company-action-buttons";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
+import { getAllInvitations } from "@/lib/api/invitations";
+import { InvitationType } from "@/lib/enums/invitation.enums";
+import { InvitationTable } from "@/components/invitations/invitation-table/invitation-table";
+import { MembersTable } from "@/components/invitations/members-table/members-table";
 
 export default async function CompanyPage({
   params,
@@ -33,13 +37,20 @@ export default async function CompanyPage({
   }
 
   const selectedCompany = companyResult.company;
-  const tResponse = await getTranslations("General");
+  const tGeneral = await getTranslations("General");
   const currentUser = await getCurrentUserCached();
+  const isOwner = selectedCompany.ownerId === currentUser?.id;
+  const [userRequests, companyInvitation] = isOwner
+    ? await Promise.all([
+        getAllInvitations(companyId, InvitationType.USER_REQUEST),
+        getAllInvitations(companyId, InvitationType.OWNER_INVITE),
+      ])
+    : [null, null];
 
   const companyDataMap = parseCompanyData(
     selectedCompany,
     currentUser,
-    tResponse,
+    tGeneral,
   );
 
   return (
@@ -69,6 +80,27 @@ export default async function CompanyPage({
           wrapperClassName="justify-end sm:col-start-2 lg:col-start-3 xl:col-start-4"
         />
       </div>
+      {isOwner && (
+        <div className="grid grid-cols-1 gap-6">
+          <InvitationTable
+            isCompany
+            showActions
+            title={tCompany("invitedUsers")}
+            rows={companyInvitation?.data || []}
+          />
+          <InvitationTable
+            isCompany
+            showActions
+            title={tCompany("userRequests")}
+            rows={userRequests?.data || []}
+          />
+
+          <MembersTable
+            companyId={selectedCompany.id}
+            ownerId={selectedCompany.ownerId}
+          />
+        </div>
+      )}
     </PageTemplate>
   );
 }

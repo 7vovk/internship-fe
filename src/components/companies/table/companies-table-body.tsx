@@ -1,4 +1,4 @@
-import { Badge, TableBody, TableCell, TableRow } from "@/components/shared/ui";
+import { TableBody, TableCell, TableRow } from "@/components/shared/ui";
 import { getTranslations } from "next-intl/server";
 import { siteConfig } from "@/config/site.config";
 import { Company, User } from "@/lib/interfaces";
@@ -7,11 +7,11 @@ import { CompanyRowLink } from "@/app/components/client/company-row-link";
 import { convertDate } from "@/app/utils/date.utils";
 import { GetCompanyActions } from "@/components/companies/action-buttons/company-action-buttons";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
+import { NoRecordsRow } from "@/components/shared/no-records-row";
 
 type CompaniesTableBodyProps = {
   rows: Array<Company>;
   currentUser: User | null;
-  showRoleBadges: boolean;
   showActions?: ActionButtons[];
   backHref?: string;
 };
@@ -19,7 +19,6 @@ type CompaniesTableBodyProps = {
 export async function CompaniesTableBody({
   rows,
   currentUser,
-  showRoleBadges,
   showActions,
   backHref,
 }: CompaniesTableBodyProps) {
@@ -39,9 +38,15 @@ export async function CompaniesTableBody({
             (admin) => admin.id === currentUser?.id,
           );
           const canLeaveCompany = companyMember || companyAdmin;
+          const canRequestCompany = !isOwner && !companyMember && !companyAdmin;
 
-          const isRowClickable = isOwner || companyMember || companyAdmin;
-          const repeatedCells = [
+          const hasRequestAction =
+            canRequestCompany &&
+            (showActions?.includes(ActionButtons.ALL) ||
+              showActions?.includes(ActionButtons.REQUEST));
+          const isRowClickable =
+            isOwner || companyMember || companyAdmin || hasRequestAction;
+          const repeatedCells: string[] = [
             company.description,
             company.website,
             company.address,
@@ -79,22 +84,6 @@ export async function CompaniesTableBody({
                   </div>
                 </TableCell>
               ))}
-              {showRoleBadges && (
-                <TableCell className="h-14 px-4 font-medium">
-                  {"roles" in company && company.roles.length > 0 ? (
-                    <div className="relative z-0 flex items-center gap-2">
-                      {company.roles.map((role) => (
-                        <Badge
-                          key={`${company.id}-${role}`}
-                          variant="secondary"
-                        >
-                          {role}
-                        </Badge>
-                      ))}
-                    </div>
-                  ) : null}
-                </TableCell>
-              )}
 
               <TableCell className="h-14 px-4 font-medium">
                 <div className="relative z-20 flex items-center gap-3">
@@ -102,6 +91,7 @@ export async function CompaniesTableBody({
                     <GetCompanyActions
                       showActions={showActions}
                       canLeaveCompany={canLeaveCompany}
+                      canRequestCompany={canRequestCompany}
                       company={company as Company}
                       variant="compact"
                     />
@@ -112,14 +102,7 @@ export async function CompaniesTableBody({
           );
         })
       ) : (
-        <TableRow>
-          <TableCell
-            colSpan={8}
-            className="h-24 text-center text-muted-foreground"
-          >
-            {tCompanies("noCompanies")}
-          </TableCell>
-        </TableRow>
+        <NoRecordsRow colSpan={8} />
       )}
     </TableBody>
   );

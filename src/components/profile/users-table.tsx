@@ -17,6 +17,7 @@ import { Routes } from "@/config/site.enums";
 import { getTranslations } from "next-intl/server";
 import { siteConfig } from "@/config/site.config";
 import TablePagination from "../shared/table-pagination";
+import { NoRecordsRow } from "@/components/shared/no-records-row";
 
 type UsersTableProps = {
   page?: number;
@@ -98,18 +99,13 @@ export default async function UsersTable({
               </TableRow>
             ))
           ) : (
-            <TableRow>
-              <TableCell
-                colSpan={3}
-                className="h-24 text-center text-muted-foreground"
-              >
-                {tUser("noUsers")}
-              </TableCell>
-            </TableRow>
+            <NoRecordsRow colSpan={3} />
           )}
         </TableBody>
       </Table>
-      <TablePagination route={Routes.USERS} data={users} />
+      {users.data.length > 0 && (
+        <TablePagination route={Routes.USERS} data={users} />
+      )}
     </div>
   );
 }

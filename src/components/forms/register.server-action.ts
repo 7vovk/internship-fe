@@ -2,7 +2,7 @@
 
 import { handleAccountCreate } from "@/lib/api/users";
 import { parseErrorMessage } from "@/lib/errors";
-import { _Translator } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 type CreateAccountPayload = {
   firstName: string;
@@ -18,15 +18,15 @@ type CreateAccountActionResult = {
 
 export async function createAccountAction(
   payload: CreateAccountPayload,
-  translator: _Translator<Record<string, string>>,
 ): Promise<CreateAccountActionResult> {
+  const tAuth = await getTranslations("Auth");
   try {
     await handleAccountCreate(payload);
-    return { ok: true, message: translator("accCreated") };
+    return { ok: true, message: tAuth("accCreated") };
   } catch (error) {
     return {
       ok: false,
-      message: parseErrorMessage(error, translator("cantCreateAcc")),
+      message: parseErrorMessage(error, tAuth("cantCreateAcc")),
     };
   }
 }
