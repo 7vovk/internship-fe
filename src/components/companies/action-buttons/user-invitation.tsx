@@ -37,10 +37,8 @@ export function UserInvitation({
     const accepted = await acceptUserInvitationAction(inviteId);
     if (!accepted.ok) {
       errorToaster(accepted.message);
-      return false;
     }
     router.refresh();
-    return true;
   }
 
   async function handleDeclineInvite() {
@@ -55,10 +53,8 @@ export function UserInvitation({
     const cancelled = await cancelUserJoinRequestAction(inviteId);
     if (!cancelled.ok) {
       errorToaster(cancelled.message);
-      return false;
     }
     router.refresh();
-    return true;
   }
 
   return (

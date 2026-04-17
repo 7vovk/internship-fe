@@ -37,20 +37,16 @@ export function CompanyInvitation({
     const cancelled = await cancelCompanyInvitationAction(inviteId);
     if (!cancelled.ok) {
       errorToaster(cancelled.message);
-      return false;
     }
     router.refresh();
-    return true;
   }
 
   async function handleAcceptRequest() {
     const accepted = await acceptCompanyJoinRequestAction(inviteId);
     if (!accepted.ok) {
       errorToaster(accepted.message);
-      return false;
     }
     router.refresh();
-    return true;
   }
 
   async function handleRejectRequest() {

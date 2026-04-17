@@ -23,10 +23,8 @@ export function CompanyExcludeMember({
     const excluded = await excludeCompanyMemberAction(companyId, memberId);
     if (!excluded.ok) {
       errorToaster(excluded.message);
-      return false;
     }
     router.refresh();
-    return true;
   }
 
   return (
