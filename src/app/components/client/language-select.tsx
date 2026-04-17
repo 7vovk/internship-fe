@@ -2,11 +2,12 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export const LanguageSelect = () => {
   const router = useRouter();
   const currentLocale = useLocale();
+  const t = useTranslations("General");
 
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -21,9 +22,13 @@ export const LanguageSelect = () => {
   };
 
   return (
-    <select onChange={handleLanguageChange} defaultValue={currentLocale}>
-      <option value="uk">Ukrainian</option>
-      <option value="en">English</option>
+    <select
+      onChange={handleLanguageChange}
+      defaultValue={currentLocale}
+      className="cursor-pointer"
+    >
+      <option value="uk">{t("uk")}</option>
+      <option value="en">{t("en")}</option>
     </select>
   );
 };

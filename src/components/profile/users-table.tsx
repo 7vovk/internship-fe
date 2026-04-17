@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "../shared/ui";
 import { getAllUsers } from "@/lib/api/users";
-import { Pagination, User } from "@/lib/interfaces";
+import { PaginationData, User } from "@/lib/interfaces";
 import { Routes } from "@/config/site.enums";
 import { getTranslations } from "next-intl/server";
 import { siteConfig } from "@/config/site.config";
@@ -27,8 +27,12 @@ export default async function UsersTable({
   page = 1,
   limit = 10,
 }: UsersTableProps) {
-  const users: Pagination<User[]> = await getAllUsers({ page, limit });
+  const users: PaginationData<User[]> = await getAllUsers({ page, limit });
   const tUser = await getTranslations(siteConfig.pages.user.translation);
+  const tProfile = await getTranslations(siteConfig.pages.profile.translation);
+  const backHref = encodeURIComponent(
+    `${Routes.USERS}?page=${page}&limit=${limit}`,
+  );
 
   return (
     <div className="rounded-lg border bg-card w-full">
@@ -50,14 +54,17 @@ export default async function UsersTable({
           {users.data.length > 0 ? (
             users.data.map((person) => (
               <TableRow
-                key={person.email}
+                key={person.id}
                 className="group relative cursor-pointer hover:bg-muted/50"
               >
                 <TableCell className="h-14 px-4 font-medium">
                   <Link
-                    href={`${Routes.USERS}/${person.id}`}
+                    href={`${Routes.USERS}/${person.id}?back=${backHref}`}
                     className="absolute inset-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    aria-label={`Open ${person.firstName} ${person.lastName}`}
+                    aria-label={tProfile("open", {
+                      firstName: person.firstName,
+                      lastName: person.lastName,
+                    })}
                   />
                   <div className="relative z-0 flex items-center gap-3">
                     <Avatar className="h-9 w-9">
@@ -79,7 +86,7 @@ export default async function UsersTable({
                   <div className="flex flex-wrap gap-1">
                     {person.roles?.length ? (
                       person.roles.map((role) => (
-                        <Badge key={`${person.id}-${role}`} variant="secondary">
+                        <Badge key={person.id} variant="secondary">
                           {role}
                         </Badge>
                       ))
@@ -102,14 +109,7 @@ export default async function UsersTable({
           )}
         </TableBody>
       </Table>
-      <TablePagination
-        page={users.currentPage}
-        limit={users.itemsPerPage}
-        totalItems={users.totalItems}
-        totalPages={users.totalPages}
-        prevPage={users.prevPage}
-        nextPage={users.nextPage}
-      />
+      <TablePagination route={Routes.USERS} data={users} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import {
 } from "@/components/shared/ui";
 import { JSX } from "react";
 import { ConfirmationModalHeaderProps } from "@/lib/interfaces";
+import { cn } from "@/lib/utils";
 
 export function HeaderWithIcon({
   title,
@@ -15,11 +16,17 @@ export function HeaderWithIcon({
   return (
     <AlertDialogHeader>
       <div className="flex flex-wrap gap-2">
-        {icon === "alert" && <AlertTriangleIcon className="text-red-700" />}
-        {icon === "warning" && (
-          <AlertTriangleIcon className="text-yellow-500" />
-        )}
-        {icon === "check" && <CheckIcon className="text-green-700" />}
+        {icon &&
+          (icon === "check" ? (
+            <CheckIcon className="text-green-700" />
+          ) : (
+            <AlertTriangleIcon
+              className={cn(
+                icon === "warning" && "text-yellow-500",
+                icon === "alert" && "text-red-700",
+              )}
+            />
+          ))}
 
         <AlertDialogTitle>{title}</AlertDialogTitle>
       </div>

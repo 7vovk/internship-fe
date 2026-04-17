@@ -6,51 +6,56 @@ import {
   handleUserPictureUpdate,
 } from "@/lib/api/users";
 import { parseErrorMessage } from "@/lib/errors";
-import { UserActionResult, UserUpdatePayload } from "@/lib/interfaces";
+import { ServerActionResult, UserUpdatePayload } from "@/lib/interfaces";
 import { revalidatePath } from "next/cache";
+import { getTranslations } from "next-intl/server";
+import { Routes } from "@/config/site.enums";
 
 export async function updateCurrentUserAction(
   payload: UserUpdatePayload,
-): Promise<UserActionResult> {
+): Promise<ServerActionResult> {
+  const t = await getTranslations("Auth");
   try {
     await handleCurrentUserUpdate(payload);
-    revalidatePath("/", "layout");
-    revalidatePath("/profile");
-    return { ok: true, message: "Account has been updated successfully." };
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.PROFILE);
+    return { ok: true, message: t("accUpdated") };
   } catch (error) {
     return {
       ok: false,
-      message: parseErrorMessage(error, "Unable to update account."),
+      message: parseErrorMessage(error, t("cantUpdateAcc")),
     };
   }
 }
 
 export async function updateCurrentUserImageAction(
   payload: FormData,
-): Promise<UserActionResult> {
+): Promise<ServerActionResult> {
+  const t = await getTranslations("Auth");
   try {
     await handleUserPictureUpdate(payload);
-    revalidatePath("/", "layout");
-    revalidatePath("/profile");
-    return { ok: true, message: "Profile image has been updated successfully." };
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.PROFILE);
+    return { ok: true, message: t("imageUpdated") };
   } catch (error) {
     return {
       ok: false,
-      message: parseErrorMessage(error, "Unable to update profile image."),
+      message: parseErrorMessage(error, t("cantUpdateImage")),
     };
   }
 }
 
-export async function deleteCurrentUserAction(): Promise<UserActionResult> {
+export async function deleteCurrentUserAction(): Promise<ServerActionResult> {
+  const t = await getTranslations("Auth");
   try {
     await handleCurrentUserDelete();
-    revalidatePath("/", "layout");
-    revalidatePath("/profile");
-    return { ok: true, message: "Account has been deleted successfully." };
+    revalidatePath(Routes.HOME, "layout");
+    revalidatePath(Routes.PROFILE);
+    return { ok: true, message: t("accDeleted") };
   } catch (error) {
     return {
       ok: false,
-      message: parseErrorMessage(error, "Unable to delete account."),
+      message: parseErrorMessage(error, t("cantDeleteAcc")),
     };
   }
 }

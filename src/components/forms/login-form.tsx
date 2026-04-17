@@ -10,12 +10,15 @@ import { Button, Card, CardContent, Separator, TextLink } from "../shared/ui";
 import { useAuth } from "@/hooks/useAuth.hook";
 import { getLoginSchema } from "./auth.schema";
 import FormController from "./form-controller";
+import { Placeholder } from "@/lib/enums/placeholder.enums";
+import { Routes } from "@/config/site.enums";
 
 export default function LoginForm() {
   const { submitLogin } = useAuth();
   const tAuth = useTranslations(siteConfig.pages.login.translation);
+  const tGeneral = useTranslations("General");
 
-  const formSchema = getLoginSchema(tAuth);
+  const formSchema = getLoginSchema(tGeneral);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,7 +66,7 @@ export default function LoginForm() {
                   name="password"
                   type="password"
                   label={tAuth("password")}
-                  placeholder={"**************"}
+                  placeholder={Placeholder.PASS}
                   autoComplete="off"
                 />
 
@@ -113,9 +116,9 @@ export default function LoginForm() {
 
           <TextLink
             text={tAuth("createNew")}
-            link={"/create"}
+            link={Routes.CREATE}
             linkText={tAuth("createTitle")}
-            className={"lowercase"}
+            className="lowercase"
           />
         </div>
       </div>

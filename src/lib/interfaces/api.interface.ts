@@ -6,3 +6,8 @@ export interface ApiResult<T = []> {
   statusCode: number;
   timestamp: string;
 }
+
+export type ServerActionResult = {
+  ok: boolean;
+  message: string;
+};

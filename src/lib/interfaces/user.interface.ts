@@ -1,4 +1,4 @@
-import { Company, CompanyAdministration, InvitedTo } from "./company.interface";
+import { Company } from "./company.interface";
 
 export interface User {
   createDate: string;
@@ -14,8 +14,8 @@ export interface User {
   profilePicture?: string;
   profilePictureUrl?: string;
   companies?: Company[];
-  invitedTo?: InvitedTo[];
-  companyAdministration?: CompanyAdministration[];
+  invitedTo?: Company[];
+  companyAdministration?: Company[];
 }
 
 export type UserUpdatePayload = Partial<{
@@ -24,8 +24,3 @@ export type UserUpdatePayload = Partial<{
   firstName: string;
   lastName: string;
 }>;
-
-export type UserActionResult = {
-  ok: boolean;
-  message: string;
-};

@@ -35,8 +35,16 @@ export function getRegisterPayloadSchema(
   translator: _Translator<Record<string, string>>,
 ) {
   return z.object({
-    firstName: z.string().min(1, translator("required")).max(100).trim(),
-    lastName: z.string().min(1, translator("required")).max(100).trim(),
+    firstName: z
+      .string()
+      .min(2, translator("chars", { amount: 2 }))
+      .max(100)
+      .trim(),
+    lastName: z
+      .string()
+      .min(2, translator("chars", { amount: 2 }))
+      .max(100)
+      .trim(),
     email: z.string().email(translator("emailError")),
     password: z.string().min(6, translator("passwordError")),
   });

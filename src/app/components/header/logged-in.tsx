@@ -34,7 +34,7 @@ export async function LoggedIn({
       <TooltipWrapper text={tProfile("goTo")}>
         <Link
           href={Routes.PROFILE}
-          aria-label={`Open ${firstName} ${lastName} profile`}
+          aria-label={tProfile("open", { firstName, lastName })}
           className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <Avatar className="h-9 w-9">

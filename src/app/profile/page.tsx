@@ -8,22 +8,23 @@ import { parseUserData } from "@/lib/users/parse-user-data";
 import { headers } from "next/headers";
 import { AuthHeader } from "@/lib/enums/auth.enums";
 import { auth0 } from "@/lib/auth0";
+import CompaniesTable from "@/components/companies/table/companies-table";
+import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 
 export default async function UserProfilePage() {
   const tProfile = await getTranslations(siteConfig.pages.profile.translation);
-  const tResponse = await getTranslations("Response");
+  const tResponse = await getTranslations("General");
   const requestHeaders = await headers();
   const isJwtAuthenticated =
     requestHeaders.get(AuthHeader.AUTHENTICATED)?.toLowerCase() === "true";
   const session = await auth0.getSession();
   const authType = session?.user && !isJwtAuthenticated ? "auth0" : "jwt";
   const currentUser = await getCurrentUserCached();
-
   const userDataMap = parseUserData(currentUser, tResponse);
 
   return (
     <PageTemplate translator={tProfile}>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {userDataMap.map((field) => {
           return (
             <ItemTemplate
@@ -36,7 +37,12 @@ export default async function UserProfilePage() {
         <div className="xl:col-start-4">
           <ProfileEdit authType={authType} currentUser={currentUser} />
         </div>
-      </div>
+      </ul>
+      <CompaniesTable
+        showActions={[ActionButtons.INVITE]}
+        showRoleBadges
+        isProfile
+      />
     </PageTemplate>
   );
 }
