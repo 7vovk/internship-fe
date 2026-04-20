@@ -6,3 +6,9 @@ export enum ActionButtons {
   REMOVE = "remove",
   UPDATE = "update",
 }
+
+export enum AdminRoleMode {
+  APPOINT = "appoint",
+  REMOVE = "remove",
+  BOTH = "both",
+}

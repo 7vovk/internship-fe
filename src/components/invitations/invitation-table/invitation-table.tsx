@@ -21,7 +21,7 @@ export function InvitationTable({
       <div className="border-b px-4 py-3">
         <h2 className="text-center text-base font-semibold">{title}</h2>
       </div>
-      <Table className="table-fixed">
+      <Table>
         <InvitationTableHeader isCompany={isCompany} showActions={showActions} />
         <InvitationTableBody
           rows={rows}

@@ -8,29 +8,22 @@ import { BackButton } from "@/components/shared/ui";
 import { ItemTemplate } from "@/components/shared/item-template";
 import { parseCompanyData } from "@/lib/companies/parse-company-data";
 import { Routes } from "@/config/site.enums";
-import { resolveBackHref } from "@/app/utils/route.utils";
 import { GetCompanyActions } from "@/components/companies/action-buttons/company-action-buttons";
 import { ActionButtons } from "@/lib/enums/action-buttons.enums";
 import { getAllInvitations } from "@/lib/api/invitations";
 import { InvitationType } from "@/lib/enums/invitation.enums";
 import { InvitationTable } from "@/components/invitations/invitation-table/invitation-table";
 import { MembersTable } from "@/components/invitations/members-table/members-table";
+import { AdminsTable } from "@/components/invitations/admins-table/admins-table";
 
 export default async function CompanyPage({
   params,
-  searchParams,
 }: {
   params?: Promise<{ companyId: string }>;
-  searchParams?: Promise<{ back?: string }>;
 }) {
   const companyId = (await params)!.companyId;
-  const resolvedSearchParams = await searchParams;
   const tCompany = await getTranslations(siteConfig.pages.company.translation);
   const companyResult = await getCurrentCompanyAction(companyId);
-  const backHref = resolveBackHref(
-    Routes.COMPANIES,
-    resolvedSearchParams?.back,
-  );
 
   if (!companyResult.ok) {
     redirect(Routes.COMPANIES);
@@ -59,18 +52,16 @@ export default async function CompanyPage({
       title={tCompany("title", { name: selectedCompany.name })}
     >
       <div className="flex justify-start">
-        <BackButton href={backHref} />
+        <BackButton />
       </div>
       <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {companyDataMap.map((field) => {
-          return (
-            <ItemTemplate
-              key={field.key}
-              title={field.key}
-              description={field.value}
-            />
-          );
-        })}
+        {companyDataMap.map((field) => (
+          <ItemTemplate
+            key={field.key}
+            title={field.key}
+            description={field.value}
+          />
+        ))}
       </ul>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <GetCompanyActions
@@ -96,6 +87,10 @@ export default async function CompanyPage({
           />
 
           <MembersTable
+            companyId={selectedCompany.id}
+            ownerId={selectedCompany.ownerId}
+          />
+          <AdminsTable
             companyId={selectedCompany.id}
             ownerId={selectedCompany.ownerId}
           />

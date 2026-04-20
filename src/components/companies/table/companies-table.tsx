@@ -41,7 +41,6 @@ export default async function CompaniesTable({
           rows={rows}
           showActions={showActions}
           currentUser={currentUser}
-          backHref={Routes.PROFILE}
         />
       </Table>
       {rows.length > 0 && (

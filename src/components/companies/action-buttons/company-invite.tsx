@@ -13,6 +13,8 @@ import * as z from "zod";
 import { PlusIcon, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { handleUserInvitation } from "@/lib/api/invitations";
+import { IconEnum } from "@/lib/enums/app.enums";
+import { getInviteUserSchema } from "@/components/forms/company.schema";
 
 type CompanyDeleteProps = {
   companyId: string;
@@ -28,34 +30,7 @@ export function CompanyInvite({
   const tGeneral = useTranslations("General");
   const tAuth = useTranslations("Auth");
 
-  const inviteUsersSchema = z.object({
-    users: z
-      .array(
-        z.object({
-          email: z.string().trim().email(tGeneral("emailError")),
-        }),
-      )
-      .min(1)
-      .superRefine((users, ctx) => {
-        const seenEmails = new Map<string, number>();
-
-        users.forEach((user, index) => {
-          const normalizedEmail = user.email.toLowerCase();
-          const firstIndex = seenEmails.get(normalizedEmail);
-
-          if (firstIndex !== undefined) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              path: [index, "email"],
-              message: tGeneral("duplicateEmailError"),
-            });
-            return;
-          }
-
-          seenEmails.set(normalizedEmail, index);
-        });
-      }),
-  });
+  const inviteUsersSchema = getInviteUserSchema(tGeneral);
 
   const inviteForm = useForm<z.infer<typeof inviteUsersSchema>>({
     resolver: zodResolver(inviteUsersSchema),
@@ -99,7 +74,7 @@ export function CompanyInvite({
       btnOkClasses="text-black bg-green-300 hover:bg-green-500 hover:text-white"
       title="userInvite"
       description={tCompany("invite")}
-      icon="check"
+      icon={IconEnum.CHECK}
       onConfirm={handleInviteToCompany}
     >
       <form id="invite-users-form" className="space-y-4">

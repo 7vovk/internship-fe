@@ -1,6 +1,7 @@
 export * from "./api.interface";
 export * from "./auth.interface";
 export * from "./company.interface";
+export * from "./general.iterface";
 export * from "./health-check.interface";
 export * from "./invitation.interface";
 export * from "./modal.interface";

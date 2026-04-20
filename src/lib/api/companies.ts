@@ -116,3 +116,44 @@ export async function getCompanyMembers(companyId: string): Promise<User[]> {
     throw error as ApiError;
   }
 }
+
+export async function getCompanyAdmins(companyId: string): Promise<User[]> {
+  try {
+    const apiRes = await api.get<ApiResult<User[]>>(
+      `/company/${companyId}/admins`,
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
+export async function addCompanyAdmin(
+  companyId: string,
+  memberId: string,
+): Promise<Company> {
+  try {
+    const apiRes = await api.patch<ApiResult<Company>>(
+      `/company/${companyId}/admin/add/${memberId}`,
+      {},
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
+export async function removeCompanyAdmin(
+  companyId: string,
+  memberId: string,
+): Promise<Company> {
+  try {
+    const apiRes = await api.delete<ApiResult<Company>>(
+      `/company/${companyId}/admin/remove/${memberId}`,
+      {},
+    );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}

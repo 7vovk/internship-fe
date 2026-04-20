@@ -5,6 +5,7 @@ import { errorToaster } from "@/app/utils";
 import { useRouter } from "next/navigation";
 import { excludeCompanyMemberAction } from "@/components/companies/company.server-action";
 import { useTranslations } from "next-intl";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 type CompanyExcludeMemberProps = {
   companyId: string;
@@ -33,7 +34,7 @@ export function CompanyExcludeMember({
       btnOkClasses="text-black bg-red-300 hover:bg-red-500 hover:text-white"
       title="sure"
       description={t("excludeMember")}
-      icon="alert"
+      icon={IconEnum.ALERT}
       onConfirm={handleExcludeMember}
     />
   );

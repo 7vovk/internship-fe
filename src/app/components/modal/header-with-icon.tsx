@@ -7,6 +7,7 @@ import {
 import { JSX } from "react";
 import { ConfirmationModalHeaderProps } from "@/lib/interfaces";
 import { cn } from "@/lib/utils";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 export function HeaderWithIcon({
   title,
@@ -17,13 +18,13 @@ export function HeaderWithIcon({
     <AlertDialogHeader>
       <div className="flex flex-wrap gap-2">
         {icon &&
-          (icon === "check" ? (
+          (icon === IconEnum.CHECK ? (
             <CheckIcon className="text-green-700" />
           ) : (
             <AlertTriangleIcon
               className={cn(
-                icon === "warning" && "text-yellow-500",
-                icon === "alert" && "text-red-700",
+                icon === IconEnum.WARNING && "text-yellow-500",
+                icon === IconEnum.ALERT && "text-red-700",
               )}
             />
           ))}

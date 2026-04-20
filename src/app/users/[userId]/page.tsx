@@ -6,22 +6,16 @@ import { ItemTemplate } from "@/components/shared/item-template";
 import { parseUserData } from "@/lib/users/parse-user-data";
 import { BackButton } from "@/components/shared/ui/back-button";
 import { User } from "@/lib/interfaces";
-import { resolveBackHref } from "@/app/utils/route.utils";
-import { Routes } from "@/config/site.enums";
 
 export default async function UserPage({
   params,
-  searchParams,
 }: {
   params?: Promise<{ userId: string }>;
-  searchParams?: Promise<{ back?: string }>;
 }) {
   const userId = (await params)!.userId;
-  const resolvedSearchParams = await searchParams;
   const tUser = await getTranslations(siteConfig.pages.user.translation);
   const selectedUser: User = await getUserById(userId);
   const tGeneral = await getTranslations("General");
-  const backHref = resolveBackHref(Routes.USERS, resolvedSearchParams?.back);
 
   const userDataMap = parseUserData(selectedUser, tGeneral);
 
@@ -31,7 +25,7 @@ export default async function UserPage({
       title={tUser("title", { email: selectedUser.email })}
     >
       <div className="flex justify-start">
-        <BackButton href={backHref} />
+        <BackButton />
       </div>
       <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {userDataMap.map((field) => {

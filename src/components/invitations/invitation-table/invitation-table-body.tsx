@@ -1,9 +1,9 @@
 import { TableBody, TableCell, TableRow } from "@/components/shared/ui";
 import { convertDate } from "@/app/utils/date.utils";
-import { CompanyInvitationActions } from "@/components/companies/action-buttons/company-invitation-actions";
+import { CompanyInvitation } from "@/components/companies/action-buttons/company-invitation";
 import { InvTableRow } from "@/lib/interfaces";
 import { NoRecordsRow } from "@/components/shared/no-records-row";
-import { UserInvitationActions } from "@/components/invitations/user-invitation-actions";
+import { UserInvitation } from "@/components/companies/action-buttons/user-invitation";
 
 interface InvitationTableBodyProps {
   isCompany?: boolean;
@@ -36,23 +36,23 @@ export async function InvitationTableBody({
               {repeatedCells.map((cell, i) => (
                 <TableCell
                   key={i}
-                  className="h-14 px-4 text-start text-muted-foreground"
+                  className="h-14 px-4 py-3 text-start text-muted-foreground whitespace-normal break-words align-top"
                 >
                   {cell}
                 </TableCell>
               ))}
 
               {showActions && (
-                <TableCell className="h-14 px-4 text-muted-foreground">
-                  <div className="flex justify-start">
+                <TableCell className="h-14 px-4 py-3 text-muted-foreground align-top">
+                  <div className="flex flex-wrap items-start gap-2 justify-start">
                     {isCompany ? (
-                      <CompanyInvitationActions
+                      <CompanyInvitation
                         inviteId={invite.id}
                         type={invite.type}
                         status={invite.status}
                       />
                     ) : (
-                      <UserInvitationActions
+                      <UserInvitation
                         inviteId={invite.id}
                         type={invite.type}
                         status={invite.status}

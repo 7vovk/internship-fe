@@ -53,9 +53,9 @@ const TablePagination = async ({ route, data }: TablePaginationProps) => {
   const isPrevDisabled = prevPage === null;
   const isNextDisabled = nextPage === null;
   return (
-    <div className="p-4 flex w-full flex-wrap items-center justify-between gap-6 max-sm:justify-center">
+    <ul className="p-4 flex w-full flex-wrap items-center justify-between gap-6 max-sm:justify-center">
       {totalItems > PAGE_SIZE_OPTIONS[0] && (
-        <div className="flex shrink-0 items-center gap-3">
+        <li className="flex shrink-0 items-center gap-3">
           <Label>{tPagination("rowsPerPage")}</Label>
           <div className="flex items-center gap-1">
             {PAGE_SIZE_OPTIONS.map((size) => (
@@ -74,7 +74,7 @@ const TablePagination = async ({ route, data }: TablePaginationProps) => {
               </Link>
             ))}
           </div>
-        </div>
+        </li>
       )}
       <div className="text-muted-foreground flex grow items-center justify-end whitespace-nowrap max-sm:justify-center">
         <p
@@ -126,7 +126,7 @@ const TablePagination = async ({ route, data }: TablePaginationProps) => {
               </PaginationLink>
             </PaginationItem>
             {visiblePages.map((pageNumber) => (
-              <PaginationItem key={pageNumber}>
+              <li key={pageNumber}>
                 <PaginationLink
                   href={buildHref(pageNumber)}
                   isActive={pageNumber === currentPage}
@@ -134,7 +134,7 @@ const TablePagination = async ({ route, data }: TablePaginationProps) => {
                 >
                   {pageNumber}
                 </PaginationLink>
-              </PaginationItem>
+              </li>
             ))}
             <PaginationItem>
               <PaginationLink
@@ -174,7 +174,7 @@ const TablePagination = async ({ route, data }: TablePaginationProps) => {
           </PaginationContent>
         </Pagination>
       )}
-    </div>
+    </ul>
   );
 };
 

@@ -1,6 +1,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/shared/ui";
 import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
+import { TableHeaderData } from "@/lib/interfaces";
 
 interface InvitationTableHeaderProps {
   isCompany?: boolean;
@@ -13,13 +14,13 @@ export async function InvitationTableHeader({
 }: InvitationTableHeaderProps) {
   const t = await getTranslations("General");
   const firstHeaderTitle = isCompany ? "email" : "name";
-  const actions = showActions ? [{ width: "w-[16%]", title: "actions" }] : [];
-  const headerData = [
-    { width: "w-[22%]", title: firstHeaderTitle },
+  const actions = showActions ? [{ width: "w-[24%]", title: "actions" }] : [];
+  const headerData: TableHeaderData[] = [
+    { width: "w-[20%]", title: firstHeaderTitle },
     { width: "w-[14%]", title: "type" },
-    { width: "w-[12%]", title: "status" },
-    { width: "w-[18%]", title: "createDate" },
-    { width: "w-[18%]", title: "updateDate" },
+    { width: "w-[14%]", title: "status" },
+    { width: "w-[14%]", title: "createDate" },
+    { width: "w-[14%]", title: "updateDate" },
     ...actions,
   ];
 

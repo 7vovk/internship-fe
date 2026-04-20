@@ -18,6 +18,7 @@ import {
 import { Field, FieldLabel, Toggle } from "@/components/shared/ui";
 import { Placeholder } from "@/lib/enums/placeholder.enums";
 import { cn } from "@/lib/utils";
+import { IconEnum } from "@/lib/enums/app.enums";
 
 interface CompanyDataModalProps {
   company?: Company;
@@ -31,8 +32,8 @@ export function CompanyDataModal({
   const tCompanies = useTranslations(siteConfig.pages.companies.translation);
   const tGeneral = useTranslations("General");
 
-  const formDescription = company ? "updateCompany" : "createCompany";
-  const icon = company ? "warning" : null;
+  const formDescription = company ? "update" : "createCompany";
+  const icon = company ? IconEnum.WARNING : null;
   const okButtonText = company ? "update" : "create";
   const companyFormSchema = getCompanyDataSchema(tGeneral);
 

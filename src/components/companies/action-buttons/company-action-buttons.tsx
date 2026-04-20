@@ -40,7 +40,7 @@ export async function GetCompanyActions({
     <div
       className={cn(
         "flex items-center",
-        isCompact ? "gap-2" : "gap-3",
+        isCompact ? "gap-2 flex-wrap justify-end" : "gap-3",
         wrapperClassName,
       )}
     >

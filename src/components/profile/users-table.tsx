@@ -31,9 +31,6 @@ export default async function UsersTable({
   const users: PaginationData<User[]> = await getAllUsers({ page, limit });
   const tUser = await getTranslations(siteConfig.pages.user.translation);
   const tProfile = await getTranslations(siteConfig.pages.profile.translation);
-  const backHref = encodeURIComponent(
-    `${Routes.USERS}?page=${page}&limit=${limit}`,
-  );
 
   return (
     <div className="rounded-lg border bg-card w-full">
@@ -60,7 +57,7 @@ export default async function UsersTable({
               >
                 <TableCell className="h-14 px-4 font-medium">
                   <Link
-                    href={`${Routes.USERS}/${person.id}?back=${backHref}`}
+                    href={`${Routes.USERS}/${person.id}`}
                     className="absolute inset-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                     aria-label={tProfile("open", {
                       firstName: person.firstName,

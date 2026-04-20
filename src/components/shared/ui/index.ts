@@ -13,6 +13,7 @@ export * from "./label";
 export * from "./logo";
 export * from "./pagination";
 export * from "./password-input";
+export * from "./select";
 export * from "./separator";
 export * from "./sheet";
 export * from "./sonner";

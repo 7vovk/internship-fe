@@ -30,3 +30,36 @@ export function getCompanyDataSchema(
     isVisibleForAll: z.boolean().optional(),
   });
 }
+
+export function getInviteUserSchema(
+  translator: _Translator<Record<string, string>>,
+) {
+  return z.object({
+    users: z
+      .array(
+        z.object({
+          email: z.string().trim().email(translator("emailError")),
+        }),
+      )
+      .min(1)
+      .superRefine((users, ctx) => {
+        const seenEmails = new Map<string, number>();
+
+        users.forEach((user, index) => {
+          const normalizedEmail = user.email.toLowerCase();
+          const firstIndex = seenEmails.get(normalizedEmail);
+
+          if (firstIndex !== undefined) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              path: [index, "email"],
+              message: translator("duplicateEmailError"),
+            });
+            return;
+          }
+
+          seenEmails.set(normalizedEmail, index);
+        });
+      }),
+  });
+}

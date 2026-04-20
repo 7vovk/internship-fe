@@ -15,7 +15,7 @@ export async function MembersTable({ companyId, ownerId }: MembersTableProps) {
       <div className="border-b px-4 py-3">
         <h2 className="text-center text-base font-semibold">{t("members")}</h2>
       </div>
-      <Table className="table-fixed">
+      <Table>
         <MembersTableHeader />
         <MembersTableBody companyId={companyId} ownerId={ownerId} />
       </Table>
