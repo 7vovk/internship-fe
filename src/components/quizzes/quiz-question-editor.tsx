@@ -7,11 +7,6 @@ import {
   FieldError,
   FieldLabel,
   Input,
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
 } from "@/components/shared/ui";
 import { QuizFormValues } from "@/lib/interfaces";
 import { _Translator } from "next-intl";
@@ -21,7 +16,7 @@ type QuizQuestionEditorProps = {
   fieldId: string;
   questionIndex: number;
   answers: string[];
-  correctAnswerIndex: number;
+  correctAnswerIndexes: number[];
   translator: _Translator<Record<string, string>>;
   onRemoveQuestion: (questionIndex: number) => void;
   onAddAnswer: (questionIndex: number) => void;
@@ -33,7 +28,7 @@ export function QuizQuestionEditor({
   fieldId,
   questionIndex,
   answers,
-  correctAnswerIndex,
+  correctAnswerIndexes,
   translator,
   onRemoveQuestion,
   onAddAnswer,
@@ -134,38 +129,49 @@ export function QuizQuestionEditor({
 
       <Controller
         control={form.control}
-        name={`questions.${questionIndex}.correctAnswerIndex`}
+        name={`questions.${questionIndex}.correctAnswerIndexes`}
         render={({ field: correctField, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
-            <FieldLabel>{translator("correctAnswerField")}</FieldLabel>
-            <Select
-              value={String(correctField.value ?? 0)}
-              onValueChange={(value) => correctField.onChange(Number(value))}
-            >
-              <SelectTrigger>
-                <span>
-                  {answers[correctAnswerIndex]?.trim() ||
-                    translator("answerNumber", {
-                      number: (correctAnswerIndex ?? 0) + 1,
-                    })}
-                </span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {answers.map((answer, answerIndex) => (
-                    <SelectItem
-                      key={`${fieldId}-correct-${answerIndex}`}
-                      value={String(answerIndex)}
+            <FieldLabel>
+              {correctAnswerIndexes.length > 1
+                ? translator("correctAnswersField")
+                : translator("correctAnswerField")}
+            </FieldLabel>
+            <ul className="flex flex-wrap gap-2">
+              {answers.map((answer, answerIndex) => {
+                const selected = correctField.value?.includes(answerIndex);
+                return (
+                  <li key={`${fieldId}-correct-${answerIndex}`}>
+                    <Button
+                      type="button"
+                      variant={selected ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => {
+                        const current = correctField.value ?? [];
+                        const next = selected
+                          ? current.filter((index) => index !== answerIndex)
+                          : [...current, answerIndex];
+                        correctField.onChange(next);
+                      }}
                     >
                       {answer.trim() ||
                         translator("answerNumber", {
                           number: answerIndex + 1,
                         })}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+                    </Button>
+                  </li>
+                );
+              })}
+            </ul>
+            <ul className="text-sm text-muted-foreground">
+              {(correctField.value ?? []).map((index, selectedIndex, all) => (
+                <li key={`${fieldId}-selected-${index}`} className="inline">
+                  {answers[index]?.trim() ||
+                    translator("answerNumber", { number: index + 1 })}
+                  {selectedIndex < all.length - 1 ? ", " : ""}
+                </li>
+              ))}
+            </ul>
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}

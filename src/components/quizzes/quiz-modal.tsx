@@ -61,7 +61,9 @@ export function QuizModal({
         questions: data.questions.map((question) => ({
           question: question.question,
           answers: question.answers,
-          correctAnswers: [question.answers[question.correctAnswerIndex]],
+          correctAnswers: question.correctAnswerIndexes
+            .map((index) => question.answers[index])
+            .filter((answer: string): boolean => Boolean(answer)),
         })),
       };
 

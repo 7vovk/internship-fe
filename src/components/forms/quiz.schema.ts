@@ -16,16 +16,20 @@ export function getQuizSchema(translator: _Translator<Record<string, string>>) {
       answers: z
         .array(z.string().trim().min(1, translator("answerRequired")).max(300))
         .min(MIN_ANSWERS, translator("minAnswers", { amount: MIN_ANSWERS })),
-      correctAnswerIndex: z.number().int().min(0),
+      correctAnswerIndexes: z
+        .array(z.number().int().min(0))
+        .min(1, translator("correctAnswersRequired")),
     })
     .superRefine((value, ctx) => {
-      if (value.correctAnswerIndex >= value.answers.length) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["correctAnswerIndex"],
-          message: translator("correctAnswerRequired"),
-        });
-      }
+      value.correctAnswerIndexes.forEach((index, idx) => {
+        if (index >= value.answers.length) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["correctAnswerIndexes", idx],
+            message: translator("correctAnswersRequired"),
+          });
+        }
+      });
     });
 
   return z.object({
@@ -53,8 +57,8 @@ export const quizFormDefaults = {
   description: "",
   quizCompletionFrequency: 7,
   questions: [
-    { question: "", answers: ["", ""], correctAnswerIndex: 0 },
-    { question: "", answers: ["", ""], correctAnswerIndex: 0 },
+    { question: "", answers: ["", ""], correctAnswerIndexes: [0] },
+    { question: "", answers: ["", ""], correctAnswerIndexes: [0] },
   ],
 } as const;
 
@@ -65,20 +69,21 @@ export function getQuizFormDefaultValues(quiz?: Quiz) {
       description: quiz.description ?? "",
       quizCompletionFrequency: quiz.quizCompletionFrequency,
       questions: quiz.questions.map((question) => {
-        const fallbackCorrectAnswer = question.answers[0] ?? "";
-        const selectedCorrectAnswer =
-          question.correctAnswers[0] ?? fallbackCorrectAnswer;
-        const selectedIndex = Math.max(
-          question.answers.findIndex(
-            (answer) => answer === selectedCorrectAnswer,
+        const selectedIndexes = Array.from(
+          new Set(
+            question.correctAnswers
+              .map((correctAnswer) =>
+                question.answers.findIndex((answer) => answer === correctAnswer),
+              )
+              .filter((index) => index >= 0),
           ),
-          0,
         );
 
         return {
           question: question.question,
           answers: question.answers.length >= 2 ? question.answers : ["", ""],
-          correctAnswerIndex: selectedIndex,
+          correctAnswerIndexes:
+            selectedIndexes.length > 0 ? selectedIndexes : [0],
         };
       }),
     };
@@ -91,7 +96,7 @@ export function getQuizFormDefaultValues(quiz?: Quiz) {
     questions: quizFormDefaults.questions.map((question) => ({
       question: question.question,
       answers: [...question.answers],
-      correctAnswerIndex: question.correctAnswerIndex,
+      correctAnswerIndexes: [...question.correctAnswerIndexes],
     })),
   };
 }

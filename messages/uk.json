@@ -70,7 +70,9 @@
     "addAnswer": "Додати відповідь",
     "removeAnswer": "Видалити відповідь",
     "correctAnswerField": "Правильна відповідь",
+    "correctAnswersField": "Правильні відповіді",
     "correctAnswerRequired": "Оберіть одну правильну відповідь.",
+    "correctAnswersRequired": "Оберіть принаймні одну правильну відповідь.",
     "minQuestions": "Тест має містити щонайменше {amount} питання.",
     "minAnswers": "Кожне питання має містити щонайменше {amount} варіанти відповідей."
   },

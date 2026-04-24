@@ -32,7 +32,7 @@ export interface QuizPayload {
 export type QuizFormQuestionValues = {
   question: string;
   answers: string[];
-  correctAnswerIndex: number;
+  correctAnswerIndexes: number[];
 };
 
 export type QuizFormValues = {

@@ -70,7 +70,9 @@
     "addAnswer": "Add answer",
     "removeAnswer": "Remove answer",
     "correctAnswerField": "Correct answer",
+    "correctAnswersField": "Correct answers",
     "correctAnswerRequired": "Select one correct answer.",
+    "correctAnswersRequired": "Select at least one correct answer.",
     "minQuestions": "Quiz should include at least {amount} questions.",
     "minAnswers": "Each question should include at least {amount} answer choices."
   },

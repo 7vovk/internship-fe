@@ -36,7 +36,7 @@ export function QuizFormContent({ form }: QuizFormContentProps) {
   });
 
   const handleAddQuestion = () => {
-    append({ question: "", answers: ["", ""], correctAnswerIndex: 0 });
+    append({ question: "", answers: ["", ""], correctAnswerIndexes: [0] });
   };
 
   const handleRemoveQuestion = (questionIndex: number) => {
@@ -66,19 +66,16 @@ export function QuizFormContent({ form }: QuizFormContentProps) {
       shouldValidate: true,
     });
 
-    const currentCorrectIndex = form.getValues(
-      `questions.${questionIndex}.correctAnswerIndex`,
+    const currentCorrectIndexes = form.getValues(
+      `questions.${questionIndex}.correctAnswerIndexes`,
     );
-    const nextCorrectIndex =
-      currentCorrectIndex === answerIndex
-        ? 0
-        : currentCorrectIndex > answerIndex
-          ? currentCorrectIndex - 1
-          : currentCorrectIndex;
+    const nextCorrectIndexes = currentCorrectIndexes
+      .filter((index) => index !== answerIndex)
+      .map((index) => (index > answerIndex ? index - 1 : index));
 
     form.setValue(
-      `questions.${questionIndex}.correctAnswerIndex`,
-      Math.max(nextCorrectIndex, 0),
+      `questions.${questionIndex}.correctAnswerIndexes`,
+      nextCorrectIndexes.length > 0 ? nextCorrectIndexes : [0],
       { shouldValidate: true },
     );
   };
@@ -159,8 +156,8 @@ export function QuizFormContent({ form }: QuizFormContentProps) {
             fieldId={field.id}
             questionIndex={questionIndex}
             answers={watchedQuestions?.[questionIndex]?.answers ?? []}
-            correctAnswerIndex={
-              watchedQuestions?.[questionIndex]?.correctAnswerIndex ?? 0
+            correctAnswerIndexes={
+              watchedQuestions?.[questionIndex]?.correctAnswerIndexes ?? [0]
             }
             onRemoveQuestion={handleRemoveQuestion}
             onAddAnswer={handleAddAnswer}
