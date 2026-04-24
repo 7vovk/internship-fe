@@ -5,7 +5,6 @@ import {
   ChevronRightIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { Routes } from "@/config/site.enums";
 
 import {
   Pagination,
@@ -19,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { PaginationData } from "@/lib/interfaces";
 
 type TablePaginationProps = {
-  route: Routes;
+  route: string;
   data: PaginationData<unknown[]>;
 };
 

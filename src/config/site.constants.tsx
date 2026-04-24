@@ -7,4 +7,5 @@ export const standardPageKeys = [
   "user",
   "health",
   "login",
+  "quizzes",
 ] as const;
