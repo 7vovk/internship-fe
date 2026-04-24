@@ -6,4 +6,5 @@ export * from "./health-check.interface";
 export * from "./invitation.interface";
 export * from "./modal.interface";
 export * from "./pagination.interface";
+export * from "./quiz.interface";
 export * from "./user.interface";

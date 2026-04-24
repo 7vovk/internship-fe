@@ -28,6 +28,7 @@ export const siteConfig: SiteConfig = {
     user: { translation: "User" },
     health: { translation: "Health" },
     login: { translation: "Auth" },
+    quizzes: { translation: "Quizzes" },
   },
   buttons: {
     translation: "Buttons",

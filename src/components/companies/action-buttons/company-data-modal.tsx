@@ -4,7 +4,7 @@ import { ConfirmationModal } from "@/app/components/modal/confirmation-modal";
 import FormController from "@/components/forms/form-controller";
 import { useTranslations } from "next-intl";
 import { Company, ServerActionResult } from "@/lib/interfaces";
-import { errorToaster } from "@/app/utils";
+import { errorToaster, validateFormBeforeSubmit } from "@/app/utils";
 import { parseErrorMessage } from "@/lib/errors";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -54,12 +54,8 @@ export function CompanyDataModal({
   });
 
   async function handleCompanyDataSet() {
-    const isValid = await form.trigger(undefined, { shouldFocus: true });
-
-    if (!isValid) {
-      errorToaster(tGeneral("required"));
-      return false;
-    }
+    const isValid = await validateFormBeforeSubmit(form, tGeneral("required"));
+    if (!isValid) return false;
 
     try {
       const data: ServerActionResult = company

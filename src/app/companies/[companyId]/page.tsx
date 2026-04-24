@@ -15,6 +15,7 @@ import { InvitationType } from "@/lib/enums/invitation.enums";
 import { InvitationTable } from "@/components/invitations/invitation-table/invitation-table";
 import { MembersTable } from "@/components/invitations/members-table/members-table";
 import { AdminsTable } from "@/components/invitations/admins-table/admins-table";
+import { GoToQuizzes } from "@/components/companies/action-buttons/go-to-quizzes";
 
 export default async function CompanyPage({
   params,
@@ -63,12 +64,13 @@ export default async function CompanyPage({
           />
         ))}
       </ul>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <GoToQuizzes companyId={companyId} />
         <GetCompanyActions
           showActions={[ActionButtons.ALL]}
           company={selectedCompany}
           variant="panel"
-          wrapperClassName="justify-end sm:col-start-2 lg:col-start-3 xl:col-start-4"
+          wrapperClassName="justify-end"
         />
       </div>
       {isOwner && (

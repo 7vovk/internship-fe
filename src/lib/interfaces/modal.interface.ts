@@ -12,6 +12,8 @@ export type ConfirmationModalProps = ConfirmationModalHeaderProps &
     buttonName: string;
     cancelBtn: string;
     okBtn: string;
+    modalSize: "default" | "sm" | "lg" | "full";
+    modalContentClassName: string;
     isDisabled: boolean;
     btnClasses: string;
     btnOkClasses: string;
