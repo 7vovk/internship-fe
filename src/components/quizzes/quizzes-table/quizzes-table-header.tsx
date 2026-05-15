@@ -1,13 +1,7 @@
 import { TableHead, TableHeader, TableRow } from "@/components/shared/ui";
 import { getTranslations } from "next-intl/server";
 
-type QuizzesTableHeaderProps = {
-  canManage: boolean;
-};
-
-export async function QuizzesTableHeader({
-  canManage,
-}: QuizzesTableHeaderProps) {
+export async function QuizzesTableHeader() {
   const tGeneral = await getTranslations("General");
   const tQuizzes = await getTranslations("Quizzes");
 
@@ -32,11 +26,11 @@ export async function QuizzesTableHeader({
         <TableHead className="h-12 min-w-[160px] px-4 py-3 font-medium whitespace-normal break-words align-top">
           {tGeneral("updateDate")}
         </TableHead>
-        {canManage && (
+        {
           <TableHead className="h-12 min-w-[220px] px-4 py-3 text-center font-medium whitespace-normal break-words align-top">
             {tGeneral("actions")}
           </TableHead>
-        )}
+        }
       </TableRow>
     </TableHeader>
   );
