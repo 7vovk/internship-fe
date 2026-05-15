@@ -1,10 +1,16 @@
 "use server";
 
 import { parseErrorMessage } from "@/lib/errors";
-import { QuizPayload, ServerActionResult } from "@/lib/interfaces";
+import {
+  QuizPayload,
+  QuizResult,
+  QuizSubmission,
+  ServerActionResult,
+} from "@/lib/interfaces";
 import {
   createCompanyQuiz,
   deleteCompanyQuiz,
+  submitQuiz,
   updateCompanyQuiz,
 } from "@/lib/api/quizzes";
 import { revalidatePath } from "next/cache";
@@ -61,6 +67,28 @@ export async function deleteQuizAction(
     return {
       ok: false,
       message: parseErrorMessage(error, t("cantDelete")),
+    };
+  }
+}
+
+export type SubmitQuizActionResult =
+  | { ok: true; result: QuizResult; message: string }
+  | { ok: false; message: string };
+
+export async function submitQuizAction(
+  companyId: string,
+  quizId: string,
+  submission: QuizSubmission,
+): Promise<SubmitQuizActionResult> {
+  const t = await getTranslations("Quizzes");
+  try {
+    const result = await submitQuiz(companyId, quizId, submission);
+    revalidatePath(`/companies/${companyId}/quizzes`);
+    return { ok: true, result, message: t("answersSaved") };
+  } catch (error) {
+    return {
+      ok: false,
+      message: parseErrorMessage(error, t("submitError")),
     };
   }
 }

@@ -48,3 +48,26 @@ export type QuizFieldConfig = {
   placeholderKey: string;
   type: "text" | "textarea" | "number";
 };
+
+export interface QuizAnswerSubmission {
+  id: string;
+  answers: string[];
+}
+
+export interface QuizSubmission {
+  data: QuizAnswerSubmission[];
+}
+
+export interface QuizResult {
+  id: string;
+  userId: string;
+  companyId: string;
+  companyName: string;
+  quizTitle: string;
+  quizDescription: string;
+  score: number;
+  data: QuizAnswerSubmission[];
+  quizCompletionFrequency: number;
+  createDate: string;
+  updateDate: string;
+}

@@ -7,6 +7,7 @@ import { getCompanyQuizzes } from "@/lib/api/quizzes";
 import { BackButton } from "@/components/shared/ui";
 import { QuizModal } from "@/components/quizzes/quiz-modal";
 import { QuizzesTable } from "@/components/quizzes/quizzes-table/quizzes-table";
+import { getCompanyAccess } from "@/lib/companies/company-access";
 import { getCurrentUserCached } from "@/lib/utils";
 import { PaginationData, Quiz } from "@/lib/interfaces";
 import { redirect } from "next/navigation";
@@ -31,13 +32,7 @@ export default async function QuizzesPage({
   const { page, limit } = parsePaginationParams(resolvedSearchParams);
   const company = await getCompanyById(companyId);
   const currentUser = await getCurrentUserCached();
-  const isOwner = company.ownerId === currentUser?.id;
-  const isAdmin = company.admins.some((admin) => admin.id === currentUser?.id);
-  const isMember = company.members.some(
-    (member) => member.id === currentUser?.id,
-  );
-  const canView = isOwner || isAdmin || isMember;
-  const canManage = isOwner || isAdmin;
+  const { canView, canManage } = getCompanyAccess(company, currentUser?.id);
 
   if (!canView) {
     redirect(`/companies/${companyId}`);

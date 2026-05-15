@@ -28,7 +28,7 @@ export async function QuizzesTable({
         <h2 className="text-base font-semibold">{tQuizzes("listTitle")}</h2>
       </div>
       <Table className="min-w-[900px]">
-        <QuizzesTableHeader canManage={canManage} />
+        <QuizzesTableHeader />
         <QuizzesTableBody
           quizzes={quizzes}
           companyId={companyId}
