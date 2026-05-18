@@ -3,6 +3,7 @@ import {
   ApiResult,
   PaginationData,
   Quiz,
+  QuizAverageScore,
   QuizPayload,
   QuizResult,
   QuizSubmission,
@@ -34,6 +35,26 @@ export async function getCompanyQuiz(
       `/quizzes/${companyId}/${quizId}`,
       { cache: "no-store" },
     );
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
+export async function getAverageUserRating(): Promise<QuizAverageScore> {
+  try {
+    const apiRes =
+      await api.get<ApiResult<QuizAverageScore>>(`/quizzes/user-rating`);
+    return apiRes.result;
+  } catch (error) {
+    throw error as ApiError;
+  }
+}
+
+export async function getAllUsersRating(): Promise<QuizAverageScore> {
+  try {
+    const apiRes =
+      await api.get<ApiResult<QuizAverageScore>>(`/quizzes/all-users`);
     return apiRes.result;
   } catch (error) {
     throw error as ApiError;

@@ -71,3 +71,14 @@ export interface QuizResult {
   createDate: string;
   updateDate: string;
 }
+
+export interface QuizAverageScore {
+  description: string;
+  score: number;
+  userId?: string;
+}
+
+export interface UsersScore {
+  user: number;
+  allUsers: number;
+}

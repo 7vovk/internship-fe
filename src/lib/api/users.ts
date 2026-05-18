@@ -3,6 +3,7 @@ import {
   ApiResult,
   PaginationData,
   User,
+  UserInfoResponse,
   UserUpdatePayload,
 } from "../interfaces";
 
@@ -53,9 +54,12 @@ export async function getUserById(id: string): Promise<User> {
   }
 }
 
-export async function getUserInfoById(id: string): Promise<ApiResult<User>> {
+export async function getUserInfoById(id: string): Promise<UserInfoResponse> {
   try {
-    return await api.get<ApiResult<User>>(`/user/personal-info/${id}`);
+    const apiRes = await api.get<ApiResult<UserInfoResponse>>(
+      `/user/personal-info/${id}`,
+    );
+    return apiRes.result;
   } catch (error) {
     throw error as ApiError;
   }

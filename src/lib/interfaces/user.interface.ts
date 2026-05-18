@@ -24,3 +24,23 @@ export type UserUpdatePayload = Partial<{
   firstName: string;
   lastName: string;
 }>;
+
+export interface UserInfoResponse extends User {
+  averageScore: number | null;
+  rating: number | null;
+  quizScoreDynamics: QuizScoreDynamicsItem[];
+}
+
+export interface QuizScoreDynamicsItem {
+  quizId: string;
+  quizTitle: string;
+  dynamics: QuizDynamic[];
+  averageScore?: number;
+  lastCompletedAt?: Date;
+}
+
+export interface QuizDynamic {
+  completedAt: Date;
+  score: number;
+  questionCount: number;
+}
